@@ -1,0 +1,80 @@
+(function (global) {
+  function buildFooterMarkup() {
+    return `
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-top">
+            <div>
+              <div class="footer-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMid meet" aria-label="GreatBless logo" role="img">
+                  <rect width="100%" height="100%" fill="#FFFFFF"></rect>
+                  <g transform="translate(0,1024) scale(0.1,-0.1)" stroke="none">
+                    <path fill="#FF1A1A" d="M4575 8249 c-38 -5 -128 -16 -200 -25 -205 -25 -413 -73 -616 -142 -772 -264 -1384 -831 -1708 -1582 -167 -388 -260 -878 -261 -1375 0 -540 90 -988 289 -1442 314 -713 985 -1292 1786 -1541 146 -46 232 -69 290 -77 22 -3 54 -10 70 -15 41 -12 168 -32 325 -51 140 -17 659 -23 790 -10 255 26 299 32 385 47 113 20 354 77 460 109 503 150 945 424 1250 775 267 307 472 736 551 1150 3 14 11 57 19 95 13 66 19 114 45 357 5 54 10 344 10 657 l0 561 -1670 0 -1670 0 0 -625 0 -625 860 0 c527 0 860 -4 860 -9 0 -5 -7 -43 -15 -83 -71 -339 -274 -644 -551 -824 -182 -119 -416 -207 -646 -244 -186 -29 -438 -27 -603 5 -104 20 -138 29 -216 55 -340 114 -639 337 -840 627 -322 466 -424 1133 -263 1708 85 302 236 565 449 780 257 259 552 418 900 482 80 15 230 17 1325 22 l1235 6 45 66 c267 391 704 1027 778 1132 l33 47 -1713 -1 c-942 -1 -1744 -5 -1783 -10z"></path>
+                    <path fill="#004FC2" d="M8663 8228 c-12 -18 -73 -109 -137 -202 l-116 -169 0 -989 0 -988 635 0 635 0 0 560 0 560 810 0 c757 0 818 -1 948 -20 356 -51 548 -190 628 -455 14 -46 18 -91 18 -190 -1 -116 -4 -138 -28 -199 -35 -92 -56 -123 -121 -187 -114 -112 -270 -172 -510 -199 -53 -6 -434 -10 -921 -10 -457 0 -845 -3 -861 -6 -25 -5 -49 -35 -155 -192 -70 -103 -177 -261 -239 -352 -259 -383 -347 -512 -424 -625 -45 -66 -157 -231 -248 -367 l-167 -247 0 -971 0 -970 1598 0 c1423 0 1776 5 1913 24 19 3 72 10 119 16 355 46 753 184 1020 353 201 128 419 332 527 492 194 289 273 558 273 927 0 246 -31 423 -108 613 -149 369 -419 634 -809 791 -40 16 -73 32 -73 35 0 3 22 18 50 33 121 66 270 197 360 316 70 93 168 312 186 415 3 17 9 46 14 65 20 76 32 269 26 410 -5 126 -10 171 -30 276 -33 169 -117 380 -205 514 -108 166 -192 262 -331 379 -358 301 -812 492 -1355 568 -107 15 -273 17 -1510 20 l-1390 3 -22 -32z m3099 -3767 c196 -34 313 -79 417 -162 166 -133 225 -397 139 -627 -22 -60 -100 -163 -156 -206 -50 -38 -162 -92 -242 -116 -165 -49 -198 -50 -1195 -50 l-935 0 0 590 0 590 929 0 c873 0 937 -1 1043 -19z"></path>
+                  </g>
+                </svg>
+                <h3 style="font-size: 30px;">GB Broker</h3>
+              </div>
+              <p>
+                GreatBless Global Markets Ltd. is incorporated in Saint Lucia as an International
+                Business Company (IBC) with Registration Number 2025-00698.
+              </p>
+              <p>
+                Registered Address: Ground Floor, The Sotheby Building, Rodney Village, Rodney Bay,
+                Gros-Islet, Saint Lucia.
+              </p>
+            </div>
+            <div>
+              <h4>Contact Us</h4>
+              <p>Email: greatbless.finance@greatbless.com</p>
+              <p>Phone: +1 (758) 285-7447</p>
+            </div>
+            <div>
+              <h4>Legal</h4>
+              <p><a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzY1LCJwdXIiOiJibG9iX2lkIn19--a801ae179d7520ca6a6435a6ddb987980440d893/PRIVACY%20POLICY_2%20-%202.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a></p>
+              <p><a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzYyLCJwdXIiOiJibG9iX2lkIn19--85061fdaa4d7c7118b80d36bfa68ec9814d8e890/TERMS%20&%20CONDITIONS%20-%202.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a></p>
+              <p><a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzYzLCJwdXIiOiJibG9iX2lkIn19--1b308967bce48fea2b1394e89bf27c14b941f4af/RISK%20DISCLOSURE%20-%202.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a></p>
+              <p><a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzY2LCJwdXIiOiJibG9iX2lkIn19--fce60ab11084704867f00cd5929c282bc257eab9/ORDER%20EXECUTION%20POLICY%20-%202.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a></p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="footer-legal">
+            <p>
+              <strong>Risk Warning:</strong> Trading Forex and CFDs carries a high level of risk to your capital and may not be suitable for all investors. Leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite.
+            </p>
+            <p>
+              <strong>Regional Restrictions:</strong> GreatBless Global Markets Ltd. does not provide services to residents of the United States, Cuba, Iraq, Myanmar, North Korea, Sudan and United Arab Emirates and certain other jurisdictions due to legal restrictions.
+            </p>
+            <p><strong>Disclaimer:</strong></p>
+            <p class="legal-indent">
+              - Before trading Forex, consider your goals, experience, and risk tolerance. Only invest money you can afford to lose.
+            </p>
+            <p class="legal-indent">
+              - Forex trading involves significant risk, including leverage, market volatility, and limited regulatory protection. Prices and liquidity can change rapidly.
+            </p>
+            <p class="legal-indent">
+              - Online trading systems may fail due to technical issues. All information provided is for general purposes only and not investment advice. We are not responsible for any losses resulting from its use.
+            </p>
+            <p class="legal-indent">
+              - Trading derivatives carries high risk, and we are not liable for any direct or indirect losses or damages.
+            </p>
+          </div>
+
+          <br />
+          <p class="footer-copy">© 2026 GreatBless Global Markets Ltd. All rights reserved.</p>
+        </div>
+      </footer>
+    `;
+  }
+
+  function renderSharedFooter(targetId) {
+    const mountId = targetId || "shared-footer-root";
+    const mountNode = document.getElementById(mountId);
+    if (!mountNode) return;
+    mountNode.innerHTML = buildFooterMarkup();
+  }
+
+  global.renderSharedFooter = renderSharedFooter;
+})(window);

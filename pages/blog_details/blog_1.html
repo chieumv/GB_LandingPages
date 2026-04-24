@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreatBless Blog Detail</title>
+  <style>
+    :root {
+      --page-bg: #eceef3;
+      --header-bg: #250047;
+      --footer-bg: #000f33;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--page-bg);
+      color: #111111;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--header-bg);
+      transition: all 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(37, 0, 71, 0.9);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      margin-right: 5px;
+      border: 1px solid rgba(133, 247, 255, 0.45);
+      border-radius: 8px;
+      background: transparent;
+      color: #7cecff;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .menu-toggle .icon-close {
+      display: none;
+    }
+
+    .site-header.menu-open .menu-toggle .icon-open {
+      display: none;
+    }
+
+    .site-header.menu-open .menu-toggle .icon-close {
+      display: block;
+    }
+
+    .menu {
+      display: none;
+      gap: 22px;
+    }
+
+    .menu button {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .menu button:hover {
+      color: #85f7ff;
+    }
+
+    .header-cta {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      line-height: 1;
+    }
+
+    .btn-login {
+      border-color: #22d3ee;
+      background: transparent;
+      color: #7cecff;
+      font-size: 15px;
+    }
+
+    .btn-login:hover {
+      background: rgba(34, 211, 238, 0.1);
+    }
+
+    .btn-account {
+      background: #3ecbf2;
+      color: #000000;
+      font-size: 15px;
+    }
+
+    .btn-account:hover {
+      background: #67e8f9;
+      color: #101010;
+    }
+
+    .article-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 124px 24px 24px;
+    }
+
+    .article-title {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.25;
+      color: #0e1042;
+      font-weight: 700;
+    }
+
+    .article-date {
+      margin: 10px 0 16px;
+      color: #6a6a78;
+      font-style: italic;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .article-content {
+      margin-top: 18px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #121212;
+      text-align: justify;
+    }
+
+    .site-footer {
+      margin-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--footer-bg);
+    }
+
+    .footer-top {
+      padding: 56px 0 28px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .footer-top h3,
+    .footer-top h4 {
+      margin: 0;
+      font-size: 20px;
+      color: #ffffff;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-brand svg {
+      width: 80px;
+      height: 80px;
+      flex: 0 0 auto;
+    }
+
+    .footer-top p,
+    .footer-top a,
+    .footer-copy,
+    .footer-legal {
+      color: #9bb0d2;
+      line-height: 1.65;
+    }
+
+    .footer-top a {
+      text-decoration: none;
+      display: block;
+      margin-top: 8px;
+    }
+
+    .footer-top a:hover {
+      color: #ffffff;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+      margin: 12px 0 22px;
+    }
+
+    .footer-legal strong {
+      color: #ffffff;
+    }
+
+    .footer-legal p {
+      text-align: justify;
+    }
+
+    .footer-legal p strong {
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .footer-legal p:has(> strong) {
+      margin-bottom: 4px;
+    }
+
+    .footer-legal .legal-indent {
+      margin: 4px 0 0 20px;
+    }
+
+    .footer-copy {
+      margin: 18px 0 0;
+      text-align: center;
+      padding-bottom: 30px;
+    }
+
+    @media (min-width: 1200px) {
+      .menu {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 1199px) {
+      .header-inner {
+        min-height: auto;
+        padding: 12px 0;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        order: 1;
+      }
+
+      .brand svg,
+      .brand img {
+        width: 56px;
+        height: 56px;
+      }
+
+      .brand p {
+        font-size: 24px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        order: 2;
+        margin-left: auto;
+      }
+
+      .header-cta {
+        display: none;
+        order: 4;
+        width: calc(100% - 40px);
+        margin: 0 20px;
+        gap: 8px;
+        padding-top: 8px;
+        flex-direction: column;
+      }
+
+      .header-cta .btn {
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .menu {
+        display: none;
+        order: 3;
+        width: calc(100% - 40px);
+        margin: 0 20px;
+        gap: 8px;
+        padding-top: 8px;
+        flex-direction: column;
+      }
+
+      .site-header.menu-open .menu,
+      .site-header.menu-open .header-cta {
+        display: flex;
+      }
+
+      .menu button {
+        width: 100%;
+        border: 1px solid rgba(133, 247, 255, 0.35);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.05);
+        text-align: left;
+      }
+
+      .article-page {
+        padding-top: 106px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .footer-top {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .article-page {
+        padding: 106px 16px 16px;
+      }
+
+      .article-title {
+        font-size: 26px;
+      }
+
+      .article-content {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="shared-header-root"></div>
+  <script src="../../components/shared-header.js"></script>
+  <script src="../../components/shared-footer.js"></script>
+  <script>
+    renderSharedHeader("shared-header-root", { basePath: "../.." });
+  </script>
+
+  <main class="article-page">
+    <article>
+      <section>
+        <p class="article-title">GreatBless Integrates TradingView Charts: A Professional Analysis Experience with Trading Discipline</p>
+        <p class="article-date">17.04.2026</p>
+        <img class="hero-image" src="../../public/images/Tradingview_Integration.png" alt="TradingView integration" />
+        <div class="article-content">
+          <p>
+            At GreatBless Global Markets Ltd., we provide investors with a diverse online trading environment offering CFD products, including Forex, commodities, metals, indices, and shares/equities. Our mission goes beyond delivering a high-speed trading platform. We also focus on personalized risk management tools that help investors define safer risk limits and prevent emotion-driven trading behavior.
+          </p>
+          <p>
+            To complete our technical analysis ecosystem and help clients make more precise decisions, we are proud to announce that GreatBless has officially integrated the Advanced Charting Library.
+          </p>
+          <p>
+            With this upgrade, users can monitor market data, draw price patterns, and apply hundreds of advanced technical analysis indicators directly inside the GreatBless interface. This charting technology is powered by <a href="https://www.tradingview.com/">TradingView</a>, one of the world's largest financial charting platforms and social networks for traders.
+          </p>
+          <p>
+            By combining world-class charting technology with GreatBless's self-discipline risk system, traders can maintain a clear mindset and optimize every investment decision in the market.
+          </p>
+          <p>
+            Disclaimer: GreatBless uses TradingView's Advanced Charting Library under a standard licensing agreement. Please note that the integration of this charting tool does not imply or suggest any sponsorship, endorsement, or any other relationship between TradingView and GreatBless beyond the provision of this charting solution.
+          </p>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <div id="shared-footer-root"></div>
+
+  <script>
+    renderSharedFooter("shared-footer-root");
+
+    const header = document.getElementById("site-header");
+    const menuToggle = document.getElementById("menu-toggle");
+    const navButtons = document.querySelectorAll("[data-target]");
+    const mobileQuery = window.matchMedia("(max-width: 1199px)");
+
+    const onScroll = () => {
+      if (!header) return;
+      if (window.scrollY > 6) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    };
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.getAttribute("data-target");
+        if (!id) return;
+        window.location.href = `../../index.html#${id}`;
+
+        if (mobileQuery.matches && header && menuToggle) {
+          header.classList.remove("menu-open");
+          menuToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+
+    if (menuToggle && header) {
+      menuToggle.addEventListener("click", () => {
+        const isOpen = header.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+    }
+
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+  </script>
+</body>
+</html>
