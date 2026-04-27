@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="../../public/images/Logo-GB-1024x1024_2.png" />
   <title>GreatBless Blog Detail</title>
   <style>
     :root {
@@ -421,7 +422,7 @@
   <div id="shared-footer-root"></div>
 
   <script>
-    renderSharedFooter("shared-footer-root");
+    renderSharedFooter("shared-footer-root", { basePath: "../.." });
 
     const header = document.getElementById("site-header");
     const menuToggle = document.getElementById("menu-toggle");
