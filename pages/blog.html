@@ -32,7 +32,7 @@
 
     body {
       margin: 0;
-      padding: 0 0 36px;
+      padding: 0;
       min-height: 100vh;
       background: var(--page-bg);
       font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -406,6 +406,9 @@
 
     .content {
       padding: 26px 20px 30px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
     }
 
     .date {
@@ -437,7 +440,7 @@
       align-items: center;
       justify-content: flex-start;
       margin-top: auto;
-      padding-top: 40px;
+      padding-top: 18px;
       text-decoration: none;
       font-size: 18px;
       line-height: 1.15;
@@ -616,10 +619,9 @@
 
         <section class="content">
           <p class="date">17.04.2026</p>
-          <h2 class="title">GreatBless Integrates TradingView Charts: A Professional Analysis Experience with Trading Discipline</h2>
+          <h2 class="title">Seamless Trading Analysis: GreatBless Integrates TradingView-Powered Advanced Charting Library</h2>
           <p class="excerpt">
-            GreatBless is proud to announce a technical partnership with the world's leading charting platform.
-            Seamlessly analyze markets using powerful technical tools powered by TradingView, now integrated directly into your GreatBless WebTrade experience.
+            At GreatBless Global Markets Ltd, we are constantly striving to provide our clients with an independent, professional, and definitive trading environment. To achieve this goal, we are thrilled to announce a significant platform enhancement: the successful integration of the <strong>Advanced Charting Library</strong>, a premier visualization technology provided by TradingView.
           </p>
           <a class="read-more" href="./blog_details/tradingview-integration">
             Read more
@@ -737,6 +739,15 @@
 
     window.addEventListener("scroll", onScroll);
     onScroll();
+
+    const maxExcerptLength = 150;
+    document.querySelectorAll(".excerpt").forEach((excerpt) => {
+      const text = excerpt.textContent.replace(/\s+/g, " ").trim();
+
+      if (text.length > maxExcerptLength) {
+        excerpt.textContent = `${text.slice(0, maxExcerptLength).trimEnd()}...`;
+      }
+    });
 
     document.querySelectorAll(".blog-card[data-href]").forEach((card) => {
       const href = card.getAttribute("data-href");
