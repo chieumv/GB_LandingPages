@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GreatBless landing sitemap. Hand-maintained: add a <url> entry when you add
+     a page under / or /pages/. Domain assumed https://greatbless.com — adjust if
+     the site's canonical host differs (e.g. www.greatbless.com). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://greatbless.com/</loc>
+    <lastmod>2026-06-03</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/aml</loc>
+    <lastmod>2026-04-27</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/advanced-account-security</loc>
+    <lastmod>2026-04-27</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/automated-risk-management</loc>
+    <lastmod>2026-04-27</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/tradingview-integration</loc>
+    <lastmod>2026-04-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+</urlset>
