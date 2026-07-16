@@ -1,6 +1,7 @@
 # GreatBless landing site — crawling allowed for search engines and AI assistants.
-# (If Cloudflare "Manage robots.txt" is enabled for the zone, set it to
-#  "Do not manage" so this file is served as-is and AI bots are not blocked.)
+# (Cloudflare zone greatbless.com must have "Manage your robots.txt" set to
+#  "Disable robots.txt configuration" so this file is served as-is; otherwise
+#  Cloudflare injects its own managed robots.txt that blocks AI bots.)
 
 User-agent: *
 Allow: /
