@@ -6,43 +6,110 @@
 
   function buildHeaderMarkup(basePath) {
     const root = normalizeBasePath(basePath);
-    const blogHref = `${root}/pages/blog`;
+    const homeHref = `${root}/index.html`;
+    const blogHref = `${root}/pages/blog.html`;
+    const logoSrc = `${root}/public/images/Logo-GB-1024x1024_2.png`;
+    const isBlogPage = /\/pages\/blog(?:_details\/|\.html|\/|$)/.test(global.location.pathname);
 
     return `
-      <header id="site-header" class="site-header">
-        <div class="container header-inner">
-          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu">
+      <header id="site-header" class="site-header shared-site-header">
+        <div class="shared-container shared-header-inner">
+          <a class="shared-brand" href="${homeHref}" aria-label="GreatBless home">
+            <img src="${logoSrc}" alt="" width="64" height="64" />
+            <span>GreatBless</span>
+          </a>
+
+          <button
+            type="button"
+            class="shared-menu-toggle"
+            id="shared-menu-toggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="shared-site-menu"
+          >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path class="icon-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-              <path class="icon-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path class="shared-icon-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path class="shared-icon-close" d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
             </svg>
           </button>
 
-          <div class="brand">
-            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMid meet" aria-label="GreatBless logo" role="img">
-              <g transform="translate(0,1024) scale(0.1,-0.1)" stroke="none">
-                <path fill="#FF1A1A" d="M4575 8249 c-38 -5 -128 -16 -200 -25 -205 -25 -413 -73 -616 -142 -772 -264 -1384 -831 -1708 -1582 -167 -388 -260 -878 -261 -1375 0 -540 90 -988 289 -1442 314 -713 985 -1292 1786 -1541 146 -46 232 -69 290 -77 22 -3 54 -10 70 -15 41 -12 168 -32 325 -51 140 -17 659 -23 790 -10 255 26 299 32 385 47 113 20 354 77 460 109 503 150 945 424 1250 775 267 307 472 736 551 1150 3 14 11 57 19 95 13 66 19 114 45 357 5 54 10 344 10 657 l0 561 -1670 0 -1670 0 0 -625 0 -625 860 0 c527 0 860 -4 860 -9 0 -5 -7 -43 -15 -83 -71 -339 -274 -644 -551 -824 -182 -119 -416 -207 -646 -244 -186 -29 -438 -27 -603 5 -104 20 -138 29 -216 55 -340 114 -639 337 -840 627 -322 466 -424 1133 -263 1708 85 302 236 565 449 780 257 259 552 418 900 482 80 15 230 17 1325 22 l1235 6 45 66 c267 391 704 1027 778 1132 l33 47 -1713 -1 c-942 -1 -1744 -5 -1783 -10z"></path>
-                <path fill="#004FC2" d="M8663 8228 c-12 -18 -73 -109 -137 -202 l-116 -169 0 -989 0 -988 635 0 635 0 0 560 0 560 810 0 c757 0 818 -1 948 -20 356 -51 548 -190 628 -455 14 -46 18 -91 18 -190 -1 -116 -4 -138 -28 -199 -35 -92 -56 -123 -121 -187 -114 -112 -270 -172 -510 -199 -53 -6 -434 -10 -921 -10 -457 0 -845 -3 -861 -6 -25 -5 -49 -35 -155 -192 -70 -103 -177 -261 -239 -352 -259 -383 -347 -512 -424 -625 -45 -66 -157 -231 -248 -367 l-167 -247 0 -971 0 -970 1598 0 c1423 0 1776 5 1913 24 19 3 72 10 119 16 355 46 753 184 1020 353 201 128 419 332 527 492 194 289 273 558 273 927 0 246 -31 423 -108 613 -149 369 -419 634 -809 791 -40 16 -73 32 -73 35 0 3 22 18 50 33 121 66 270 197 360 316 70 93 168 312 186 415 3 17 9 46 14 65 20 76 32 269 26 410 -5 126 -10 171 -30 276 -33 169 -117 380 -205 514 -108 166 -192 262 -331 379 -358 301 -812 492 -1355 568 -107 15 -273 17 -1510 20 l-1390 3 -22 -32z m3099 -3767 c196 -34 313 -79 417 -162 166 -133 225 -397 139 -627 -22 -60 -100 -163 -156 -206 -50 -38 -162 -92 -242 -116 -165 -49 -198 -50 -1195 -50 l-935 0 0 590 0 590 929 0 c873 0 937 -1 1043 -19z"></path>
-              </g>
-            </svg>
-            <p>GreatBless</p>
-          </div>
-
-          <nav id="site-menu" class="menu">
-            <button type="button" data-target="platforms" style="font-size: 18px;">Platforms</button>
-            <button type="button" data-target="about-us" style="font-size: 18px;">About Us</button>
-            <button type="button" data-target="why-choose-us" style="font-size: 18px;">Why Choose Us</button>
-            <button type="button" onclick="window.location.href='${blogHref}'" style="font-size: 18px; text-decoration: none;">Blog</button>
-            <button type="button" onclick="window.open('https://support-app.greatbless.com', '_blank')" style="font-size: 18px; text-decoration: none;">Support</button>
+          <nav id="shared-site-menu" class="shared-menu" aria-label="Primary navigation">
+            <a href="${homeHref}#platforms" data-shared-section="platforms">Platforms</a>
+            <a href="${homeHref}#about-us" data-shared-section="about-us">About Us</a>
+            <a href="${homeHref}#why-choose-us" data-shared-section="why-choose-us">Why Choose Us</a>
+            <a href="${blogHref}"${isBlogPage ? ' class="is-active" aria-current="page"' : ""}>Blog</a>
+            <a href="https://support-app.greatbless.com" target="_blank" rel="noopener noreferrer">Support</a>
           </nav>
 
-          <div class="header-cta">
-            <a href="https://trading.greatbless.com/user-auth/login" class="btn btn-login" style="text-decoration: none; color: white;">LOGIN</a>
-            <a href="https://trading.greatbless.com/user-auth/register" class="btn btn-account" style="text-decoration: none; color: black;">Open Account</a>
+          <div class="shared-header-cta">
+            <a href="https://trading.greatbless.com/user-auth/login" class="shared-header-btn shared-login-btn">Log In</a>
+            <a href="https://trading.greatbless.com/user-auth/register" class="shared-header-btn shared-account-btn">Open Account</a>
           </div>
         </div>
       </header>
     `;
+  }
+
+  function initializeSharedHeader(header) {
+    if (!header || header.dataset.initialized === "true") return;
+    header.dataset.initialized = "true";
+
+    const menuToggle = header.querySelector("#shared-menu-toggle");
+    const menuLinks = header.querySelectorAll(".shared-menu a");
+    const sectionLinks = header.querySelectorAll("[data-shared-section]");
+    const mobileQuery = global.matchMedia("(max-width: 1199px)");
+
+    const closeMenu = () => {
+      header.classList.remove("menu-open");
+      menuToggle?.setAttribute("aria-expanded", "false");
+      menuToggle?.setAttribute("aria-label", "Open navigation menu");
+    };
+
+    const updateHeaderState = () => {
+      header.classList.toggle("scrolled", global.scrollY > 6);
+    };
+
+    menuToggle?.addEventListener("click", () => {
+      const isOpen = header.classList.toggle("menu-open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    });
+
+    sectionLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const sectionId = link.getAttribute("data-shared-section");
+        const section = sectionId ? document.getElementById(sectionId) : null;
+
+        if (section) {
+          event.preventDefault();
+          const headerOffset = header.getBoundingClientRect().height;
+          const sectionTop = section.getBoundingClientRect().top + global.scrollY;
+          global.scrollTo({ top: sectionTop - headerOffset, behavior: "smooth" });
+          if (global.location.protocol !== "file:") {
+            global.history.replaceState(null, "", `#${sectionId}`);
+          }
+        }
+
+        if (mobileQuery.matches) closeMenu();
+      });
+    });
+
+    menuLinks.forEach((link) => {
+      if (link.hasAttribute("data-shared-section")) return;
+      link.addEventListener("click", () => {
+        if (mobileQuery.matches) closeMenu();
+      });
+    });
+
+    global.addEventListener("scroll", updateHeaderState, { passive: true });
+    global.addEventListener("resize", () => {
+      if (!mobileQuery.matches) closeMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    updateHeaderState();
   }
 
   function renderSharedHeader(targetId, options) {
@@ -52,6 +119,8 @@
     if (!mountNode) return;
 
     mountNode.innerHTML = buildHeaderMarkup(opts.basePath || ".");
+    document.body.classList.add("shared-header-ready");
+    initializeSharedHeader(mountNode.querySelector(".shared-site-header"));
   }
 
   global.renderSharedHeader = renderSharedHeader;

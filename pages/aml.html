@@ -594,6 +594,7 @@
 
     }
   </style>
+  <link rel="stylesheet" href="../components/shared-layout.css" />
 </head>
 <body>
 <div id="shared-header-root"></div>
@@ -651,51 +652,6 @@
   <div id="shared-footer-root"></div>
   <script>
     renderSharedFooter("shared-footer-root", { basePath: ".." });
-
-    const header = document.getElementById("site-header");
-    const menuToggle = document.getElementById("menu-toggle");
-    const navButtons = document.querySelectorAll("[data-target]");
-    const mobileQuery = window.matchMedia("(max-width: 1199px)");
-
-    const onScroll = () => {
-      if (!header) return;
-      if (window.scrollY > 6) {
-        header.classList.add("scrolled");
-      } else {
-        header.classList.remove("scrolled");
-      }
-    };
-
-    navButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.getAttribute("data-target");
-        if (!id) return;
-
-        const section = document.getElementById(id);
-        if (section) {
-          const headerOffset = 88;
-          const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({ top: sectionTop - headerOffset, behavior: "smooth" });
-        } else {
-          window.location.href = `../index.html#${id}`;
-        }
-
-        if (mobileQuery.matches && header && menuToggle) {
-          header.classList.remove("menu-open");
-          menuToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
-
-    if (menuToggle && header) {
-      menuToggle.addEventListener("click", () => {
-        const isOpen = header.classList.toggle("menu-open");
-        menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
-    }
-
-    window.addEventListener("scroll", onScroll);
-    onScroll();
 
   </script>
 </body>

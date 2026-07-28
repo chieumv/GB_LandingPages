@@ -383,8 +383,10 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="../../components/shared-layout.css" />
+  <link rel="stylesheet" href="../../components/article-layout.css" />
 </head>
-<body>
+<body class="article-shell">
   <div id="shared-header-root"></div>
   <script src="../../components/shared-header.js"></script>
   <script src="../../components/shared-footer.js"></script>
@@ -394,17 +396,51 @@
   </script>
 
   <main class="article-page">
-    <article>
-      <section>
-        <p class="article-title">Automated Discipline: Master Risk with GreatBless Integrated Drawdown Controls</p>
-        <p class="article-date">11.04.2026</p>
-        <img class="hero-image" src="../../public/images/260411_Risk_Management.jpg" alt="Risk management visual" />
+    <article class="article-entry">
+      <header class="article-header">
+        <div class="article-breadcrumb">
+          <a href="../blog.html">GreatBless Journal</a>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Articles</span>
+        </div>
+        <p class="article-kicker">Risk management</p>
+        <h1 class="article-title">Automated Discipline: Master Risk with GreatBless Integrated Drawdown Controls</h1>
+        <p class="article-deck">
+          Learn how predefined drawdown limits, trade-loss controls, and cool-down periods can
+          translate a trading plan into practical account rules.
+        </p>
+        <div class="article-meta">
+          <span>GreatBless Journal</span>
+          <time datetime="2026-04-11">11 Apr 2026</time>
+        </div>
+      </header>
+
+      <figure class="article-hero">
+        <img class="hero-image" src="../../public/images/260411_Risk_Management.jpg" alt="GreatBless dashboard illustrating account risk management controls" />
+        <figcaption>Illustrative dashboard showing drawdown monitoring and account protection controls.</figcaption>
+      </figure>
+
+      <div class="article-reading-layout">
+        <aside class="article-aside" aria-label="Article overview">
+          <p class="article-aside-label">Article focus</p>
+          <h2>Automated discipline</h2>
+          <p>Configurable rules that help traders manage exposure and respond to drawdown.</p>
+          <div class="article-aside-tags">
+            <span>Drawdown</span>
+            <span>Loss limits</span>
+            <span>Cool-down</span>
+          </div>
+          <a class="article-aside-link" href="../blog.html">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m13 4-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Back to journal
+          </a>
+        </aside>
+
         <div class="article-content">
-          <h2>Automated Discipline: Master Risk with GreatBless Integrated Drawdown Controls</h2>
           <p>
             The single most decisive factor distinguishing professional traders from amateurs is consistent risk management. Discipline is difficult to maintain during market volatility. At GreatBless, we believe the solution is automation. We are excited to introduce professional-grade Risk Management and Drawdown Control tools integrated directly into your customized WebTrade interface.
           </p>
-          <p><strong>Your Rules, Enforced by Automation:</strong></p>
+          <p class="article-section-label"><strong>Your Rules, Enforced by Automation:</strong></p>
           <p>
             Unlike traditional platforms that rely solely on mental discipline, GreatBless empowers you to codify your risk parameters into the system backend. Our real-time backend processing ensures your rules are enforced with millisecond precision:
           </p>
@@ -417,7 +453,8 @@
             By automating these critical risk boundaries, GreatBless enables you to trade with the confidence that your capital is protected by predefined, unbreakable discipline. Focus on executing your strategy; let our architecture handle the discipline.
           </p>
         </div>
-      </section>
+
+      </div>
     </article>
   </main>
 
@@ -426,42 +463,6 @@
   <script>
     renderSharedFooter("shared-footer-root", { basePath: "../.." });
 
-    const header = document.getElementById("site-header");
-    const menuToggle = document.getElementById("menu-toggle");
-    const navButtons = document.querySelectorAll("[data-target]");
-    const mobileQuery = window.matchMedia("(max-width: 1199px)");
-
-    const onScroll = () => {
-      if (!header) return;
-      if (window.scrollY > 6) {
-        header.classList.add("scrolled");
-      } else {
-        header.classList.remove("scrolled");
-      }
-    };
-
-    navButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.getAttribute("data-target");
-        if (!id) return;
-        window.location.href = `../../index.html#${id}`;
-
-        if (mobileQuery.matches && header && menuToggle) {
-          header.classList.remove("menu-open");
-          menuToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
-
-    if (menuToggle && header) {
-      menuToggle.addEventListener("click", () => {
-        const isOpen = header.classList.toggle("menu-open");
-        menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
-    }
-
-    window.addEventListener("scroll", onScroll);
-    onScroll();
   </script>
 </body>
 </html>

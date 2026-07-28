@@ -383,8 +383,10 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="../../components/shared-layout.css" />
+  <link rel="stylesheet" href="../../components/article-layout.css" />
 </head>
-<body>
+<body class="article-shell">
   <div id="shared-header-root"></div>
   <script src="../../components/shared-header.js"></script>
   <script src="../../components/shared-footer.js"></script>
@@ -394,17 +396,51 @@
   </script>
 
   <main class="article-page">
-    <article>
-      <section>
-        <p class="article-title">Enterprise-Grade Security: Advanced Protection for Your GreatBless Account</p>
-        <p class="article-date">09.04.2026</p>
-        <img class="hero-image" src="../../public/images/260409_Digital_Shield.jpg" alt="Digital shield security visual" />
+    <article class="article-entry">
+      <header class="article-header">
+        <div class="article-breadcrumb">
+          <a href="../blog.html">GreatBless Journal</a>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Articles</span>
+        </div>
+        <p class="article-kicker">Account protection</p>
+        <h1 class="article-title">Enterprise-Grade Security: Advanced Protection for Your GreatBless Account</h1>
+        <p class="article-deck">
+          An overview of the authentication, session-management, and anomaly-detection controls
+          designed to strengthen account access.
+        </p>
+        <div class="article-meta">
+          <span>GreatBless Journal</span>
+          <time datetime="2026-04-09">09 Apr 2026</time>
+        </div>
+      </header>
+
+      <figure class="article-hero">
+        <img class="hero-image" src="../../public/images/260409_Digital_Shield.jpg" alt="Digital shield representing GreatBless account protection" />
+        <figcaption>Layered account security designed for the GreatBless trading environment.</figcaption>
+      </figure>
+
+      <div class="article-reading-layout">
+        <aside class="article-aside" aria-label="Article overview">
+          <p class="article-aside-label">Article focus</p>
+          <h2>Account security</h2>
+          <p>Authentication and access controls for protecting sensitive account activity.</p>
+          <div class="article-aside-tags">
+            <span>2FA</span>
+            <span>Sessions</span>
+            <span>IP monitoring</span>
+          </div>
+          <a class="article-aside-link" href="../blog.html">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m13 4-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Back to journal
+          </a>
+        </aside>
+
         <div class="article-content">
-          <h2>Enterprise-Grade Security: Advanced Protection for Your GreatBless Account</h2>
           <p>
             In today's digital landscape, security is not just a feature; it is the cornerstone of trust. At GreatBless, we hold ourselves to the highest standards regarding the safety of your funds and the privacy of your data. We are pleased to announce the successful deployment of a comprehensive security upgrade across the GreatBless WebTrade platform and Trader's Room area.
           </p>
-          <p><strong>Key Security Upgrades Now Active:</strong></p>
+          <p class="article-section-label"><strong>Key Security Upgrades Now Active:</strong></p>
           <ul>
             <li><strong>Multi-Factor Authentication (MFA/2FA):</strong> To add an impenetrable layer of protection, we have implemented mandatory 2FA. Critical actions, including login from new devices, funds withdrawal requests for crypto and fiat, and password changes, now require a dynamic One-Time Password (OTP) generated via your linked authenticator app, such as Google Authenticator.</li>
             <li><strong>Robust Session Management:</strong> Take complete control of your account access. Our new backend allows you to monitor all active sessions in real time, including device type, IP address, and location. You now have the power to instantly "Log Out from All Other Devices" with a single click if any suspicious activity is detected.</li>
@@ -414,7 +450,8 @@
             These upgrades ensure that your GreatBless experience is protected by architecture designed to satisfy enterprise compliance standards. We continue to monitor our independent server infrastructure 24/7 to ensure a closed, encrypted, and absolutely secure environment for your trading capital.
           </p>
         </div>
-      </section>
+
+      </div>
     </article>
   </main>
 
@@ -423,42 +460,6 @@
   <script>
     renderSharedFooter("shared-footer-root", { basePath: "../.." });
 
-    const header = document.getElementById("site-header");
-    const menuToggle = document.getElementById("menu-toggle");
-    const navButtons = document.querySelectorAll("[data-target]");
-    const mobileQuery = window.matchMedia("(max-width: 1199px)");
-
-    const onScroll = () => {
-      if (!header) return;
-      if (window.scrollY > 6) {
-        header.classList.add("scrolled");
-      } else {
-        header.classList.remove("scrolled");
-      }
-    };
-
-    navButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.getAttribute("data-target");
-        if (!id) return;
-        window.location.href = `../../index.html#${id}`;
-
-        if (mobileQuery.matches && header && menuToggle) {
-          header.classList.remove("menu-open");
-          menuToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
-
-    if (menuToggle && header) {
-      menuToggle.addEventListener("click", () => {
-        const isOpen = header.classList.toggle("menu-open");
-        menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
-    }
-
-    window.addEventListener("scroll", onScroll);
-    onScroll();
   </script>
 </body>
 </html>
