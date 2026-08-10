@@ -40,9 +40,9 @@
                   <span>Email</span>
                   <strong>greatbless.finance@greatbless.com</strong>
                 </a>
-                <a href="tel:+17582857447">
+                <a href="tel:+17585720049">
                   <span>Phone</span>
-                  <strong>+1 (758) 285-7447</strong>
+                  <strong>+1 (758) 572-0049</strong>
                 </a>
               </section>
 

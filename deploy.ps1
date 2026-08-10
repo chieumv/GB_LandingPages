@@ -22,8 +22,11 @@ $deployDir = $PSScriptRoot
 # NOT honor .assetsignore. To keep repo-only files (deploy.ps1, docs, .gitignore)
 # off the public site, stage the publishable files into a temp dir and deploy THAT.
 # Kept: index.html, pages/, public/, components/, robots.txt, sitemap.xml.
+# `logo` la thu muc lam viec (anh nguon, bo file giao hang MetaTrader 5, ban luu
+# trang Service Desk kem email va so dien thoai ca nhan). Khong co trang nao tro
+# vao no, va no khong duoc phep len site cong khai.
 $excludeFiles = @("deploy.ps1", ".gitignore", ".assetsignore", "*.md")
-$excludeDirs = @(".git", ".github", ".wrangler", ".deploy", "node_modules")
+$excludeDirs = @(".git", ".github", ".wrangler", ".deploy", "node_modules", "logo")
 
 $staging = Join-Path ([System.IO.Path]::GetTempPath()) ("gbdeploy_" + [System.Guid]::NewGuid().ToString("N"))
 Write-Host "Staging publishable files -> $staging" -ForegroundColor Yellow
