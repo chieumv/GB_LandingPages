@@ -50,11 +50,11 @@
                 <p class="shared-footer-card-label">Documents</p>
                 <h4>Legal</h4>
                 <div class="shared-footer-link-grid">
-                  <a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzY1LCJwdXIiOiJibG9iX2lkIn19--a801ae179d7520ca6a6435a6ddb987980440d893/PRIVACY%20POLICY_2%20-%202.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                  <a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzY3LCJwdXIiOiJibG9iX2lkIn19--7468ba390b5ed58956de3fd448108f6b1b1616d5/TERMS%20&%20CONDITIONS%20-%203.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
-                  <a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzYzLCJwdXIiOiJibG9iX2lkIn19--1b308967bce48fea2b1394e89bf27c14b941f4af/RISK%20DISCLOSURE%20-%202.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
-                  <a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzY2LCJwdXIiOiJibG9iX2lkIn19--fce60ab11084704867f00cd5929c282bc257eab9/ORDER%20EXECUTION%20POLICY%20-%202.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a>
-                  <a href="https://crm-api.webtrade.hn.eaera.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzcwLCJwdXIiOiJibG9iX2lkIn19--f963e821b9a3e39b5189839238844a90452d3e1d/AML_KYC%20POLICY_2.pdf" target="_blank" rel="noopener noreferrer">AML/KYC Policy</a>
+                  <a href="/documents/privacy-policy.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                  <a href="/documents/terms-and-conditions.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
+                  <a href="/documents/risk-disclosure.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
+                  <a href="/documents/order-execution-policy.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a>
+                  <a href="/documents/aml-kyc-policy.pdf" target="_blank" rel="noopener noreferrer">AML/KYC Policy</a>
                 </div>
               </section>
             </div>
