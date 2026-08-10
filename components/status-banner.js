@@ -100,7 +100,11 @@
         .then(function (res) {
           if (res.ok && res.d && res.d.success) {
             form.style.display = 'none';
-            showNote("Thanks! We'll email you at launch.", true);
+            if (res.d.confirmationSent === false) {
+              showNote(res.d.warning || "You're registered, but we couldn't send the confirmation email.", false);
+            } else {
+              showNote("Thanks! Check your inbox for confirmation.", true);
+            }
           } else {
             showNote((res.d && res.d.error) || 'Could not submit. Please try again later.', false);
             btn.disabled = false;
