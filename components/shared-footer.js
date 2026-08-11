@@ -50,11 +50,11 @@
                 <p class="shared-footer-card-label">Documents</p>
                 <h4>Legal</h4>
                 <div class="shared-footer-link-grid">
-                  <a href="/documents/privacy-policy.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                  <a href="/documents/terms-and-conditions.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
-                  <a href="/documents/risk-disclosure.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
-                  <a href="/documents/order-execution-policy.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a>
-                  <a href="/documents/aml-kyc-policy.pdf" target="_blank" rel="noopener noreferrer">AML/KYC Policy</a>
+                  <a href="${root}/documents/privacy-policy.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                  <a href="${root}/documents/terms-and-conditions.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
+                  <a href="${root}/documents/risk-disclosure.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
+                  <a href="${root}/documents/order-execution-policy.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a>
+                  <a href="${root}/documents/aml-kyc-policy.pdf" target="_blank" rel="noopener noreferrer">AML/KYC Policy</a>
                 </div>
               </section>
             </div>
