@@ -58,6 +58,9 @@
     const menuLinks = header.querySelectorAll(".shared-menu a");
     const sectionLinks = header.querySelectorAll("[data-shared-section]");
     const mobileQuery = global.matchMedia("(max-width: 1199px)");
+    const scrollDelta = 8;
+    const revealThreshold = 72;
+    let lastScrollY = Math.max(global.scrollY, 0);
 
     const closeMenu = () => {
       header.classList.remove("menu-open");
@@ -66,13 +69,28 @@
     };
 
     const updateHeaderState = () => {
-      header.classList.toggle("scrolled", global.scrollY > 6);
+      const currentScrollY = Math.max(global.scrollY, 0);
+      const isMenuOpen = header.classList.contains("menu-open");
+
+      header.classList.toggle("scrolled", currentScrollY > 6);
+
+      if (currentScrollY <= revealThreshold || isMenuOpen) {
+        header.classList.remove("header-hidden");
+        lastScrollY = currentScrollY;
+      } else if (currentScrollY > lastScrollY + scrollDelta) {
+        header.classList.add("header-hidden");
+        lastScrollY = currentScrollY;
+      } else if (currentScrollY < lastScrollY - scrollDelta) {
+        header.classList.remove("header-hidden");
+        lastScrollY = currentScrollY;
+      }
     };
 
     menuToggle?.addEventListener("click", () => {
       const isOpen = header.classList.toggle("menu-open");
       menuToggle.setAttribute("aria-expanded", String(isOpen));
       menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      if (isOpen) header.classList.remove("header-hidden");
     });
 
     sectionLinks.forEach((link) => {

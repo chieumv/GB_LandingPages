@@ -6,7 +6,7 @@
  */
 (function () {
   var CSS =
-    '#gb-status-banner{position:fixed;top:0;left:0;right:0;z-index:100;' +
+    '#gb-status-banner{position:fixed;top:0;left:0;right:0;z-index:110;' +
     'background:#160826;border-bottom:1px solid rgba(255,255,255,.1);' +
     'box-shadow:0 2px 12px rgba(0,0,0,.35);color:#eae6f2;' +
     "font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-size:14px}" +
@@ -46,7 +46,9 @@
   function applyOffset(bar) {
     var h = bar.offsetHeight;
     var header = document.getElementById('site-header');
-    if (header) header.style.top = h + 'px';
+    if (header) {
+      header.style.top = h + 'px';
+    }
     if (basePad === null) basePad = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
     document.body.style.paddingTop = basePad + h + 'px';
   }

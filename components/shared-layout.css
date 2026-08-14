@@ -34,7 +34,8 @@
   background: var(--shared-header-bg);
   color: var(--shared-text);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: background 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+  transition: transform 0.28s ease, background 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+  will-change: transform;
 }
 
 .site-header.shared-site-header.scrolled {
@@ -43,8 +44,12 @@
   backdrop-filter: blur(14px);
 }
 
+.site-header.shared-site-header.header-hidden {
+  transform: translateY(-100%);
+}
+
 .shared-header-inner {
-  min-height: 88px;
+  min-height: 72px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
@@ -62,14 +67,14 @@
 }
 
 .shared-brand img {
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   display: block;
   object-fit: contain;
 }
 
 .shared-brand span {
-  font-size: 30px;
+  font-size: 27px;
   font-weight: 700;
   line-height: 1;
 }
@@ -83,7 +88,7 @@
 
 .shared-menu a {
   position: relative;
-  padding: 12px 0;
+  padding: 10px 0;
   color: #dce8f5;
   font-size: 17px;
   font-weight: 600;
@@ -127,13 +132,13 @@
 }
 
 .shared-header-btn {
-  min-height: 46px;
+  min-height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
   border-radius: 5px;
-  padding: 11px 20px;
+  padding: 10px 18px;
   font-size: 16px;
   font-weight: 700;
   line-height: 1;
@@ -551,7 +556,7 @@ body.shared-footer-ready {
 
 @media (max-width: 1199px) {
   .shared-header-inner {
-    min-height: 80px;
+    min-height: 68px;
     display: flex;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -563,12 +568,12 @@ body.shared-footer-ready {
   }
 
   .shared-brand img {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
   }
 
   .shared-brand span {
-    font-size: 24px;
+    font-size: 23px;
   }
 
   .shared-menu-toggle {
