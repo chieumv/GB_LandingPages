@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A beginner-friendly guide to Risk Amount: use a percentage of account Balance or a fixed value with a valid stop loss to calculate an estimated order volume." />
+  <link rel="icon" type="image/png" href="../../public/images/Logo-GB-1024x1024_2.png" />
+  <link rel="canonical" href="https://greatbless.com/pages/blog_details/risk-mode-explained" />
+  <title>How to Size an Order with Risk Amount | GreatBless</title>
+  <link rel="stylesheet" href="../../components/shared-layout.css" />
+  <link rel="stylesheet" href="../../components/article-layout.css" />
+</head>
+<body class="article-shell">
+  <div id="shared-header-root"></div>
+  <script src="../../components/shared-header.js"></script>
+  <script src="../../components/shared-footer.js"></script>
+  <script src="../../components/status-banner.js"></script>
+  <script>
+    renderSharedHeader("shared-header-root", { basePath: "../.." });
+  </script>
+
+  <main class="article-page">
+    <article class="article-entry">
+      <header class="article-header">
+        <div class="article-breadcrumb">
+          <a href="../blog.html">GreatBless Journal</a>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Beginner guides</span>
+        </div>
+        <p class="article-kicker">Trading tools</p>
+        <h1 class="article-title">How to Size an Order with Risk Amount</h1>
+        <p class="article-deck">
+          Use a valid Stop Loss and a risk percentage or fixed amount to calculate an estimated order volume before placing a market or pending order.
+        </p>
+        <div class="article-meta">
+          <span>GreatBless Journal</span>
+          <time datetime="2026-08-13">13 Aug 2026</time>
+        </div>
+      </header>
+
+      <figure class="article-hero">
+        <img class="hero-image" src="../../public/images/risk_sl_2.png" alt="Illustration of risk-based order sizing with stop loss and automatically calculated volume" />
+        <figcaption>Illustrative example. Risk Amount calculates an estimated Volume; it does not create a separate risk rule or guarantee the final loss of an executed trade.</figcaption>
+      </figure>
+
+      <div class="article-reading-layout">
+        <aside class="article-aside" aria-label="Article overview">
+          <p class="article-aside-label">Article focus</p>
+          <h2>Calculate volume from risk</h2>
+          <p>See how Risk Amount uses Balance, a valid Stop Loss, and your selected risk to estimate order volume.</p>
+          <div class="article-aside-tags">
+            <span>Position sizing</span>
+            <span>Stop loss</span>
+            <span>Account Balance</span>
+          </div>
+          <a class="article-aside-link" href="../blog.html">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m13 4-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Back to journal
+          </a>
+        </aside>
+
+        <div class="article-content">
+          <p>
+            A trade idea can look simple until you need to decide how large the order should be. Risk Amount starts with a more useful question than “how many lots should I trade?”: “how much of my account Balance am I prepared to risk if this idea reaches my Stop Loss?”
+          </p>
+
+          <p class="article-section-label"><strong>Risk Amount in plain language</strong></p>
+          <p>
+            Risk Amount is a position-sizing tool in the Advanced order section. It uses your Stop Loss distance and a risk amount that you enter as either a percentage or a fixed value to calculate an estimated Volume. It supports market and pending orders. Instead of choosing a fixed lot size first, you define the amount you want to risk, then review the calculated volume before you submit the order.
+          </p>
+
+          <p class="article-section-label"><strong>Before you begin</strong></p>
+          <ul>
+            <li>Open the order panel and expand <strong>Advanced</strong>.</li>
+            <li>Enable <strong>Stop Loss</strong> and enter a valid SL price. Risk Amount is unavailable while Stop Loss is disabled.</li>
+            <li>Keep <strong>Risk Amount</strong> enabled. It turns on automatically when Stop Loss is enabled, but you can turn it off manually.</li>
+            <li>Make sure the platform has the required symbol specification, entry price, account Balance, and currency conversion data to complete the calculation.</li>
+          </ul>
+
+          <p class="article-section-label"><strong>Choose Percent or Value</strong></p>
+          <p>
+            In <strong>Percent</strong> mode, enter the percentage of the account <strong>Balance</strong> you want to risk. Floating profit or loss does not change this calculation base: <code>Risk value = Risk percent / 100 × Account Balance</code>. For example, 2% on a 10,000 USD Balance produces a target risk value of 200 USD. In <strong>Value</strong> mode, enter a fixed amount in the account currency; for example, 200 means 200 USD for a USD account or 200 EUR for a EUR account.
+          </p>
+
+          <p class="article-section-label"><strong>How to use the calculated result</strong></p>
+          <ul>
+            <li>Choose <strong>Percent</strong> or <strong>Value</strong>, then enter an amount greater than zero.</li>
+            <li>For a BUY order, Stop Loss must be below the applicable entry price. For a SELL order, Stop Loss must be above it.</li>
+            <li>Review the automatically calculated <strong>Volume</strong> and the estimated loss shown below the inputs before placing the order.</li>
+            <li>Choose your Take Profit separately. Risk Amount does not set it or predict where the market will move.</li>
+          </ul>
+
+          <p class="article-section-label"><strong>Why changing Stop Loss changes Volume</strong></p>
+          <p>
+            The calculation uses the applicable entry price for the order type and the distance between that price and Stop Loss. For the same risk value, moving Stop Loss farther from the entry generally reduces calculated Volume; moving it closer generally increases calculated Volume. A simplified version of the calculation is <code>Raw volume = Risk value in profit currency / (SL price distance × Contract size)</code>. The platform then rounds Volume down to the valid trading step and applies the symbol’s minimum and maximum volume limits.
+          </p>
+
+          <p class="article-section-label"><strong>Important checks before placing an order</strong></p>
+          <ul>
+            <li>If SL direction is invalid or its distance is zero, the platform cannot calculate a new Volume. A previously displayed Volume may remain visible, so correct SL and confirm that both Volume and estimated loss update.</li>
+            <li>If Volume is raised to the symbol minimum, the estimated loss may be higher than the risk value you selected. Check the estimate after a symbol limit is applied.</li>
+            <li>Currency conversion, spread, slippage, volume rounding, commissions, swap, fees, gaps, and fast market conditions can cause displayed or final loss to differ from the selected risk.</li>
+            <li>Review the final Volume, Stop Loss, estimated loss, margin requirements, and all instrument-specific conditions before submitting an order.</li>
+            <li>Use a demo account to practise the workflow before relying on it in a live environment.</li>
+          </ul>
+
+          <p>
+            Risk Amount is a planning aid, not a guarantee. It does not create a separate risk rule, and market conditions can cause the final loss of an executed trade to differ from the estimate. Always review the final order details and applicable terms before trading. Trading involves risk and losses can occur.
+          </p>
+        </div>
+
+        <nav class="article-end" aria-label="Article navigation">
+          <a href="../blog.html">Back to journal</a>
+          <a href="https://trading.greatbless.com/user-auth/register">Explore a demo account</a>
+        </nav>
+      </div>
+    </article>
+  </main>
+
+  <div id="shared-footer-root"></div>
+  <script>
+    renderSharedFooter("shared-footer-root", { basePath: "../.." });
+  </script>
+</body>
+</html>

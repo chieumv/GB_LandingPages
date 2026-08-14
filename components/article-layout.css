@@ -136,6 +136,10 @@ body.article-shell {
   box-shadow: 0 30px 78px rgba(0, 0, 0, 0.34);
 }
 
+.article-shell .article-hero.article-hero-compact {
+  max-width: 378px;
+}
+
 .article-shell .article-hero::after {
   position: absolute;
   inset: 0;
@@ -298,6 +302,7 @@ body.article-shell {
 
 .article-shell .article-content > .article-section-label {
   margin-top: 42px;
+  scroll-margin-top: 160px;
   color: #67e8f9;
   font-size: 14px;
   font-weight: 800;
@@ -354,6 +359,48 @@ body.article-shell {
   content: counter(article-points, decimal-leading-zero);
   font-size: 10px;
   font-weight: 800;
+}
+
+.article-shell .article-content .ib-start-steps {
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  list-style: none;
+  counter-reset: article-points;
+}
+
+.article-shell .article-content .ib-start-steps li {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.article-shell .article-content .ib-start-steps li strong {
+  display: block;
+  line-height: 1.35;
+}
+
+.article-shell .article-content .ib-start-steps li span {
+  display: block;
+  color: #adc1d3;
+  line-height: 1.62;
+}
+
+.article-shell .article-content ul.ib-monitor-list {
+  gap: 14px;
+}
+
+.article-shell .article-content ul.ib-monitor-list li {
+  min-height: 0;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.article-shell .article-content ul.ib-monitor-list li::before {
+  top: 14px;
 }
 
 .article-shell .article-end {
@@ -512,6 +559,14 @@ body.article-shell {
   .article-shell .article-content li::before {
     top: 16px;
     left: 16px;
+  }
+
+  .article-shell .article-content ul.ib-monitor-list li {
+    padding: 54px 17px 16px;
+  }
+
+  .article-shell .article-content ul.ib-monitor-list li::before {
+    top: 14px;
   }
 
   .article-shell .article-end {

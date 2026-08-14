@@ -5,12 +5,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://greatbless.com/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://greatbless.com/pages/blog</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -24,13 +24,33 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://greatbless.com/pages/blog_details/automated-risk-management</loc>
-    <lastmod>2026-04-27</lastmod>
+    <loc>https://greatbless.com/pages/blog_details/tradingview-integration</loc>
+    <lastmod>2026-04-30</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://greatbless.com/pages/blog_details/tradingview-integration</loc>
-    <lastmod>2026-04-30</lastmod>
+    <loc>https://greatbless.com/pages/blog_details/guard-explained</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/risk-mode-explained</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/ib-partner-program</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/auto-lock-sl-tp</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/platform-capabilities</loc>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>
