@@ -36,9 +36,9 @@
               <section class="shared-footer-card shared-footer-contact">
                 <p class="shared-footer-card-label">Contact</p>
                 <h4>Contact Us</h4>
-                <a href="mailto:greatbless.finance@greatbless.com">
+                <a href="mailto:support@greatbless.com">
                   <span>Email</span>
-                  <strong>greatbless.finance@greatbless.com</strong>
+                  <strong>support@greatbless.com</strong>
                 </a>
                 <a href="tel:+17585720049">
                   <span>Phone</span>
@@ -77,7 +77,7 @@
               <h4>Regional Restrictions:</h4>
               <p>
                 GreatBless Global Markets Ltd. does not provide services to residents of the
-                United States, Cuba, Iraq, Myanmar, North Korea, Sudan and United Arab Emirates
+                United States, Cuba, Canada, Iraq, Iran, Myanmar, North Korea, Sudan, Syria and United Arab Emirates
                 and certain other jurisdictions due to legal restrictions.
               </p>
             </div>
