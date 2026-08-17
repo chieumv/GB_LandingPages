@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreatBless WebTrade - Real SL Risk Calculator Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0e14;
+      --bg-panel: #171b26;
+      --bg-chart: #131722;
+      --bg-input: #0f121d;
+      --border-panel: rgba(255, 255, 255, 0.08);
+      --primary-green: #22c55e;
+      --primary-green-glow: rgba(34, 197, 94, 0.25);
+      --primary-red: #ef4444;
+      --primary-red-glow: rgba(239, 68, 68, 0.25);
+      --accent-blue: #3b82f6;
+      --text-primary: #f3f4f6;
+      --text-secondary: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    /* Video Frame Container 16:9 Aspect Ratio */
+    .video-container {
+      width: 100%;
+      max-width: 960px;
+      height: 540px;
+      background: radial-gradient(circle at 50% 0%, #161f33 0%, #0b0e14 85%);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(34, 197, 94, 0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Bar */
+    .app-header {
+      height: 44px;
+      background: rgba(23, 27, 38, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-panel);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: -0.4px;
+    }
+
+    .brand-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      box-shadow: 0 0 10px var(--primary-green-glow);
+    }
+
+    .badge-risk {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--primary-green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--primary-green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* Main Video Viewport */
+    .video-viewport {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    /* Stage Overlays */
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transform: scale(0.97) translateY(6px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .stage.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Stage Titles */
+    .stage-title {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 4px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stage-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 14px;
+      max-width: 700px;
+      line-height: 1.4;
+    }
+
+    /* Real WebTrade Order Panel Replica */
+    .order-panel {
+      width: 100%;
+      max-width: 620px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-panel);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 8px;
+    }
+
+    .switch-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .switch-ui {
+      width: 32px;
+      height: 18px;
+      background: var(--primary-green);
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .switch-ui::after {
+      content: '';
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .price-btn {
+      height: 44px;
+      border-radius: 8px;
+      padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .price-btn.sell {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--primary-red);
+    }
+
+    .price-btn.buy {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--primary-green);
+    }
+
+    .price-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    .price-val {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .checkbox-real {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: var(--primary-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .input-wrapper {
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      height: 34px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .input-wrapper.highlight-active {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 12px var(--primary-green-glow);
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    .input-wrapper.highlight-warning {
+      border-color: var(--primary-red);
+      box-shadow: 0 0 12px var(--primary-red-glow);
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .mode-dropdown {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+
+    .risk-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .est-pl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    /* REAL WEBTRADE CHART + REALISTIC CANDLESTICKS + EXACT ENTRY LINE (STAGE 3) */
+    .real-chart-layout {
+      width: 100%;
+      max-width: 820px;
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 12px;
+      height: 255px;
+    }
+
+    .compact-form {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-panel);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chart-container {
+      background: var(--bg-chart);
+      border: 1px solid var(--border-panel);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .chart-canvas {
+      flex: 1;
+      position: relative;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .stage3-candles {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      shape-rendering: crispEdges;
+    }
+
+    .price-axis {
+      width: 55px;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      background: #171b26;
+      position: relative;
+      padding: 8px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      user-select: none;
+    }
+
+    .price-axis > span {
+      position: absolute;
+      right: 4px;
+      left: 4px;
+      transform: translateY(-50%);
+      text-align: center;
+    }
+
+    .axis-price-top {
+      top: 10%;
+    }
+
+    .axis-entry-price {
+      top: 30%;
+      border: 1px solid #397bd7;
+      border-radius: 2px;
+      padding: 3px 1px;
+      background: #15345f;
+      color: #7db4ff;
+      font-weight: 800;
+    }
+
+    .axis-sl-price {
+      top: 50%;
+      color: #ff5268;
+      font-weight: 800;
+    }
+
+    .axis-price-lower {
+      top: 70%;
+    }
+
+    .axis-price-bottom {
+      top: 90%;
+    }
+
+    /* Entry Price Line - Aligned with Close of Last Candle at Y=30% (1.10000) */
+    .real-price-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      display: flex;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .real-price-line.entry {
+      top: 30%;
+      border-top: 1px dashed var(--accent-blue);
+    }
+
+    /* Real Drag SL Line with Center Circle Handle & Left Chip */
+    .real-price-line.sl {
+      top: 50%;
+      border-top: 1px solid var(--primary-red);
+      transition: top 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: ns-resize;
+      touch-action: none;
+    }
+
+    .real-price-line.sl::before {
+      position: absolute;
+      top: -11px;
+      right: 0;
+      bottom: -11px;
+      left: 0;
+      content: '';
+    }
+
+    .real-price-line.sl.is-dragging {
+      transition: none;
+      filter: brightness(1.18);
+    }
+
+    .real-price-line.sl.farther {
+      top: 70%;
+    }
+
+    .real-price-line.sl.closer {
+      top: 40%;
+    }
+
+    /* Center Draggable Circle Handle */
+    .drag-handle-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #d91932;
+      border-radius: 50%;
+      background: #380a11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: ns-resize;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12), 0 0 10px var(--primary-red-glow);
+    }
+
+    .drag-handle-circle::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--primary-red);
+      border-radius: 50%;
+    }
+
+    /* Multi-section Label Chip */
+    .sl-chip-label {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      left: auto;
+      transform: translateY(-50%);
+      z-index: 2;
+      background: #380a11;
+      border: 1px solid #d91932;
+      border-radius: 2px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ff334d;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.08);
+    }
+
+    .chip-divider {
+      width: 1px;
+      height: 12px;
+      background: rgba(239, 68, 68, 0.4);
+    }
+
+    .status-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-pill.far {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .status-pill.close {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    /* Hero Finish */
+    .hero-result {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .big-check {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #fff;
+      box-shadow: 0 0 35px var(--primary-green-glow);
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      box-shadow: 0 10px 25px var(--primary-green-glow);
+    }
+
+    /* Timeline Footer */
+    .timeline-bar {
+      height: 42px;
+      background: rgba(23, 27, 38, 0.95);
+      border-top: 1px solid var(--border-panel);
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 14px;
+      z-index: 10;
+    }
+
+    .play-btn {
+      background: var(--primary-green);
+      border: none;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #3b82f6);
+      transition: width 0.1s linear;
+    }
+
+    .timer-text {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      width: 45px;
+    }
+    /* Embedded landing-page mode: preserve the 960x540 composition and scale it
+       as a single unit so text and UI remain crisp at every iframe size. */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    body {
+      position: relative;
+      padding: 0;
+    }
+
+    .video-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 960px;
+      min-width: 960px;
+      max-width: none;
+      height: 540px;
+      transform-origin: center;
+    }
+
+    .brand,
+    .timeline-bar {
+      display: none;
+    }
+
+    .app-header {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: auto;
+      height: auto;
+      padding: 0;
+      justify-content: flex-end;
+      border: 0;
+      background: transparent;
+      backdrop-filter: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-container">
+    <!-- Header -->
+    <div class="app-header">
+      <div class="brand">
+        <div class="brand-icon">GB</div>
+        <span>GreatBless WebTrade</span>
+      </div>
+      <div class="badge-risk">
+        <div class="pulse-dot"></div>
+        Risk Amount (SL Calculator)
+      </div>
+    </div>
+
+    <!-- Viewport -->
+    <div class="video-viewport">
+
+      <!-- STAGE 1: Problem (0s - 3.5s) -->
+      <div class="stage" id="stage1">
+        <div class="stage-title">Manual Lot Calculation Struggle?</div>
+        <div class="stage-subtitle">Calculating volume manually from Stop Loss distance is slow, frustrating, and prone to risk errors!</div>
+
+        <div class="order-panel" style="opacity: 0.75;">
+          <div class="panel-top">
+            <div class="switch-group">
+              <span>Advanced Order</span>
+              <div class="switch-ui"></div>
+            </div>
+            <div style="font-weight: 700; font-size: 13px;">EURUSD</div>
+          </div>
+
+          <div class="price-row">
+            <div class="price-btn sell">
+              <span class="price-title">Sell Market</span>
+              <span class="price-val">1.09995</span>
+            </div>
+            <div class="price-btn buy">
+              <span class="price-title">Buy Market</span>
+              <span class="price-val">1.10005</span>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field-box">
+              <div class="field-header">Stop Loss (Price SL)</div>
+              <div class="input-wrapper highlight-warning">
+                <span>1.09500</span>
+                <span style="font-size: 11px; color: var(--primary-red);">(50 pips)</span>
+              </div>
+            </div>
+            <div class="field-box">
+              <div class="field-header">Volume (Lot size)</div>
+              <div class="input-wrapper" style="border-color: var(--primary-red);">
+                <span style="color: var(--primary-red);">? Lots</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 11.5px; color: var(--primary-red); font-weight: 700; text-align: center;">
+            ⚠️ How many lots should be entered to risk exactly $200.00?
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 2: Activating Risk Amount (3.5s - 7.5s) -->
+      <div class="stage" id="stage2">
+        <div class="stage-title">Enable Risk Amount: Auto-Calculate Volume</div>
+        <div class="stage-subtitle">Select Percent (2.0% Balance) or Value ($200 USD). WebTrade automatically computes the exact Volume!</div>
+
+        <div class="order-panel">
+          <div class="panel-top">
+            <div class="switch-group">
+              <span>Advanced Order</span>
+              <div class="switch-ui"></div>
+            </div>
+            <div style="font-weight: 700; font-size: 13px;">EURUSD</div>
+          </div>
+
+          <div class="form-grid">
+            <!-- Stop Loss Input -->
+            <div class="field-box">
+              <div class="field-header">
+                <div class="checkbox-real">✓</div>
+                <span>Stop Loss (SL)</span>
+              </div>
+              <div class="input-wrapper highlight-active">
+                <span>1.09900</span>
+                <span style="font-size: 11px; color: var(--primary-green);">(10 pips)</span>
+              </div>
+            </div>
+
+            <!-- Risk Amount Selector -->
+            <div class="field-box">
+              <div class="field-header">
+                <div class="checkbox-real">✓</div>
+                <span>Risk Amount</span>
+              </div>
+              <div class="input-wrapper highlight-active">
+                <span>2.0 %</span>
+                <span class="mode-dropdown">Percent ▾</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculated Bar -->
+          <div class="risk-bar">
+            <div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #fff;">Calculated Order Volume:</div>
+              <div style="font-size: 10.5px; color: var(--text-secondary);">$10,000 Balance × 2.0% Risk = $200 Target Risk</div>
+            </div>
+            <div style="font-size: 17px; font-weight: 800; color: #4ade80; background: rgba(34, 197, 94, 0.15); border: 1px solid var(--primary-green); padding: 5px 12px; border-radius: 6px;">
+              2.00 Lots
+            </div>
+          </div>
+
+          <!-- Est Loss & Profit -->
+          <div class="est-pl-row">
+            <div style="color: var(--primary-red);">Est. Loss: -$200.00 / -2.0%</div>
+            <div style="color: var(--primary-green);">Est. Profit: +$400.00 / +4.0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3: REALISTIC CANDLES + EXACT ENTRY LINE AT LAST CANDLE CLOSE (7.5s - 11.5s) -->
+      <div class="stage" id="stage3">
+        <div class="stage-title">Drag SL Line Farther Or Closer To Entry</div>
+        <div class="stage-subtitle" id="stage3Subtitle">
+          Drag SL farther ➔ Volume decreases to 1.00 Lot. Drag SL closer ➔ Volume increases to 4.00 Lots! (Fixed $200 Risk)
+        </div>
+
+        <div class="real-chart-layout">
+          <!-- Order Form Side Panel -->
+          <div class="compact-form">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">Order Settings</div>
+
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <span style="font-size: 10px; color: var(--text-secondary);">Target Risk (Fixed 2%)</span>
+              <div style="font-size: 12px; font-weight: 700; color: var(--accent-blue);">$200.00 USD</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 2px; margin-top: 4px;">
+              <span style="font-size: 10px; color: var(--text-secondary);">Stop Loss Distance</span>
+              <div id="sideSlPriceText" style="font-size: 12px; font-weight: 700; color: var(--primary-red);">1.09900 (10 pips)</div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+              <span style="font-size: 10px; color: var(--text-secondary);">SL Position:</span>
+              <span id="slDistanceBadge" class="status-pill far">10 PIPS</span>
+            </div>
+
+            <div style="margin-top: auto; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--primary-green); padding: 8px; border-radius: 6px; text-align: center;">
+              <div style="font-size: 9.5px; color: var(--text-secondary);">Auto Calculated Volume</div>
+              <div id="sideVolumeText" style="font-size: 16px; font-weight: 800; color: #4ade80;">2.00 Lots</div>
+            </div>
+          </div>
+
+          <!-- Real Lightweight Chart Canvas Replica with Realistic Candlesticks -->
+          <div class="chart-container">
+            <div class="chart-canvas">
+
+              <!-- OHLC series is generated in JavaScript so every candle opens at the previous candle's close. -->
+              <svg class="stage3-candles" id="stage3Candles" aria-hidden="true"></svg>
+
+              <!-- Entry Price Line - Aligned EXACTLY with Close of Last Candle (Y=35% / 1.10000) -->
+              <div class="real-price-line entry"></div>
+
+              <!-- Real Drag SL Line with Center Circle Handle & Multi-part Chip -->
+              <div class="real-price-line sl" id="realSlPriceLine">
+                <!-- Left Multi-part Chip Label -->
+                <div class="sl-chip-label" id="slChipLabel">
+                  <span>SL</span>
+                  <div class="chip-divider"></div>
+                  <span id="slPriceText">1.09900</span>
+                  <div class="chip-divider"></div>
+                  <span id="slLossText">-$200.00 (-2.0%)</span>
+                </div>
+                <div class="drag-handle-circle" aria-hidden="true"></div>
+              </div>
+
+            </div>
+
+            <!-- Price Axis Scale on Right Side -->
+            <div class="price-axis">
+              <span class="axis-price-top">1.10100</span>
+              <span class="axis-entry-price">1.10000</span>
+              <span class="axis-sl-price" id="axisSlText">1.09900</span>
+              <span class="axis-price-lower">1.09800</span>
+              <span class="axis-price-bottom">1.09700</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 4: Hero Finish & CTA (11.5s - 15.0s) -->
+      <div class="stage" id="stage4">
+        <div class="hero-result">
+          <div class="big-check">✓</div>
+          <div class="stage-title" style="font-size: 26px;">More Consistent Risk Management</div>
+          <div class="stage-subtitle">Keep position sizing aligned with your selected risk level using instant volume calculations on GreatBless WebTrade.</div>
+          <button class="cta-btn">Experience Risk Mode Now</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Timeline Footer -->
+    <div class="timeline-bar">
+      <button class="play-btn" id="playBtn">⏸</button>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="timer-text" id="timerText">00:00</div>
+    </div>
+  </div>
+
+  <script>
+    const DURATION = 15; // 15 seconds video
+    let currentTime = 0;
+    let isPlaying = true;
+    let timerInterval = null;
+    let isDraggingSl = false;
+    let hasUserDraggedSl = false;
+    let resumeTimelineAt = 0;
+
+    const progressFill = document.getElementById('progressFill');
+    const timerText = document.getElementById('timerText');
+    const playBtn = document.getElementById('playBtn');
+
+    const realSlPriceLine = document.getElementById('realSlPriceLine');
+    const slPriceText = document.getElementById('slPriceText');
+    const sideSlPriceText = document.getElementById('sideSlPriceText');
+    const sideVolumeText = document.getElementById('sideVolumeText');
+    const axisSlText = document.getElementById('axisSlText');
+    const slDistanceBadge = document.getElementById('slDistanceBadge');
+    const stage3Subtitle = document.getElementById('stage3Subtitle');
+    const chartCanvas = document.querySelector('.chart-canvas');
+
+    const ENTRY_PRICE = 1.10000;
+    const ENTRY_LINE_PERCENT = 30;
+    const PERCENT_PER_PIP = 2;
+    const MIN_SL_PIPS = 5;
+    const MAX_SL_PIPS = 25;
+    const TARGET_RISK_USD = 200;
+
+    function buildContinuousCandles() {
+      const svg = document.getElementById('stage3Candles');
+      const svgNamespace = 'http://www.w3.org/2000/svg';
+      const firstOpenY = 170;
+      const closeValues = [150, 160, 138, 145, 120, 128, 105, 112, 92, 101, 82, 96, 88, 110, 98, 115, 102, 77];
+      const upperWicks = [8, 6, 10, 7, 9, 5, 11, 6];
+      const lowerWicks = [9, 12, 7, 10, 6, 11, 8];
+
+      closeValues.forEach((closeY, index) => {
+        const openY = index === 0 ? firstOpenY : closeValues[index - 1];
+        const highY = Math.max(8, Math.min(openY, closeY) - upperWicks[index % upperWicks.length]);
+        const lowY = Math.min(246, Math.max(openY, closeY) + lowerWicks[index % lowerWicks.length]);
+        const centerX = 14 + index * 27;
+        const bodyWidth = 17;
+        const color = closeY < openY ? '#22c55e' : '#ef4444';
+
+        const wick = document.createElementNS(svgNamespace, 'line');
+        wick.setAttribute('x1', centerX);
+        wick.setAttribute('x2', centerX);
+        wick.setAttribute('y1', highY);
+        wick.setAttribute('y2', lowY);
+        wick.setAttribute('stroke', color);
+        wick.setAttribute('stroke-width', '1.3');
+
+        const body = document.createElementNS(svgNamespace, 'rect');
+        body.setAttribute('x', centerX - bodyWidth / 2);
+        body.setAttribute('y', Math.min(openY, closeY));
+        body.setAttribute('width', bodyWidth);
+        body.setAttribute('height', Math.max(2, Math.abs(closeY - openY)));
+        body.setAttribute('fill', color);
+        body.setAttribute('rx', '1');
+        body.setAttribute('data-open-y', openY);
+        body.setAttribute('data-close-y', closeY);
+
+        if (index === closeValues.length - 1) {
+          body.setAttribute('stroke', '#86efac');
+          body.setAttribute('stroke-width', '1');
+        }
+
+        svg.append(wick, body);
+      });
+    }
+
+    function updateSlValues(distancePips, linePercent, isUserInput = false) {
+      const safePips = Math.max(MIN_SL_PIPS, Math.min(MAX_SL_PIPS, Math.round(distancePips)));
+      const slPrice = ENTRY_PRICE - safePips * 0.0001;
+      const volume = TARGET_RISK_USD / (safePips * 10);
+      const priceText = slPrice.toFixed(5);
+      const volumeText = `${volume.toFixed(2)} ${Math.abs(volume - 1) < 0.001 ? 'Lot' : 'Lots'}`;
+
+      if (isUserInput) {
+        realSlPriceLine.style.top = `${linePercent}%`;
+        realSlPriceLine.className = 'real-price-line sl is-dragging';
+      }
+
+      slPriceText.textContent = priceText;
+      sideSlPriceText.textContent = `${priceText} (${safePips} pips)`;
+      sideVolumeText.textContent = volumeText;
+      sideVolumeText.style.color = safePips <= 10 ? '#4ade80' : '#60a5fa';
+      axisSlText.textContent = priceText;
+      axisSlText.style.top = `${linePercent}%`;
+      slDistanceBadge.textContent = `${safePips} PIPS`;
+      slDistanceBadge.className = `status-pill ${safePips <= 10 ? 'close' : 'far'}`;
+
+      if (isUserInput) {
+        stage3Subtitle.textContent = `SL is ${safePips} pips from Entry → Volume updates to ${volumeText} (Fixed $200 Risk)`;
+      }
+    }
+
+    function updateSlFromPointer(event) {
+      const chartRect = chartCanvas.getBoundingClientRect();
+      if (!chartRect.height) return;
+
+      const rawPercent = ((event.clientY - chartRect.top) / chartRect.height) * 100;
+      const rawPips = (rawPercent - ENTRY_LINE_PERCENT) / PERCENT_PER_PIP;
+      const distancePips = Math.max(MIN_SL_PIPS, Math.min(MAX_SL_PIPS, Math.round(rawPips)));
+      const snappedPercent = ENTRY_LINE_PERCENT + distancePips * PERCENT_PER_PIP;
+      updateSlValues(distancePips, snappedPercent, true);
+    }
+
+    const stages = [
+      { id: 'stage1', start: 0, end: 3.5 },
+      { id: 'stage2', start: 3.5, end: 7.5 },
+      { id: 'stage3', start: 7.5, end: 11.5 },
+      { id: 'stage4', start: 11.5, end: 15.0 }
+    ];
+
+    function updateUI() {
+      // Update progress fill
+      const percent = (currentTime / DURATION) * 100;
+      progressFill.style.width = percent + '%';
+
+      // Update timer text
+      const sec = Math.floor(currentTime);
+      timerText.textContent = `00:${sec < 10 ? '0' + sec : sec}`;
+
+      // Update active stage
+      stages.forEach(stage => {
+        const el = document.getElementById(stage.id);
+        if (currentTime >= stage.start && currentTime < stage.end) {
+          el.classList.add('active');
+        } else if (stage.id === 'stage4' && currentTime >= 14.9) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      const isStage3Active = currentTime >= 7.5 && currentTime < 11.5;
+      if (!isStage3Active && !isDraggingSl) {
+        hasUserDraggedSl = false;
+        realSlPriceLine.style.removeProperty('top');
+        stage3Subtitle.textContent = 'Drag SL farther ➔ Volume decreases to 1.00 Lot. Drag SL closer ➔ Volume increases to 4.00 Lots! (Fixed $200 Risk)';
+      }
+
+      // Stage 3 Dynamic SL Drag Logic:
+      // Phase 1 (7.5s - 9.2s): Start at 1.09900 (10 pips) -> Volume 2.00 Lots
+      // Phase 2 (9.2s - 10.4s): Drag FARTHER down to 1.09800 (20 pips) -> Volume 1.00 Lot
+      // Phase 3 (10.4s - 11.5s): Drag CLOSER up to 1.09950 (5 pips) -> Volume 4.00 Lots
+      if (isStage3Active && !hasUserDraggedSl) {
+        if (currentTime >= 9.2 && currentTime < 10.4) {
+          // FARTHER AWAY
+          realSlPriceLine.className = 'real-price-line sl farther';
+          slPriceText.textContent = '1.09800';
+          sideSlPriceText.textContent = '1.09800 (20 pips)';
+          sideVolumeText.textContent = '1.00 Lot';
+          sideVolumeText.style.color = '#60a5fa';
+          axisSlText.textContent = '1.09800';
+          axisSlText.style.top = '70%';
+          slDistanceBadge.textContent = 'FARTHER (20 PIPS)';
+          slDistanceBadge.className = 'status-pill far';
+        } else if (currentTime >= 10.4) {
+          // CLOSER TO ENTRY
+          realSlPriceLine.className = 'real-price-line sl closer';
+          slPriceText.textContent = '1.09950';
+          sideSlPriceText.textContent = '1.09950 (5 pips)';
+          sideVolumeText.textContent = '4.00 Lots';
+          sideVolumeText.style.color = '#4ade80';
+          axisSlText.textContent = '1.09950';
+          axisSlText.style.top = '40%';
+          slDistanceBadge.textContent = 'CLOSER (5 PIPS)';
+          slDistanceBadge.className = 'status-pill close';
+        } else {
+          // INITIAL (10 PIPS)
+          realSlPriceLine.className = 'real-price-line sl';
+          slPriceText.textContent = '1.09900';
+          sideSlPriceText.textContent = '1.09900 (10 pips)';
+          sideVolumeText.textContent = '2.00 Lots';
+          sideVolumeText.style.color = '#4ade80';
+          axisSlText.textContent = '1.09900';
+          axisSlText.style.top = '50%';
+          slDistanceBadge.textContent = '10 PIPS';
+          slDistanceBadge.className = 'status-pill far';
+        }
+      }
+    }
+
+    function tick() {
+      if (!isPlaying) return;
+      if (isDraggingSl || Date.now() < resumeTimelineAt) return;
+      currentTime += 0.1;
+      if (currentTime > DURATION) {
+        currentTime = 0; // Loop back
+      }
+      updateUI();
+    }
+
+    timerInterval = setInterval(tick, 100);
+
+    playBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playBtn.textContent = isPlaying ? '⏸' : '▶';
+    });
+
+    realSlPriceLine.addEventListener('pointerdown', (event) => {
+      if (currentTime < 7.5 || currentTime >= 11.5) return;
+      event.preventDefault();
+      isDraggingSl = true;
+      hasUserDraggedSl = true;
+      realSlPriceLine.classList.add('is-dragging');
+      realSlPriceLine.setPointerCapture(event.pointerId);
+      updateSlFromPointer(event);
+    });
+
+    realSlPriceLine.addEventListener('pointermove', (event) => {
+      if (!isDraggingSl) return;
+      event.preventDefault();
+      updateSlFromPointer(event);
+    });
+
+    const stopSlDragging = (event) => {
+      if (!isDraggingSl) return;
+      isDraggingSl = false;
+      resumeTimelineAt = Date.now() + 1500;
+      realSlPriceLine.classList.remove('is-dragging');
+      if (realSlPriceLine.hasPointerCapture(event.pointerId)) {
+        realSlPriceLine.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    realSlPriceLine.addEventListener('pointerup', stopSlDragging);
+    realSlPriceLine.addEventListener('pointercancel', stopSlDragging);
+
+    const demoContainer = document.querySelector('.video-container');
+
+    function fitDemoToViewport() {
+      const scale = Math.min(window.innerWidth / 960, window.innerHeight / 540);
+      demoContainer.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+
+    window.addEventListener('resize', fitDemoToViewport);
+    buildContinuousCandles();
+    fitDemoToViewport();
+  </script>
+</body>
+</html>

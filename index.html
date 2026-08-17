@@ -1967,20 +1967,51 @@
         border-radius: 15px;
         background: #030d1a;
       }
-      .ea-media img {
+      .ea-media img,
+      .ea-media iframe {
         display: block;
         width: 100%;
         aspect-ratio: 3 / 2;
         object-fit: cover;
         transition: opacity 0.2s ease, transform 0.35s ease;
       }
+      .ea-media iframe {
+        aspect-ratio: 16 / 9;
+        border: 0;
+        background: #030d1a;
+      }
+      .ea-media [hidden] {
+        display: none;
+      }
       .ea-media:hover img {
         transform: scale(1.015);
       }
       @media (min-width: 1024px) {
+        .ea-showcase {
+          width: calc(100% - 96px);
+          max-width: 1280px;
+          padding: 14px 18px;
+        }
+        .ea-showcase .showcase-heading {
+          margin-bottom: 12px;
+        }
+        .ea-showcase .showcase-heading h2 {
+          font-size: clamp(32px, 3vw, 40px);
+        }
+        .ea-showcase .showcase-heading > p {
+          font-size: 14px;
+        }
         .ea-grid {
-          grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+          grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
+          gap: 20px;
           align-items: start;
+        }
+        .ea-item {
+          padding: 11px 14px 11px 6px;
+        }
+        .ea-item p {
+          margin-top: 4px;
+          line-height: 1.4;
         }
       }
       @media (max-width: 1023px) {
@@ -2244,7 +2275,7 @@
           </div>
           <div class="ea-grid">
             <div class="ea-list">
-              <article class="ea-item active" data-image="./public/images/risk_sl_2.png" data-index="01" data-title="Risk Mode" data-alt="Risk Mode percentage-based stop loss preview" data-guide-href="./pages/blog_details/risk-mode-explained.html" data-guide-label="Read Risk Amount guide" role="button" tabindex="0" aria-pressed="true">
+              <article class="ea-item active" data-image="./public/images/risk_sl_2.png" data-demo="./public/demos/risk-mode-demo?v=20260817-even-price-axis" data-index="01" data-title="Risk Mode" data-alt="Risk Mode percentage-based stop loss demonstration" data-guide-href="./pages/blog_details/risk-mode-explained.html" data-guide-label="Read Risk Amount guide" role="button" tabindex="0" aria-pressed="true">
                 <span class="ea-index">01</span>
                 <div class="ea-item-copy">
                   <h3>Risk Mode</h3>
@@ -2252,7 +2283,7 @@
                 </div>
                 <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
               </article>
-              <article class="ea-item" data-image="./public/images/260411_Risk_Management.png" data-index="02" data-title="Trader Guard" data-alt="Trader Guard dashboard showing account-level risk controls" data-guide-href="./pages/blog_details/guard-explained.html" data-guide-label="Read Guard guide" role="button" tabindex="0" aria-pressed="false">
+              <article class="ea-item" data-image="./public/images/260411_Risk_Management.png" data-demo="./public/demos/trader-guard-demo?v=20260817-continuous-candles" data-index="02" data-title="Trader Guard" data-alt="Interactive Trader Guard demonstration configuring and triggering a maximum daily loss rule" data-guide-href="./pages/blog_details/guard-explained.html" data-guide-label="Read Guard guide" role="button" tabindex="0" aria-pressed="false">
                 <span class="ea-index">02</span>
                 <div class="ea-item-copy">
                   <h3>Trader Guard</h3>
@@ -2268,7 +2299,7 @@
                 </div>
                 <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
               </article>
-              <article class="ea-item" data-image="./public/images/sl-tp-auto-lock.png" data-index="04" data-title="Auto-Lock SL/TP" data-alt="Trading terminal showing stop-loss and take-profit levels protected through an automatic lock workflow" data-guide-href="./pages/blog_details/auto-lock-sl-tp.html" data-guide-label="Read Auto-Lock guide" role="button" tabindex="0" aria-pressed="false">
+              <article class="ea-item" data-image="./public/images/sl-tp-auto-lock.png" data-demo="./public/demos/sltp-auto-lock-demo?v=20260814-chart" data-index="04" data-title="Auto-Lock SL/TP" data-alt="Interactive trading terminal demonstration of the five-minute SL and TP adjustment windows" data-guide-href="./pages/blog_details/auto-lock-sl-tp.html" data-guide-label="Read Auto-Lock guide" role="button" tabindex="0" aria-pressed="false">
                 <span class="ea-index">04</span>
                 <div class="ea-item-copy">
                   <h3>Auto-Lock SL/TP</h3>
@@ -2289,7 +2320,8 @@
                 </div>
               </div>
               <div class="ea-media-viewport">
-                <img id="ea-media-img" src="./public/images/risk_sl.jpg" alt="Risk Mode percentage-based stop loss preview" />
+                <img id="ea-media-img" src="./public/images/risk_sl_2.png" alt="Risk Mode percentage-based stop loss demonstration" hidden />
+                <iframe id="ea-media-demo" src="./public/demos/risk-mode-demo?v=20260817-even-price-axis" title="Risk Mode percentage-based stop loss demonstration" loading="eager"></iframe>
               </div>
             </div>
           </div>
@@ -2625,6 +2657,7 @@
     <script>
       const eaItems = document.querySelectorAll(".ea-item[data-image]");
       const eaMediaImg = document.getElementById("ea-media-img");
+      const eaMediaDemo = document.getElementById("ea-media-demo");
       const eaMediaTitle = document.getElementById("ea-media-title");
       const eaMediaCount = document.getElementById("ea-media-count");
       const eaMediaGuide = document.getElementById("ea-media-guide");
@@ -2642,6 +2675,7 @@
       const setEaFeature = (item) => {
         if (!item || !eaMediaImg) return;
         const imageUrl = item.getAttribute("data-image");
+        const demoUrl = item.getAttribute("data-demo");
         const featureIndex = item.getAttribute("data-index") || "01";
         const featureTitle = item.getAttribute("data-title") || "";
         const imageAlt = item.getAttribute("data-alt") || `${featureTitle} feature preview`;
@@ -2654,8 +2688,22 @@
           entry.setAttribute("aria-pressed", isActive ? "true" : "false");
         });
 
-        if (imageUrl) eaMediaImg.src = imageUrl;
-        eaMediaImg.alt = imageAlt;
+        if (demoUrl && eaMediaDemo) {
+          eaMediaImg.hidden = true;
+          eaMediaDemo.hidden = false;
+          eaMediaDemo.title = imageAlt;
+          if (eaMediaDemo.getAttribute("src") !== demoUrl) {
+            eaMediaDemo.src = demoUrl;
+          }
+        } else {
+          if (eaMediaDemo) {
+            eaMediaDemo.hidden = true;
+            eaMediaDemo.src = "about:blank";
+          }
+          if (imageUrl) eaMediaImg.src = imageUrl;
+          eaMediaImg.alt = imageAlt;
+          eaMediaImg.hidden = false;
+        }
         if (eaMediaTitle) eaMediaTitle.textContent = featureTitle;
         if (eaMediaCount) {
           eaMediaCount.textContent = `${featureIndex} / ${String(eaItems.length).padStart(2, "0")}`;

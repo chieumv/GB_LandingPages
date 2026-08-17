@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SL/TP Auto-Lock Interactive Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0c0e14;
+      --panel: #11141c;
+      --panel-2: #171b24;
+      --border: #29303b;
+      --muted: #8f99aa;
+      --text: #eef2f8;
+      --cyan: #36bba8;
+      --cyan-soft: rgba(54, 187, 168, 0.16);
+      --red: #ef334f;
+      --green: #0fbd88;
+      --blue: #4f8cff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      background: #030d1a;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input { font: inherit; }
+
+    .demo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 960px;
+      height: 540px;
+      overflow: hidden;
+      transform: translate(-50%, -50%);
+      transform-origin: center;
+      border: 1px solid #202735;
+      border-radius: 14px;
+      background: var(--bg);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.44);
+    }
+
+    .terminal-bar {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border);
+      background: #0f1117;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .symbol { color: #fff; margin-right: 8px; }
+    .tool-chip { padding: 5px 7px; border-radius: 5px; color: #c8d0dc; }
+    .tool-chip.active { background: #343941; color: #fff; }
+    .toolbar-divider { width: 1px; height: 18px; background: var(--border); }
+    .terminal-title { margin-left: auto; color: var(--muted); font-weight: 600; }
+    .replay {
+      width: 27px;
+      height: 27px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #344050;
+      border-radius: 7px;
+      color: #dbe3ed;
+      background: #171a22;
+      cursor: pointer;
+    }
+    .replay:hover, .replay:focus-visible { border-color: var(--cyan); color: var(--cyan); outline: none; }
+
+    .workspace { height: 334px; display: grid; grid-template-columns: 32px 1fr 188px; }
+    .draw-tools {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+      border-right: 1px solid var(--border);
+      background: #10131a;
+      color: #aab3c2;
+      font-size: 13px;
+    }
+    .draw-tools span:first-child {
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border-radius: 5px;
+      background: #383d44;
+      color: #fff;
+    }
+
+    .chart-panel { min-width: 0; position: relative; border-right: 1px solid var(--border); }
+    .quote-row {
+      height: 27px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 9px;
+      border-bottom: 1px solid #222936;
+      background: #11141b;
+      color: #9aa5b5;
+      font-size: 9px;
+    }
+    .quote-row b { color: var(--cyan); font-weight: 600; }
+
+    .chart {
+      position: relative;
+      height: 281px;
+      overflow: hidden;
+      background-color: #151922;
+      background-image:
+        linear-gradient(rgba(71, 81, 98, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(71, 81, 98, 0.28) 1px, transparent 1px);
+      background-size: 52px 34px;
+    }
+
+    .candles { position: absolute; inset: 8px 45px 18px 7px; width: calc(100% - 52px); height: calc(100% - 26px); }
+    .price-axis {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 45px;
+      border-left: 1px solid #2b323e;
+      color: #aeb7c5;
+      font-size: 8px;
+      background: rgba(21, 25, 34, 0.86);
+    }
+    .price-axis span { position: absolute; right: 5px; transform: translateY(-50%); }
+
+    .order-line {
+      position: absolute;
+      left: 0;
+      right: 45px;
+      top: var(--y);
+      height: 1px;
+      z-index: 5;
+      border-top: 1px solid currentColor;
+      transition: top 0.18s ease, opacity 0.25s ease;
+      touch-action: none;
+    }
+    .order-line.entry { color: #e16472; border-top-style: dashed; --y: 145px; }
+    .order-line.sl { color: var(--red); --y: 65px; cursor: ns-resize; }
+    .order-line.tp { color: var(--green); --y: 225px; cursor: ns-resize; }
+    .order-line.pending { opacity: 0; }
+    .order-line.locked { cursor: not-allowed; }
+    .order-line.dragging { transition: none; filter: brightness(1.22); }
+    .order-line.denied { animation: denied 0.32s ease 2; }
+    @keyframes denied { 50% { transform: translateX(4px); filter: brightness(1.5); } }
+
+    .line-label {
+      position: absolute;
+      right: 20px;
+      top: -11px;
+      display: flex;
+      align-items: center;
+      height: 21px;
+      padding: 0 6px;
+      border: 1px solid currentColor;
+      background: #23151c;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .tp .line-label { background: #0c2a22; }
+    .entry .line-label { left: 10px; right: auto; background: #f4d9dc; color: #7a1e2a; }
+    .lock-icon { margin-right: 4px; font-size: 9px; }
+
+    .current-price-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 142px;
+      z-index: 4;
+      height: 1px;
+      border-top: 1px dotted rgba(85, 211, 190, 0.9);
+      color: #55d3be;
+      pointer-events: none;
+    }
+    .current-price-line::before {
+      content: "";
+      position: absolute;
+      right: 42px;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 3px rgba(85, 211, 190, 0.16);
+    }
+    .current-price-label {
+      position: absolute;
+      right: 0;
+      top: -9px;
+      width: 45px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      background: #159a84;
+      color: #fff;
+      font-size: 7.5px;
+      font-weight: 800;
+    }
+
+    .cursor {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 30;
+      width: 19px;
+      height: 23px;
+      opacity: 0;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.65));
+      transition: left 0.65s cubic-bezier(.22,.75,.25,1), top 0.65s cubic-bezier(.22,.75,.25,1), opacity 0.2s;
+    }
+    .cursor::before {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 17px solid #fff;
+      border-right: 11px solid transparent;
+      transform: rotate(-18deg);
+    }
+    .cursor.visible { opacity: 1; }
+    .cursor.down { transform: scale(0.88); }
+
+    .phase-card {
+      position: absolute;
+      top: 9px;
+      left: 50%;
+      z-index: 15;
+      min-width: 310px;
+      padding: 7px 13px;
+      transform: translateX(-50%);
+      border: 1px solid rgba(79, 140, 255, 0.34);
+      border-radius: 8px;
+      background: rgba(10, 16, 28, 0.92);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      text-align: center;
+      pointer-events: none;
+    }
+    .phase-title { color: #fff; font-size: 11px; font-weight: 800; }
+    .phase-copy { margin-top: 2px; color: #9ca8ba; font-size: 8px; }
+
+    .market-panel { background: #10131a; font-size: 9px; }
+    .market-tabs { height: 31px; display: flex; align-items: center; justify-content: space-around; border-bottom: 1px solid var(--border); }
+    .market-tabs b { color: #fff; border-bottom: 2px solid var(--cyan); height: 31px; display: flex; align-items: center; }
+    .place-order { margin: 8px; padding: 7px; border-radius: 3px; background: var(--cyan); color: white; text-align: center; font-weight: 800; }
+    .market-head, .market-row { display: grid; grid-template-columns: 1fr 42px 42px; gap: 3px; align-items: center; padding: 5px 8px; }
+    .market-head { background: #252b35; color: #aab3c2; }
+    .market-row { color: #d8dee8; }
+    .market-row.active { background: #2b3440; }
+    .market-row small { display: block; margin-top: 2px; color: #98a3b3; overflow: hidden; white-space: nowrap; }
+    .sell { color: #ff526c; text-align: right; }
+    .buy { color: #20b99a; text-align: right; }
+
+    .positions { height: 168px; border-top: 1px solid var(--border); background: #0f1117; font-size: 9px; }
+    .position-tabs { height: 31px; display: flex; align-items: center; gap: 25px; padding: 0 12px; border-bottom: 1px solid var(--border); color: #9da7b7; font-size: 11px; font-weight: 700; }
+    .position-tabs .active { padding: 6px 10px; border-radius: 14px; color: #fff; background: #202631; }
+    .count { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 4px; border-radius: 50%; background: var(--cyan); font-size: 8px; }
+    .position-head, .position-row {
+      display: grid;
+      grid-template-columns: 76px 55px 73px 42px 45px 88px 118px 118px 72px 65px 1fr;
+      align-items: center;
+      gap: 4px;
+      padding: 0 10px;
+    }
+    .position-head { height: 28px; color: #929cac; background: #171b23; }
+    .position-row { height: 34px; border-bottom: 1px solid #282f39; color: #f0f3f8; font-weight: 650; }
+    .cell-input {
+      height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7px;
+      border: 1px solid #3b4653;
+      border-radius: 4px;
+      background: #11151d;
+      transition: all 0.25s ease;
+    }
+    .cell-input.editable { border-color: var(--cyan); background: rgba(54, 187, 168, 0.18); }
+    .cell-input.locked { opacity: 0.68; border-color: #313946; background: #161a22; }
+    .leg-symbol { color: #dce4ef; }
+    .cell-input.editable .leg-symbol { color: white; }
+    .status-row {
+      height: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 0 14px 0 333px;
+      border-bottom: 1px solid #282f39;
+      color: #aab4c3;
+    }
+    .status-message { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .status-message strong { color: #dce6f2; }
+    .action-buttons { display: flex; gap: 8px; }
+    .action-buttons button { min-width: 75px; padding: 5px 10px; border-radius: 14px; border: 1px solid var(--cyan); color: white; background: transparent; font-size: 9px; font-weight: 750; }
+    .action-buttons .update { border: 0; background: #a8e1db; color: #fff; }
+    .action-buttons button:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    .toast {
+      position: absolute;
+      right: 17px;
+      bottom: 181px;
+      z-index: 40;
+      width: 265px;
+      padding: 10px 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      border: 1px solid rgba(239, 51, 79, 0.48);
+      border-left: 3px solid var(--red);
+      border-radius: 7px;
+      background: rgba(24, 17, 24, 0.97);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+      transition: 0.25s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast b { display: block; color: #fff; font-size: 10px; }
+    .toast span { display: block; margin-top: 3px; color: #b7c0ce; font-size: 8px; line-height: 1.4; }
+
+    .footer-bar { height: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo" id="demo" aria-label="Interactive demonstration of the five-minute SL and TP adjustment window">
+    <header class="terminal-bar">
+      <span class="symbol">EURUSD</span>
+      <span class="tool-chip">1m</span><span class="tool-chip">5m</span><span class="tool-chip">15m</span><span class="tool-chip active">1h</span>
+      <span class="toolbar-divider"></span><span class="tool-chip">Indicators</span><span class="tool-chip">↶</span><span class="tool-chip">↷</span>
+      <span class="terminal-title">SL/TP Auto-Lock demo</span>
+      <button class="replay" id="replay" type="button" aria-label="Replay demo" title="Replay demo">↻</button>
+    </header>
+
+    <section class="workspace">
+      <aside class="draw-tools" aria-hidden="true"><span>＋</span><span>╱</span><span>☷</span><span>⌁</span><span>Ｔ</span><span>◎</span><span>⌕</span></aside>
+      <div class="chart-panel">
+        <div class="quote-row"><b>●</b><span>O 1.15312</span><span>H 1.15333</span><span>L 1.15306</span><b>C 1.15323</b><span>+0.00011 (+0.01%)</span></div>
+        <div class="chart" id="chart">
+          <svg class="candles" viewBox="0 0 680 245" preserveAspectRatio="none" aria-hidden="true">
+            <g id="candleGroup"></g>
+          </svg>
+          <div class="price-axis" aria-hidden="true">
+            <span style="top:12%">1.16000</span><span style="top:31%">1.15600</span><span style="top:50%">1.15200</span><span style="top:69%">1.14800</span><span style="top:88%">1.14400</span>
+          </div>
+          <div class="current-price-line" aria-label="Current price 1.15333"><span class="current-price-label">1.15333</span></div>
+          <div class="order-line entry"><div class="line-label">Sell 0.5 &nbsp; | &nbsp; Entry 1.15327</div></div>
+          <div class="order-line sl pending" id="slLine" data-leg="SL"><div class="line-label"><span class="lock-icon" id="slLineIcon">◇</span>SL -289 USD &nbsp;|&nbsp; 1.15905</div></div>
+          <div class="order-line tp pending" id="tpLine" data-leg="TP"><div class="line-label"><span class="lock-icon" id="tpLineIcon">◇</span>TP 244 USD &nbsp;|&nbsp; 1.14839</div></div>
+          <div class="phase-card"><div class="phase-title" id="phaseTitle">Set protection levels</div><div class="phase-copy" id="phaseCopy">Drag SL and TP to define the position's protection levels.</div></div>
+          <div class="cursor" id="cursor" aria-hidden="true"></div>
+        </div>
+      </div>
+      <aside class="market-panel" aria-hidden="true">
+        <div class="market-tabs"><b>Place Order</b><span>Reports</span><span>Guard</span></div>
+        <div class="place-order">Place Order</div>
+        <div class="market-head"><span>Symbol</span><span>Sell</span><span>Buy</span></div>
+        <div class="market-row"><span>AUDCAD<small>Australian Dollar vs...</small></span><span class="sell">0.98217</span><span class="buy">0.98317</span></div>
+        <div class="market-row"><span>AUDJPY<small>Australian Dollar vs...</small></span><span class="buy">112.275</span><span class="buy">112.335</span></div>
+        <div class="market-row active"><span>EURUSD<small>Euro vs US Dollar</small></span><span class="buy">1.15318</span><span class="buy">1.15334</span></div>
+        <div class="market-row"><span>GBPUSD<small>Great Britain Pound...</small></span><span>1.34423</span><span>1.34453</span></div>
+        <div class="market-row"><span>US30<small>Dow Jones Industrial...</small></span><span>53 945</span><span>53 948</span></div>
+      </aside>
+    </section>
+
+    <section class="positions">
+      <div class="position-tabs"><span class="active">Open Positions <i class="count">4</i></span><span>Pending Orders</span><span>History</span></div>
+      <div class="position-head"><span>Symbol</span><span>Ticket</span><span>Time</span><span>Type</span><span>Volume</span><span>Price</span><span>S/L</span><span>T/P</span><span>Current Price</span><span>Profit/Loss</span><span>Comment</span></div>
+      <div class="position-row">
+        <span>EURUSD</span><span>10958</span><span>09:57:14</span><span class="sell">Sell</span><span>0.5</span><span>1.15327</span>
+        <span class="cell-input" id="slCell"><span id="slCellValue">—</span><span class="leg-symbol" id="slCellIcon">◇</span></span>
+        <span class="cell-input" id="tpCell"><span id="tpCellValue">—</span><span class="leg-symbol" id="tpCellIcon">◇</span></span>
+        <span>1.15333</span><span class="sell">-3.50</span><span>—</span>
+      </div>
+      <div class="status-row">
+        <div class="status-message"><span id="statusIcon">◇</span><strong id="statusText">Set SL/TP to start each 05:00 adjustment window</strong></div>
+        <div class="action-buttons"><button type="button">Cancel</button><button class="update" id="updateButton" type="button">Update</button></div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><b>SL/TP Auto-Lock Active</b><span>This protection level can no longer be changed after its adjustment window ends.</span></div>
+  </main>
+
+  <script>
+    (() => {
+      const BASE_WIDTH = 960;
+      const BASE_HEIGHT = 540;
+      const LOOP_SECONDS = 18.5;
+      const SL_SET_AT = 3.1;
+      const TP_SET_AT = 5.2;
+      const WINDOW_SECONDS = 7.2;
+      const slLine = document.getElementById('slLine');
+      const tpLine = document.getElementById('tpLine');
+      const cursor = document.getElementById('cursor');
+      const phaseTitle = document.getElementById('phaseTitle');
+      const phaseCopy = document.getElementById('phaseCopy');
+      const statusText = document.getElementById('statusText');
+      const statusIcon = document.getElementById('statusIcon');
+      const toast = document.getElementById('toast');
+      const updateButton = document.getElementById('updateButton');
+      const demo = document.getElementById('demo');
+      let startedAt = performance.now();
+      let previousPhase = '';
+      let dragging = null;
+      let userControlUntil = 0;
+
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const smooth = (value) => value * value * (3 - 2 * value);
+      const between = (time, start, end) => clamp((time - start) / (end - start), 0, 1);
+
+      function fit() {
+        const scale = Math.min(window.innerWidth / BASE_WIDTH, window.innerHeight / BASE_HEIGHT);
+        demo.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      }
+
+      function buildCandles() {
+        const group = document.getElementById('candleGroup');
+        const values = [
+          214, 184, 190, 154, 166, 131, 117, 138, 102, 111, 86, 94, 70, 82,
+          62, 76, 58, 68, 52, 73, 64, 86, 77, 98, 88, 110, 104, 119,
+          108, 126, 116, 132, 121, 112, 124, 106, 115, 101, 110, 119, 109, 127,
+          116, 133, 124, 139, 129, 143, 134, 148, 139, 151, 143, 136, 145, 130
+        ];
+        const gaps = [0, -3, 4, -2, 2, -5, 3, 1, -4, 3, -1, 5];
+        const upperWicks = [7, 4, 9, 5, 12, 6, 4, 8, 5, 10];
+        const lowerWicks = [6, 11, 5, 8, 4, 13, 7, 5, 9];
+        values.forEach((close, index) => {
+          const x = 10 + index * 11.3;
+          const open = index ? values[index - 1] + gaps[index % gaps.length] : close + 10;
+          const high = Math.max(7, Math.min(open, close) - upperWicks[index % upperWicks.length]);
+          const low = Math.min(238, Math.max(open, close) + lowerWicks[index % lowerWicks.length]);
+          const color = close <= open ? '#00b99a' : '#f23645';
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', x); line.setAttribute('x2', x); line.setAttribute('y1', high); line.setAttribute('y2', low); line.setAttribute('stroke', color); line.setAttribute('stroke-width', '1.15');
+          const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          rect.setAttribute('x', x - 3.1); rect.setAttribute('y', Math.min(open, close)); rect.setAttribute('width', '6.2'); rect.setAttribute('height', Math.max(2.4, Math.abs(close - open))); rect.setAttribute('fill', color); rect.setAttribute('rx', '0.7');
+          if (index === values.length - 1) {
+            rect.setAttribute('stroke', '#9ff5e5');
+            rect.setAttribute('stroke-width', '0.8');
+          }
+          group.append(line, rect);
+        });
+      }
+
+      function formatCountdown(time, setAt) {
+        if (time < setAt) return null;
+        const progress = clamp((time - setAt) / WINDOW_SECONDS, 0, 1);
+        const remaining = Math.ceil(300 * (1 - progress));
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+
+      function setLeg(leg, isSet, isLocked, countdown) {
+        const line = leg === 'SL' ? slLine : tpLine;
+        const cell = document.getElementById(`${leg.toLowerCase()}Cell`);
+        const value = document.getElementById(`${leg.toLowerCase()}CellValue`);
+        const cellIcon = document.getElementById(`${leg.toLowerCase()}CellIcon`);
+        const lineIcon = document.getElementById(`${leg.toLowerCase()}LineIcon`);
+        line.classList.toggle('pending', !isSet);
+        line.classList.toggle('locked', isLocked);
+        cell.classList.toggle('editable', isSet && !isLocked);
+        cell.classList.toggle('locked', isLocked);
+        value.textContent = isSet ? (leg === 'SL' ? '1.15905' : '1.14839') : '—';
+        cellIcon.textContent = isLocked ? '▣' : isSet ? '◇' : '+';
+        lineIcon.textContent = isLocked ? '▣' : '◇';
+        cell.title = isLocked ? `${leg} is locked` : countdown ? `${leg} locks in ${countdown}` : `Set ${leg}`;
+      }
+
+      function moveCursor(left, top, visible = true, down = false) {
+        cursor.style.left = `${left}px`;
+        cursor.style.top = `${top}px`;
+        cursor.classList.toggle('visible', visible);
+        cursor.classList.toggle('down', down);
+      }
+
+      function update(time) {
+        const slCountdown = formatCountdown(time, SL_SET_AT);
+        const tpCountdown = formatCountdown(time, TP_SET_AT);
+        const slSet = time >= SL_SET_AT;
+        const tpSet = time >= TP_SET_AT;
+        const slLocked = time >= SL_SET_AT + WINDOW_SECONDS;
+        const tpLocked = time >= TP_SET_AT + WINDOW_SECONDS;
+        setLeg('SL', slSet, slLocked, slCountdown);
+        setLeg('TP', tpSet, tpLocked, tpCountdown);
+        updateButton.disabled = slLocked && tpLocked;
+        toast.classList.toggle('show', time >= 14.4 && time < 17.2);
+
+        let phase = 'ready';
+        if (time < 1.4) {
+          phaseTitle.textContent = 'Set protection levels';
+          phaseCopy.textContent = 'Drag SL and TP to define the position’s protection levels.';
+          statusIcon.textContent = '◇';
+          statusText.textContent = 'Set SL/TP to start each 05:00 adjustment window';
+          moveCursor(445, 205, false);
+        } else if (time < SL_SET_AT) {
+          phase = 'set-sl';
+          phaseTitle.textContent = 'Set Stop Loss';
+          phaseCopy.textContent = 'The five-minute SL adjustment window starts when SL is first set.';
+          const p = smooth(between(time, 1.4, SL_SET_AT));
+          const y = 142 + (65 - 142) * p;
+          slLine.classList.remove('pending');
+          slLine.style.setProperty('--y', `${y}px`);
+          moveCursor(510, 27 + y, true, p > 0.2 && p < 0.92);
+        } else if (time < TP_SET_AT) {
+          phase = 'set-tp';
+          phaseTitle.textContent = 'SL adjustment window started';
+          phaseCopy.textContent = 'SL remains editable while its independent countdown is running.';
+          const p = smooth(between(time, 3.65, TP_SET_AT));
+          const y = 142 + (225 - 142) * p;
+          tpLine.classList.remove('pending');
+          tpLine.style.setProperty('--y', `${y}px`);
+          moveCursor(545, 27 + y, true, p > 0.12 && p < 0.92);
+          statusIcon.textContent = '◇';
+          statusText.textContent = `SL locks in ${slCountdown}`;
+        } else if (!slLocked) {
+          phase = 'counting';
+          phaseTitle.textContent = 'Five-minute adjustment windows';
+          phaseCopy.textContent = 'SL and TP can be adjusted before their own countdown reaches 00:00.';
+          statusIcon.textContent = '◇';
+          statusText.textContent = `SL locks in ${slCountdown} / TP locks in ${tpCountdown}`;
+          if (time >= 7.0 && time < 8.8) {
+            const p = smooth(between(time, 7.0, 8.8));
+            const y = 65 + 13 * Math.sin(p * Math.PI);
+            slLine.style.setProperty('--y', `${y}px`);
+            moveCursor(510, 27 + y, true, p > 0.05 && p < 0.95);
+            phaseCopy.textContent = 'Adjusting SL does not restart its original lock countdown.';
+          } else {
+            moveCursor(510, 92, false);
+          }
+        } else if (!tpLocked) {
+          phase = 'sl-locked';
+          phaseTitle.textContent = 'SL locked first';
+          phaseCopy.textContent = 'SL editing is disabled; TP remains adjustable until its own deadline.';
+          statusIcon.textContent = '▣';
+          statusText.textContent = `SL locked / TP locks in ${tpCountdown}`;
+          moveCursor(510, 92, false);
+        } else {
+          phase = 'locked';
+          phaseTitle.textContent = 'SL and TP are now locked';
+          phaseCopy.textContent = 'The controls and chart lines no longer accept changes for this position.';
+          statusIcon.textContent = '▣';
+          statusText.textContent = 'SL locked / TP locked';
+          if (time >= 13.8 && time < 15.2) {
+            moveCursor(510, 92, true, time >= 14.35);
+            slLine.classList.toggle('denied', time >= 14.35);
+          } else {
+            moveCursor(510, 92, false);
+            slLine.classList.remove('denied');
+          }
+        }
+
+        if (phase !== previousPhase) previousPhase = phase;
+      }
+
+      function frame(now) {
+        const elapsed = (now - startedAt) / 1000;
+        const time = elapsed % LOOP_SECONDS;
+        if (!dragging && now >= userControlUntil) update(time);
+        requestAnimationFrame(frame);
+      }
+
+      function restart() {
+        startedAt = performance.now();
+        userControlUntil = 0;
+        toast.classList.remove('show');
+        slLine.style.setProperty('--y', '65px');
+        tpLine.style.setProperty('--y', '225px');
+        update(0);
+      }
+
+      function pointerDown(event) {
+        const line = event.currentTarget;
+        if (line.classList.contains('locked')) {
+          line.classList.remove('denied');
+          void line.offsetWidth;
+          line.classList.add('denied');
+          toast.classList.add('show');
+          window.setTimeout(() => toast.classList.remove('show'), 2200);
+          return;
+        }
+        dragging = line;
+        userControlUntil = performance.now() + 4000;
+        line.classList.remove('pending');
+        line.classList.add('dragging');
+        line.setPointerCapture(event.pointerId);
+      }
+
+      function pointerMove(event) {
+        if (!dragging) return;
+        const chartRect = document.getElementById('chart').getBoundingClientRect();
+        const demoScale = chartRect.width / (960 - 32 - 188);
+        const y = clamp((event.clientY - chartRect.top) / demoScale, 42, 250);
+        dragging.style.setProperty('--y', `${y}px`);
+      }
+
+      function pointerUp(event) {
+        if (!dragging) return;
+        dragging.classList.remove('dragging');
+        if (dragging.hasPointerCapture(event.pointerId)) dragging.releasePointerCapture(event.pointerId);
+        dragging = null;
+      }
+
+      buildCandles();
+      [slLine, tpLine].forEach((line) => {
+        line.addEventListener('pointerdown', pointerDown);
+        line.addEventListener('pointermove', pointerMove);
+        line.addEventListener('pointerup', pointerUp);
+        line.addEventListener('pointercancel', pointerUp);
+      });
+      document.getElementById('replay').addEventListener('click', restart);
+      window.addEventListener('resize', fit);
+      fit();
+      restart();
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
