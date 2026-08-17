@@ -60,6 +60,32 @@
             </div>
           </div>
 
+          <section class="shared-footer-social" aria-labelledby="shared-footer-social-title">
+            <div class="shared-footer-social-copy">
+              <p class="shared-footer-card-label">Stay connected</p>
+              <h3 id="shared-footer-social-title">Follow GreatBless</h3>
+              <p>Official updates, announcements, and platform news from GreatBless.</p>
+            </div>
+
+            <div class="shared-footer-social-links" aria-label="GreatBless social channels">
+              <a class="shared-social-link shared-social-facebook" href="https://www.facebook.com/profile.php?id=61591606401113" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.6 21v-7.7h2.6l.4-3h-3V8.4c0-.9.2-1.5 1.5-1.5h1.6V4.2c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H9.3v3h2.5V21h2.8Z" fill="currentColor"></path></svg>
+              </a>
+              <a class="shared-social-link shared-social-tiktok" href="https://www.tiktok.com/explore" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3c.5 2.1 1.7 3.4 3.8 3.6v3c-1.4 0-2.6-.4-3.8-1.1v6.1c0 3.6-2.9 6.4-6.5 6.4a6.4 6.4 0 1 1 3.9-11.5v3.1a3.3 3.3 0 1 0-.9 4.6c.4-.4.7-1.1.7-1.9V3h2.8Z" fill="currentColor"></path></svg>
+              </a>
+              <a class="shared-social-link shared-social-twitter" href="https://x.com/GreatBless2024" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.2 7.2c-.6.3-1.3.5-2 .6.7-.4 1.3-1.1 1.5-1.9-.7.4-1.4.7-2.2.9a3.5 3.5 0 0 0-6 3.2A9.9 9.9 0 0 1 5.3 6.4a3.5 3.5 0 0 0 1.1 4.7c-.6 0-1.1-.2-1.6-.4 0 1.7 1.2 3.2 2.9 3.5-.5.1-1 .2-1.6.1.5 1.5 1.8 2.6 3.4 2.6A7 7 0 0 1 4.3 18a9.8 9.8 0 0 0 5.3 1.6c6.3 0 9.8-5.3 9.8-9.8v-.5c.7-.5 1.3-1.1 1.8-1.8Z" fill="currentColor"></path></svg>
+              </a>
+              <a class="shared-social-link shared-social-instagram" href="https://www.instagram.com/greatbless_2024/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.9"></rect><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.9"></circle><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"></circle></svg>
+              </a>
+              <a class="shared-social-link shared-social-youtube" href="https://www.youtube.com/@greatbless2026" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.9 2.9 0 0 0-2-2C17.8 4.7 12 4.7 12 4.7s-5.8 0-7.6.5a2.9 2.9 0 0 0-2 2A30 30 0 0 0 2 12a30 30 0 0 0 .4 4.8 2.9 2.9 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.9 2.9 0 0 0 2-2A30 30 0 0 0 22 12a30 30 0 0 0-.4-4.8ZM10.1 15.1V8.9l5.4 3.1-5.4 3.1Z" fill="currentColor"></path></svg>
+              </a>
+            </div>
+          </section>
+
           <section class="shared-footer-disclosures" aria-labelledby="shared-footer-disclosures-title">
             <h3 id="shared-footer-disclosures-title">Important Information &amp; Disclaimer</h3>
 
