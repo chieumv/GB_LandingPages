@@ -74,8 +74,8 @@
               <a class="shared-social-link shared-social-tiktok" href="https://www.tiktok.com/explore" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3c.5 2.1 1.7 3.4 3.8 3.6v3c-1.4 0-2.6-.4-3.8-1.1v6.1c0 3.6-2.9 6.4-6.5 6.4a6.4 6.4 0 1 1 3.9-11.5v3.1a3.3 3.3 0 1 0-.9 4.6c.4-.4.7-1.1.7-1.9V3h2.8Z" fill="currentColor"></path></svg>
               </a>
-              <a class="shared-social-link shared-social-twitter" href="https://x.com/GreatBless2024" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.2 7.2c-.6.3-1.3.5-2 .6.7-.4 1.3-1.1 1.5-1.9-.7.4-1.4.7-2.2.9a3.5 3.5 0 0 0-6 3.2A9.9 9.9 0 0 1 5.3 6.4a3.5 3.5 0 0 0 1.1 4.7c-.6 0-1.1-.2-1.6-.4 0 1.7 1.2 3.2 2.9 3.5-.5.1-1 .2-1.6.1.5 1.5 1.8 2.6 3.4 2.6A7 7 0 0 1 4.3 18a9.8 9.8 0 0 0 5.3 1.6c6.3 0 9.8-5.3 9.8-9.8v-.5c.7-.5 1.3-1.1 1.8-1.8Z" fill="currentColor"></path></svg>
+              <a class="shared-social-link shared-social-x shared-social-twitter" href="https://x.com/GreatBless2024" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"></path></svg>
               </a>
               <a class="shared-social-link shared-social-instagram" href="https://www.instagram.com/greatbless_2024/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.9"></rect><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.9"></circle><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"></circle></svg>

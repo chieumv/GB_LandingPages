@@ -1,2615 +1,3120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./public/images/Logo-GB-1024x1024_2.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GreatBless | Trading Tools for Better Risk Preparation</title>
-    <meta name="description" content="Explore GreatBless trading tools for risk preparation, market analysis, and disciplined decision-making across demo environments and supported platforms." />
-    <link rel="canonical" href="https://greatbless.com/" />
-    <style>
-      :root {
-        --bg-page: #050b16;
-        --header-bg: #071222;
-        --hero-bg: #071426;
-        --platform-bg: #08172a;
-        --about-bg: #071426;
-        --edge-bg: #08172a;
-        --ticker-bg: #061222;
-        --footer-bg: #030914;
-        --surface: #0d1d33;
-        --surface-strong: #122641;
-        --border: rgba(125, 211, 252, 0.16);
-        --border-strong: rgba(34, 211, 238, 0.42);
-        --accent: #22d3ee;
-        --accent-strong: #0ea5e9;
-        --accent-soft: rgba(34, 211, 238, 0.12);
-        --txt-main: #f8fafc;
-        --txt-muted: #a8bad0;
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="./public/images/Logo-GB-1024x1024_2.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreatBless | Trading Tools for Better Risk Preparation</title>
+  <meta name="description"
+    content="Explore GreatBless trading tools for risk preparation, market analysis, and disciplined decision-making across demo environments and supported platforms." />
+  <link rel="canonical" href="https://greatbless.com/" />
+  <style>
+    :root {
+      --bg-page: #050b16;
+      --header-bg: #071222;
+      --hero-bg: #071426;
+      --platform-bg: #08172a;
+      --about-bg: #071426;
+      --edge-bg: #08172a;
+      --ticker-bg: #061222;
+      --footer-bg: #030914;
+      --surface: #0d1d33;
+      --surface-strong: #122641;
+      --border: rgba(125, 211, 252, 0.16);
+      --border-strong: rgba(34, 211, 238, 0.42);
+      --accent: #22d3ee;
+      --accent-strong: #0ea5e9;
+      --accent-soft: rgba(34, 211, 238, 0.12);
+      --txt-main: #f8fafc;
+      --txt-muted: #a8bad0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-page);
+      color: var(--txt-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: var(--header-bg);
+      transition: all 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(7, 18, 34, 0.9);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand svg {
+      width: 64px;
+      height: 64px;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      margin-right: 5px;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .menu-toggle .icon-close {
+      display: none;
+    }
+
+    .site-header.menu-open .menu-toggle .icon-open {
+      display: none;
+    }
+
+    .site-header.menu-open .menu-toggle .icon-close {
+      display: block;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .menu {
+      display: none;
+      gap: 22px;
+    }
+
+    .menu button {
+      border: 0;
+      background: transparent;
+      color: #dce8f5;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .menu button:hover {
+      color: var(--accent);
+    }
+
+    .header-cta {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      color: var(--txt-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      line-height: 1;
+    }
+
+    .btn-login {
+      border-color: var(--border-strong);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 15px;
+    }
+
+    .btn-login:hover {
+      border-color: var(--accent);
+      background: rgba(34, 211, 238, 0.2);
+    }
+
+    .btn-account {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #02111f;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
+    }
+
+    .btn-account:hover {
+      background: linear-gradient(135deg, #67e8f9, #38bdf8);
+      color: #02111f;
+      transform: translateY(-1px);
+
+    }
+
+    main {
+      padding-top: 72px;
+    }
+
+    section {
+      border-top: 1px solid var(--border);
+    }
+
+    section[id] {
+      scroll-margin-top: 72px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.2), transparent 42%),
+        linear-gradient(180deg, #081a31 0%, var(--hero-bg) 62%, #061222 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(125, 211, 252, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 211, 252, 0.025) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    .hero-inner {
+      min-height: 680px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+      align-items: center;
+      gap: 72px;
+      padding: 86px 0 126px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 660px;
+      animation: heroTitleDown 0.7s ease-out both;
+    }
+
+    .hero-eyebrow,
+    .section-eyebrow {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(46px, 5vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      color: var(--txt-main);
+      text-shadow: 0 10px 40px rgba(14, 165, 233, 0.18);
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero p {
+      margin: 24px 0 0;
+      max-width: 620px;
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--txt-muted);
+    }
+
+    .hero-actions {
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions .btn {
+      font-size: 18px;
+      padding: 14px 26px;
+      border-radius: 12px;
+    }
+
+    .hero-trust {
+      margin-top: 28px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #c3d2e2;
+      font-size: 13px;
+    }
+
+    .hero-trust span::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+      content: "";
+    }
+
+    .hero-dashboard {
+      position: relative;
+      z-index: 1;
+      border: 1px solid var(--border-strong);
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(145deg, rgba(15, 36, 61, 0.96), rgba(6, 19, 36, 0.98));
+      box-shadow: 0 34px 80px rgba(0, 0, 0, 0.34), 0 0 60px rgba(14, 165, 233, 0.08);
+      animation: dashboardRise 0.8s 0.12s ease-out both;
+    }
+
+    .hero-dashboard::before {
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(103, 232, 249, 0.14), transparent 42%);
+      content: "";
+    }
+
+    .dashboard-top,
+    .chart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .dashboard-title {
+      display: grid;
+      gap: 5px;
+    }
+
+    .dashboard-title span {
+      color: #7891ad;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+    }
+
+    .dashboard-title strong {
+      font-size: 21px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(45, 212, 191, 0.24);
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(45, 212, 191, 0.08);
+      color: #5eead4;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-pill::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      box-shadow: 0 0 10px rgba(45, 212, 191, 0.8);
+      content: "";
+    }
+
+    .chart-panel {
+      margin-top: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 18px 8px;
+      background: rgba(3, 13, 26, 0.54);
+    }
+
+    .chart-head span {
+      color: var(--txt-muted);
+      font-size: 13px;
+    }
+
+    .chart-head strong {
+      color: #5eead4;
+      font-size: 17px;
+    }
+
+    .chart-panel svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: 8px;
+    }
+
+    .dashboard-stats {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .dashboard-stat {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(18, 38, 65, 0.56);
+    }
+
+    .dashboard-stat span,
+    .dashboard-stat strong {
+      display: block;
+    }
+
+    .dashboard-stat span {
+      color: #8097b1;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .dashboard-stat strong {
+      margin-top: 7px;
+      color: #e7f2fc;
+      font-size: 16px;
+    }
+
+    .guard-guide-link {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border: 1px solid rgba(94, 234, 212, 0.3);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.13), rgba(14, 165, 233, 0.1));
+      color: #d9fdf6;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.35;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .guard-guide-link span {
+      color: #8faabe;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .guard-guide-link strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #6ee7d2;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .guard-guide-link svg {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .guard-guide-link:hover,
+    .guard-guide-link:focus-visible {
+      border-color: #5eead4;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.16));
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .guard-guide-link:hover svg,
+    .guard-guide-link:focus-visible svg {
+      transform: translateX(3px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-strong), #2563eb);
+      box-shadow: 0 10px 26px rgba(14, 165, 233, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #38bdf8, #3b82f6);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: var(--border-strong);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .section-pad {
+      padding: 76px 0;
+    }
+
+    .trader-context {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 42px 0;
+      background:
+        radial-gradient(circle at 12% 50%, rgba(34, 211, 238, 0.08), transparent 30%),
+        #061222;
+    }
+
+    .trader-context-panel {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.88fr) minmax(0, 1.12fr);
+      align-items: center;
+      gap: 52px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: 22px;
+      padding: 30px 34px;
+      background: linear-gradient(135deg, rgba(14, 40, 68, 0.94), rgba(7, 21, 39, 0.96));
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .trader-context h2 {
+      max-width: 460px;
+      margin: 0;
+      text-align: left;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .trader-context-copy {
+      display: grid;
+      gap: 20px;
+    }
+
+    .trader-context-copy>p {
+      max-width: 690px;
+      margin: 0;
+      color: var(--txt-muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .trader-context-copy>p+p {
+      margin-top: -8px;
+    }
+
+    .trader-context-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .trader-context-points span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(125, 211, 252, 0.16);
+      border-radius: 999px;
+      padding: 8px 11px;
+      background: rgba(2, 15, 31, 0.34);
+      color: #c6d8e9;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .trader-context-points span::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #5eead4;
+      box-shadow: 0 0 10px rgba(94, 234, 212, 0.65);
+      content: "";
+    }
+
+    h2 {
+      margin: 0 0 24px;
+      text-align: center;
+      font-size: 35px;
+      color: var(--txt-main);
+    }
+
+    .platforms {
+      background:
+        radial-gradient(circle at 15% 0%, rgba(34, 211, 238, 0.07), transparent 28%),
+        var(--platform-bg);
+    }
+
+    .platform-heading {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: end;
+      margin-bottom: 38px;
+    }
+
+    .platform-heading h2 {
+      margin: 0;
+      text-align: left;
+      font-size: clamp(38px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .platform-heading>p {
+      max-width: 580px;
+      margin: 0 0 4px auto;
+      color: var(--txt-muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .platform-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .platform-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(18, 38, 65, 0.98), rgba(10, 26, 47, 0.98));
+      padding: 34px;
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .platform-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 28px 58px rgba(0, 0, 0, 0.26);
+      transform: translateY(-3px);
+    }
+
+    .platform-card-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .platform-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(34, 211, 238, 0.07);
+      color: #bcecf4;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .platform-kicker::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.76);
+      content: "";
+    }
+
+    .platform-card h3 {
+      margin: 20px 0 0;
+      font-size: clamp(28px, 2.7vw, 40px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .platform-card p {
+      margin: 16px 0 0;
+      max-width: 560px;
+      color: var(--txt-muted);
+      font-size: 16px;
+      line-height: 1.7;
+      text-align: left;
+    }
+
+    .platform-card .btn {
+      margin-top: auto;
+      padding-right: 22px;
+      padding-left: 22px;
+      width: 100%;
+    }
+
+    .platform-chip-row {
+      margin: 22px 0 26px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .platform-chip {
+      border: 1px solid rgba(125, 211, 252, 0.14);
+      border-radius: 9px;
+      padding: 7px 9px;
+      background: rgba(125, 211, 252, 0.055);
+      color: #b8c9da;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .platform-card-web {
+      border-color: rgba(34, 211, 238, 0.3);
+      background:
+        radial-gradient(circle at 85% 14%, rgba(34, 211, 238, 0.13), transparent 32%),
+        linear-gradient(145deg, #102b43, #091a30 62%);
+    }
+
+    .platform-web-layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 28px;
+      height: 100%;
+    }
+
+    .web-terminal-preview {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+      overflow: hidden;
+      border: 1px solid rgba(103, 232, 249, 0.28);
+      border-radius: 20px;
+      background: #041121;
+      box-shadow: 0 24px 46px rgba(0, 0, 0, 0.3);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 42px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(125, 211, 252, 0.13);
+      background: #08192c;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .terminal-dots i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #36516c;
+    }
+
+    .terminal-dots i:first-child {
+      background: #22d3ee;
+    }
+
+    .terminal-bar>span:last-child {
+      color: #7890a9;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .terminal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+    }
+
+    .terminal-market-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .terminal-market-head small,
+    .terminal-market-head strong {
+      display: block;
+    }
+
+    .terminal-market-head small {
+      color: #7188a1;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .terminal-market-head strong {
+      margin-top: 5px;
+      color: #edf7fc;
+      font-size: 22px;
+    }
+
+    .terminal-change {
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: rgba(45, 212, 191, 0.11);
+      color: #5eead4;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .terminal-chart {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: 14px;
+    }
+
+    .terminal-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .terminal-metric {
+      border: 1px solid rgba(125, 211, 252, 0.12);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(18, 38, 65, 0.58);
+    }
+
+    .terminal-metric small,
+    .terminal-metric strong {
+      display: block;
+    }
+
+    .terminal-metric small {
+      color: #7188a1;
+      font-size: 9px;
+    }
+
+    .terminal-metric strong {
+      margin-top: 4px;
+      color: #e7f3fb;
+      font-size: 13px;
+    }
+
+    .terminal-actions {
+      margin-top: auto;
+      padding-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .terminal-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid rgba(125, 211, 252, 0.13);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(18, 38, 65, 0.58);
+    }
+
+    .terminal-action span {
+      color: #8198b0;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .terminal-action strong {
+      color: #dce9f4;
+      font-size: 11px;
+    }
+
+    .terminal-action-sell {
+      border-color: rgba(251, 113, 133, 0.2);
+      background: rgba(244, 63, 94, 0.065);
+    }
+
+    .terminal-action-sell strong {
+      color: #fda4af;
+    }
+
+    .terminal-action-buy {
+      border-color: rgba(34, 211, 238, 0.22);
+      background: rgba(34, 211, 238, 0.07);
+    }
+
+    .terminal-action-buy strong {
+      color: #67e8f9;
+    }
+
+    .platform-card-mt5 {
+      background:
+        radial-gradient(circle at 84% 18%, rgba(37, 99, 235, 0.15), transparent 32%),
+        linear-gradient(155deg, #122540, #0a192d 66%);
+    }
+
+    .mt5-mark {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border: 1px solid rgba(96, 165, 250, 0.24);
+      border-radius: 17px;
+      background: rgba(37, 99, 235, 0.1);
+      color: #60a5fa;
+    }
+
+    .mt5-mark svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .platform-capabilities {
+      width: 100%;
+      margin: 25px 0 28px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .platform-capability {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid rgba(125, 211, 252, 0.12);
+      border-radius: 13px;
+      padding: 11px 12px;
+      background: rgba(7, 23, 42, 0.72);
+    }
+
+    .platform-capability>span:first-child {
+      color: #5582ad;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .platform-capability strong {
+      color: #dceaf5;
+      font-size: 13px;
+    }
+
+    .platform-capability small {
+      color: #7890a9;
+      font-size: 10px;
+    }
+
+    .platform-capability small a,
+    .platform-cap-link {
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s ease, text-decoration 0.2s ease;
+    }
+
+    .platform-capability small a:hover,
+    .platform-cap-link:hover {
+      color: #5eead4;
+      text-decoration: underline;
+    }
+
+    .about {
+      background:
+        radial-gradient(circle at 85% 50%, rgba(14, 165, 233, 0.08), transparent 30%),
+        var(--about-bg);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-heading {
+      position: sticky;
+      top: 124px;
+    }
+
+    .about-heading h2 {
+      margin-bottom: 0;
+      text-align: left;
+      font-size: clamp(34px, 4vw, 50px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .about-copy {
+      border-left: 1px solid var(--border-strong);
+      padding-left: 36px;
+    }
+
+    .about-copy p {
+      margin: 0;
+      color: #bfd0e1;
+      line-height: 1.75;
+      font-size: 19px;
+    }
+
+    .about-copy p+p {
+      margin-top: 24px;
+    }
+
+    .edge {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(34, 211, 238, 0.07), transparent 25%),
+        var(--edge-bg);
+    }
+
+    .edge-heading {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+      gap: 64px;
+      align-items: end;
+    }
+
+    .edge-heading h2 {
+      margin: 0;
+      text-align: left;
+      font-size: clamp(38px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .edge-heading>p {
+      max-width: 580px;
+      margin: 0 0 4px auto;
+      color: var(--txt-muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .cards-4 {
+      margin-top: 38px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-risk-grid {
+      margin-top: 38px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .performance {
+      background:
+        radial-gradient(circle at 88% 12%, rgba(37, 99, 235, 0.09), transparent 30%),
+        radial-gradient(circle at 8% 88%, rgba(34, 211, 238, 0.06), transparent 26%),
+        var(--edge-bg);
+    }
+
+    .performance-heading {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .performance-heading h2 {
+      margin: 0;
+      max-width: 760px;
+      text-align: center;
+      font-size: clamp(38px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .performance-heading>p {
+      max-width: 690px;
+      margin: 20px auto 0;
+      color: var(--txt-muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .performance-card {
+      position: relative;
+      min-width: 0;
+      min-height: 540px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 34px;
+      background: linear-gradient(145deg, #112842, #091a2f 68%);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .performance-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 28px 58px rgba(0, 0, 0, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .performance-card-reports {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+      grid-template-areas:
+        "top dashboard"
+        "title dashboard"
+        "copy dashboard"
+        "note dashboard";
+      column-gap: clamp(34px, 5vw, 82px);
+      align-items: start;
+      min-height: 420px;
+      border-color: rgba(34, 211, 238, 0.28);
+      background:
+        radial-gradient(circle at 90% 8%, rgba(34, 211, 238, 0.11), transparent 30%),
+        linear-gradient(145deg, #102a43, #08192d 70%);
+    }
+
+    .performance-card-top {
+      grid-area: top;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .performance-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #9ab2c9;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .performance-step::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.74);
+      content: "";
+    }
+
+    .performance-icon {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(34, 211, 238, 0.07);
+      color: var(--accent);
+    }
+
+    .performance-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .performance-card h3 {
+      grid-area: title;
+      margin: 24px 0 0;
+      color: var(--txt-main);
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .performance-card>p {
+      grid-area: copy;
+      max-width: 620px;
+      margin: 14px 0 0;
+      color: var(--txt-muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .report-dashboard {
+      grid-area: dashboard;
+      align-self: stretch;
+      margin-top: 26px;
+      overflow: hidden;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: 18px;
+      background: #061426;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+    }
+
+    .report-dashboard {
+      margin-top: 0;
+      padding: 20px;
+    }
+
+    .report-dashboard-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .report-dashboard-head {
+      padding: 1px 2px 12px;
+    }
+
+    .report-dashboard-head strong {
+      color: #e5f2fa;
+      font-size: 12px;
+    }
+
+    .report-dashboard-head span {
+      color: #7892ac;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .report-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .report-metric {
+      border: 1px solid rgba(125, 211, 252, 0.12);
+      border-radius: 11px;
+      padding: 10px;
+      background: #0b2038;
+    }
+
+    .report-metric small,
+    .report-metric strong {
+      display: block;
+    }
+
+    .report-metric small {
+      color: #7892ac;
+      font-size: 9px;
+      line-height: 1.3;
+    }
+
+    .report-metric strong {
+      margin-top: 6px;
+      color: #eef8fc;
+      font-size: 17px;
+    }
+
+    .report-metric-positive strong {
+      color: #5eead4;
+    }
+
+    .report-chart {
+      height: 176px;
+      margin-top: 13px;
+      display: flex;
+      align-items: end;
+      gap: 7px;
+      border-bottom: 1px solid rgba(125, 211, 252, 0.12);
+      padding: 0 5px;
+      background:
+        linear-gradient(rgba(125, 211, 252, 0.05) 1px, transparent 1px);
+      background-size: 100% 32px;
+    }
+
+    .report-chart i {
+      flex: 1;
+      height: var(--bar-height);
+      min-height: 14px;
+      border-radius: 5px 5px 0 0;
+      background: linear-gradient(to top, #0e7490, #22d3ee);
+      box-shadow: 0 -8px 20px rgba(34, 211, 238, 0.08);
+    }
+
+    .performance-note {
+      grid-area: note;
+      align-self: end;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #a9bdcf;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .performance-note::before {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 50%;
+      background: #5eead4;
+      content: "";
+    }
+
+    .edge-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: linear-gradient(145deg, var(--surface-strong), var(--surface));
+      padding: 26px;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.14);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .edge-card-link {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .edge-card>svg {
+      stroke: var(--accent) !important;
+    }
+
+    .edge-card .edge-icon {
+      width: 34px;
+      height: 34px;
+      color: #fcd34d;
+    }
+
+    .edge-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .edge-card-link:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.25), 0 20px 42px rgba(0, 0, 0, 0.2);
+      outline: none;
+      transform: translateY(-3px);
+    }
+
+    .edge-card-cta {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 22px;
+      color: #67e8f9;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .edge-card-cta svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 0.2s ease;
+    }
+
+    .edge-card-link:hover .edge-card-cta svg,
+    .edge-card-link:focus-visible .edge-card-cta svg {
+      transform: translateX(4px);
+    }
+
+    .edge-card h3 {
+      margin: 12px 0 0;
+      font-size: 25px;
+    }
+
+    .edge-card p {
+      margin: 12px 0 0;
+      line-height: 1.6;
+      color: var(--txt-muted);
+      text-align: justify;
+    }
+
+    .cards-4 .edge-card {
+      min-height: 220px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .cards-4 .edge-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cards-4 .edge-card>svg {
+      width: 30px;
+      height: 30px;
+      box-sizing: content-box;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 13px;
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .cards-4 .edge-card p {
+      max-width: 540px;
+      text-align: left;
+    }
+
+    .edge-number {
+      position: absolute !important;
+      top: 24px;
+      right: 26px;
+      color: rgba(125, 211, 252, 0.48);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    .edge-card-featured {
+      border-color: rgba(34, 211, 238, 0.34);
+      background:
+        linear-gradient(135deg, rgba(14, 116, 144, 0.34), rgba(9, 26, 47, 0.98) 58%),
+        var(--surface);
+    }
+
+    .edge-card-featured::before {
+      position: absolute;
+      right: -82px;
+      bottom: -102px;
+      width: 250px;
+      height: 250px;
+      border: 1px solid rgba(103, 232, 249, 0.18);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 30px rgba(34, 211, 238, 0.035),
+        0 0 0 62px rgba(34, 211, 238, 0.025);
+      content: "";
+    }
+
+    .edge-card-featured::after {
+      position: absolute;
+      right: 40px;
+      bottom: 36px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 26px rgba(34, 211, 238, 0.9);
+      content: "";
+    }
+
+    .edge-card-featured h3 {
+      max-width: 420px;
+      margin-top: auto;
+      font-size: clamp(30px, 3vw, 42px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .edge-card-featured p {
+      padding-right: 72px;
+      font-size: 17px;
+    }
+
+    .risk-control-panel {
+      max-width: 480px;
+      margin-top: 26px;
+      overflow: hidden;
+      border: 1px solid rgba(103, 232, 249, 0.38);
+      border-radius: 17px;
+      background: #061426;
+      box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    }
+
+    .risk-control-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(125, 211, 252, 0.2);
+      background: #081a2e;
+    }
+
+    .risk-control-head span:first-child {
+      color: #ecf8fc;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .risk-control-count {
+      border: 1px solid rgba(94, 234, 212, 0.24);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(45, 212, 191, 0.17);
+      color: #7ff7e1;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .risk-control-row {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) auto 16px;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(125, 211, 252, 0.16);
+      background: #07172a;
+    }
+
+    .risk-control-row strong {
+      overflow: hidden;
+      color: #f1f7fc;
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .risk-rule-mark {
+      position: relative;
+      width: 15px;
+      height: 15px;
+      border: 1px solid rgba(94, 234, 212, 0.72);
+      border-radius: 50%;
+    }
+
+    .risk-rule-mark::after {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: #5eead4;
+      box-shadow: 0 0 8px rgba(94, 234, 212, 0.7);
+      content: "";
+    }
+
+    .risk-rule-state {
+      color: #7ff7e1;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .risk-control-row svg {
+      width: 15px;
+      height: 15px;
+      color: #a3b8cc;
+    }
+
+    .cards-4 .edge-card .risk-control-more {
+      margin: 0;
+      padding: 10px 14px 11px !important;
+      background: #061426;
+      color: #9bb2c8 !important;
+      font-size: 11px !important;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .edge-card-wide {
+      background:
+        linear-gradient(115deg, rgba(18, 38, 65, 0.98), rgba(8, 38, 57, 0.9)),
+        var(--surface);
+    }
+
+    .edge-card-wide::before {
+      position: absolute;
+      right: -50px;
+      bottom: -80px;
+      width: 260px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 68%);
+      content: "";
+    }
+
+    .ticker {
+      background: var(--ticker-bg);
+      padding: 22px 0;
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      gap: 12px;
+      will-change: transform;
+    }
+
+    .ticker-track.is-looping {
+      animation: ticker-marquee 32s linear infinite;
+    }
+
+    .ticker-wrap:hover .ticker-track,
+    .ticker-wrap:focus-within .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-group {
+      display: grid;
+      grid-template-columns: repeat(4, 300px);
+      gap: 12px;
+    }
+
+    .ticker-item {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px;
+      background: linear-gradient(145deg, rgba(13, 31, 53, 0.96), rgba(7, 22, 40, 0.96));
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .ticker-item:hover {
+      border-color: var(--border-strong);
+      background: linear-gradient(145deg, rgba(18, 42, 68, 0.98), rgba(8, 27, 48, 0.98));
+      transform: translateY(-2px);
+    }
+
+    .ticker-icon {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(103, 232, 249, 0.2);
+      border-radius: 12px;
+      background: rgba(34, 211, 238, 0.075);
+      color: var(--accent);
+    }
+
+    .ticker-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .ticker-copy {
+      min-width: 0;
+    }
+
+    .ticker-copy strong,
+    .ticker-copy small {
+      display: block;
+    }
+
+    .ticker-copy strong {
+      overflow: hidden;
+      color: #eaf4fa;
+      font-size: 14px;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ticker-copy small {
+      margin-top: 3px;
+      color: #a9bdcf;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1023px) {
+      .ticker-group {
+        grid-template-columns: repeat(4, 260px);
       }
-      * {
-        box-sizing: border-box;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: var(--footer-bg);
+    }
+
+    .footer-top {
+      padding: 56px 0 28px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .footer-top h3,
+    .footer-top h4 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-brand svg {
+      width: 80px;
+      height: 80px;
+      flex: 0 0 auto;
+    }
+
+    .footer-top p,
+    .footer-top a,
+    .footer-copy,
+    .footer-legal {
+      color: #91a8c1;
+      line-height: 1.65;
+    }
+
+    .footer-top a {
+      text-decoration: none;
+      display: block;
+      margin-top: 8px;
+    }
+
+    .footer-top a:hover {
+      color: var(--accent);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0 22px;
+    }
+
+    .footer-legal strong {
+      color: #fff;
+    }
+
+    .footer-legal p {
+      text-align: justify;
+    }
+
+    .footer-legal p strong {
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .footer-legal p:has(> strong) {
+      margin-bottom: 4px;
+    }
+
+    .footer-legal .legal-indent {
+      margin: 4px 0 0 20px;
+    }
+
+    .footer-copy {
+      margin: 18px 0 0;
+      text-align: center;
+      padding-bottom: 30px;
+    }
+
+    @media (min-width: 1200px) {
+      .menu {
+        display: flex;
       }
-      body {
-        margin: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--bg-page);
-        color: var(--txt-main);
-        -webkit-font-smoothing: antialiased;
-      }
-      .container {
-        max-width: 1320px;
-        margin: 0 auto;
-        padding: 0 24px;
-      }
-    
-      .site-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 50;
-        border-bottom: 1px solid var(--border);
-        background: var(--header-bg);
-        transition: all 0.3s ease;
-      }
-      .site-header.scrolled {
-        background: rgba(7, 18, 34, 0.9);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
-        backdrop-filter: blur(14px);
-      }
+    }
+
+    @media (max-width: 1199px) {
       .header-inner {
-        min-height: 88px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
+        min-height: auto;
+        padding: 12px 0;
+        flex-wrap: wrap;
       }
+
       .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        order: 1;
       }
+
       .brand svg {
-        width: 64px;
-        height: 64px;
+        width: 56px;
+        height: 56px;
       }
-      .menu-toggle {
-        display: none;
-        width: 40px;
-        height: 40px;
-        margin-right: 5px;
-        border: 1px solid var(--border-strong);
-        border-radius: 8px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-      }
-      .menu-toggle svg {
-        width: 20px;
-        height: 20px;
-      }
-      .menu-toggle .icon-close {
-        display: none;
-      }
-      .site-header.menu-open .menu-toggle .icon-open {
-        display: none;
-      }
-      .site-header.menu-open .menu-toggle .icon-close {
-        display: block;
-      }
+
       .brand p {
-        margin: 0;
-        font-size: 30px;
-        font-weight: 700;
+        font-size: 24px;
       }
+
+      .menu-toggle {
+        display: inline-flex;
+        order: 2;
+        margin-left: auto;
+      }
+
+      .header-cta {
+        display: none;
+        order: 4;
+        width: calc(100% - 40px);
+        margin: 0 20px;
+        gap: 8px;
+        padding-top: 8px;
+        flex-direction: column;
+      }
+
+      .header-cta .btn {
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
       .menu {
         display: none;
-        gap: 22px;
+        order: 3;
+        width: calc(100% - 40px);
+        margin: 0 20px;
+        gap: 8px;
+        padding-top: 8px;
+        flex-direction: column;
       }
-      .menu button {
-        border: 0;
-        background: transparent;
-        color: #dce8f5;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 600;
-        transition: color 0.2s ease;
-      }
-      .menu button:hover {
-        color: var(--accent);
-      }
-      .header-cta {
-        display: flex;
-        gap: 10px;
-      }
-      .btn {
-        border: 1px solid transparent;
-        border-radius: 10px;
-        padding: 10px 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.25s ease;
-        color: var(--txt-main);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        line-height: 1;
-      }
-      .btn-login {
-        border-color: var(--border-strong);
-        background: var(--accent-soft);
-        color: var(--accent);
-        font-size: 15px;
-      }
-      .btn-login:hover {
-        border-color: var(--accent);
-        background: rgba(34, 211, 238, 0.2);
-      }
-      .btn-account {
-        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-        color: #02111f;
-        font-size: 15px;
-        box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
-      }
-      .btn-account:hover {
-        background: linear-gradient(135deg, #67e8f9, #38bdf8);
-        color: #02111f;
-        transform: translateY(-1px);
 
+      .site-header.menu-open .menu,
+      .site-header.menu-open .header-cta {
+        display: flex;
       }
+
+      .menu button {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: rgba(34, 211, 238, 0.05);
+        text-align: left;
+      }
+
       main {
-        padding-top: 72px;
-      }
-      section {
-        border-top: 1px solid var(--border);
-      }
-      section[id] {
-        scroll-margin-top: 72px;
-      }
-      .hero {
-        position: relative;
-        overflow: hidden;
-        background:
-          radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.2), transparent 42%),
-          linear-gradient(180deg, #081a31 0%, var(--hero-bg) 62%, #061222 100%);
-      }
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(rgba(125, 211, 252, 0.025) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(125, 211, 252, 0.025) 1px, transparent 1px);
-        background-size: 54px 54px;
-        mask-image: linear-gradient(to bottom, black, transparent 82%);
-      }
-      .hero-inner {
-        min-height: 680px;
-        display: grid;
-        grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
-        align-items: center;
-        gap: 72px;
-        padding: 86px 0 126px;
-      }
-      .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 660px;
-        animation: heroTitleDown 0.7s ease-out both;
-      }
-      .hero-eyebrow,
-      .section-eyebrow {
-        margin: 0 0 16px;
-        color: var(--accent);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-      }
-      h1 {
-        margin: 0;
-        font-size: clamp(46px, 5vw, 68px);
-        line-height: 1.04;
-        letter-spacing: -0.035em;
-        color: var(--txt-main);
-        text-shadow: 0 10px 40px rgba(14, 165, 233, 0.18);
-      }
-      h1 span {
-        color: var(--accent);
-      }
-      .hero p {
-        margin: 24px 0 0;
-        max-width: 620px;
-        font-size: 20px;
-        line-height: 1.7;
-        color: var(--txt-muted);
-      }
-      .hero-actions {
-        margin-top: 32px;
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-      .hero-actions .btn {
-        font-size: 18px;
-        padding: 14px 26px;
-        border-radius: 12px;
-      }
-      .hero-trust {
-        margin-top: 28px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .hero-trust span {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #c3d2e2;
-        font-size: 13px;
-      }
-      .hero-trust span::before {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
-        content: "";
-      }
-      .hero-dashboard {
-        position: relative;
-        z-index: 1;
-        border: 1px solid var(--border-strong);
-        border-radius: 28px;
-        padding: 24px;
-        background: linear-gradient(145deg, rgba(15, 36, 61, 0.96), rgba(6, 19, 36, 0.98));
-        box-shadow: 0 34px 80px rgba(0, 0, 0, 0.34), 0 0 60px rgba(14, 165, 233, 0.08);
-        animation: dashboardRise 0.8s 0.12s ease-out both;
-      }
-      .hero-dashboard::before {
-        position: absolute;
-        inset: -1px;
-        z-index: -1;
-        border-radius: inherit;
-        background: linear-gradient(135deg, rgba(103, 232, 249, 0.14), transparent 42%);
-        content: "";
-      }
-      .dashboard-top,
-      .chart-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-      .dashboard-title {
-        display: grid;
-        gap: 5px;
-      }
-      .dashboard-title span {
-        color: #7891ad;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.14em;
-      }
-      .dashboard-title strong {
-        font-size: 21px;
-      }
-      .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        border: 1px solid rgba(45, 212, 191, 0.24);
-        border-radius: 999px;
-        padding: 7px 10px;
-        background: rgba(45, 212, 191, 0.08);
-        color: #5eead4;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .status-pill::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #2dd4bf;
-        box-shadow: 0 0 10px rgba(45, 212, 191, 0.8);
-        content: "";
-      }
-      .chart-panel {
-        margin-top: 22px;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 18px 18px 8px;
-        background: rgba(3, 13, 26, 0.54);
-      }
-      .chart-head span {
-        color: var(--txt-muted);
-        font-size: 13px;
-      }
-      .chart-head strong {
-        color: #5eead4;
-        font-size: 17px;
-      }
-      .chart-panel svg {
-        display: block;
-        width: 100%;
-        height: auto;
-        margin-top: 8px;
-      }
-      .dashboard-stats {
-        margin-top: 16px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-      }
-      .dashboard-stat {
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 14px;
-        background: rgba(18, 38, 65, 0.56);
-      }
-      .dashboard-stat span,
-      .dashboard-stat strong {
-        display: block;
-      }
-      .dashboard-stat span {
-        color: #8097b1;
-        font-size: 11px;
-        line-height: 1.35;
-      }
-      .dashboard-stat strong {
-        margin-top: 7px;
-        color: #e7f2fc;
-        font-size: 16px;
-      }
-      .guard-guide-link {
-        margin-top: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        border: 1px solid rgba(94, 234, 212, 0.3);
-        border-radius: 14px;
-        padding: 12px 14px;
-        background: linear-gradient(135deg, rgba(45, 212, 191, 0.13), rgba(14, 165, 233, 0.1));
-        color: #d9fdf6;
-        font-size: 13px;
-        font-weight: 800;
-        line-height: 1.35;
-        text-decoration: none;
-        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-      }
-      .guard-guide-link span {
-        color: #8faabe;
-        font-size: 11px;
-        font-weight: 700;
-      }
-      .guard-guide-link strong {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        color: #6ee7d2;
-        font-size: 12px;
-        white-space: nowrap;
-      }
-      .guard-guide-link svg {
-        width: 15px;
-        height: 15px;
-        transition: transform 0.2s ease;
-      }
-      .guard-guide-link:hover,
-      .guard-guide-link:focus-visible {
-        border-color: #5eead4;
-        background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.16));
-        outline: none;
-        transform: translateY(-1px);
-      }
-      .guard-guide-link:hover svg,
-      .guard-guide-link:focus-visible svg {
-        transform: translateX(3px);
-      }
-      .btn-primary {
-        background: linear-gradient(135deg, var(--accent-strong), #2563eb);
-        box-shadow: 0 10px 26px rgba(14, 165, 233, 0.2);
-      }
-      .btn-primary:hover {
-        background: linear-gradient(135deg, #38bdf8, #3b82f6);
-        transform: translateY(-1px);
-      }
-      .btn-outline {
-        background: rgba(255, 255, 255, 0.02);
-        border-color: var(--border-strong);
-      }
-      .btn-outline:hover {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-      .section-pad {
-        padding: 76px 0;
-      }
-      .trader-context {
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        padding: 42px 0;
-        background:
-          radial-gradient(circle at 12% 50%, rgba(34, 211, 238, 0.08), transparent 30%),
-          #061222;
-      }
-      .trader-context-panel {
-        display: grid;
-        grid-template-columns: minmax(280px, 0.88fr) minmax(0, 1.12fr);
-        align-items: center;
-        gap: 52px;
-        border: 1px solid rgba(125, 211, 252, 0.18);
-        border-radius: 22px;
-        padding: 30px 34px;
-        background: linear-gradient(135deg, rgba(14, 40, 68, 0.94), rgba(7, 21, 39, 0.96));
-        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
-      }
-      .trader-context h2 {
-        max-width: 460px;
-        margin: 0;
-        text-align: left;
-        font-size: clamp(28px, 3vw, 40px);
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-      }
-      .trader-context-copy {
-        display: grid;
-        gap: 20px;
-      }
-      .trader-context-copy > p {
-        max-width: 690px;
-        margin: 0;
-        color: var(--txt-muted);
-        font-size: 17px;
-        line-height: 1.7;
-      }
-      .trader-context-copy > p + p {
-        margin-top: -8px;
-      }
-      .trader-context-points {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-      }
-      .trader-context-points span {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(125, 211, 252, 0.16);
-        border-radius: 999px;
-        padding: 8px 11px;
-        background: rgba(2, 15, 31, 0.34);
-        color: #c6d8e9;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .trader-context-points span::before {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #5eead4;
-        box-shadow: 0 0 10px rgba(94, 234, 212, 0.65);
-        content: "";
-      }
-      h2 {
-        margin: 0 0 24px;
-        text-align: center;
-        font-size: 35px;
-        color: var(--txt-main);
-      }
-      .platforms {
-        background:
-          radial-gradient(circle at 15% 0%, rgba(34, 211, 238, 0.07), transparent 28%),
-          var(--platform-bg);
-      }
-      .platform-heading {
-        display: grid;
-        grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
-        gap: 64px;
-        align-items: end;
-        margin-bottom: 38px;
-      }
-      .platform-heading h2 {
-        margin: 0;
-        text-align: left;
-        font-size: clamp(38px, 4vw, 54px);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-      }
-      .platform-heading > p {
-        max-width: 580px;
-        margin: 0 0 4px auto;
-        color: var(--txt-muted);
-        font-size: 18px;
-        line-height: 1.7;
-      }
-      .platform-grid {
-        display: grid;
-        gap: 20px;
-      }
-      .platform-card {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        background: linear-gradient(145deg, rgba(18, 38, 65, 0.98), rgba(10, 26, 47, 0.98));
-        padding: 34px;
-        box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      }
-      .platform-card:hover {
-        border-color: var(--border-strong);
-        box-shadow: 0 28px 58px rgba(0, 0, 0, 0.26);
-        transform: translateY(-3px);
-      }
-      .platform-card-content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .platform-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 7px 10px;
-        background: rgba(34, 211, 238, 0.07);
-        color: #bcecf4;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .platform-kicker::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.76);
-        content: "";
-      }
-      .platform-card h3 {
-        margin: 20px 0 0;
-        font-size: clamp(28px, 2.7vw, 40px);
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-      }
-      .platform-card p {
-        margin: 16px 0 0;
-        max-width: 560px;
-        color: var(--txt-muted);
-        font-size: 16px;
-        line-height: 1.7;
-        text-align: left;
-      }
-      .platform-card .btn {
-        margin-top: auto;
-        padding-right: 22px;
-        padding-left: 22px;
-        width: 100%;
-      }
-      .platform-chip-row {
-        margin: 22px 0 26px;
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .platform-chip {
-        border: 1px solid rgba(125, 211, 252, 0.14);
-        border-radius: 9px;
-        padding: 7px 9px;
-        background: rgba(125, 211, 252, 0.055);
-        color: #b8c9da;
-        font-size: 11px;
-        font-weight: 700;
-      }
-      .platform-card-web {
-        border-color: rgba(34, 211, 238, 0.3);
-        background:
-          radial-gradient(circle at 85% 14%, rgba(34, 211, 238, 0.13), transparent 32%),
-          linear-gradient(145deg, #102b43, #091a30 62%);
-      }
+        padding-top: 96px;
+      }
+    }
+
+    @media (min-width: 768px) {
       .platform-web-layout {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        gap: 28px;
-        height: 100%;
+        grid-template-columns: minmax(0, 0.84fr) minmax(300px, 1.16fr);
       }
-      .web-terminal-preview {
-        display: flex;
-        flex-direction: column;
-        align-self: stretch;
-        overflow: hidden;
-        border: 1px solid rgba(103, 232, 249, 0.28);
-        border-radius: 20px;
-        background: #041121;
-        box-shadow: 0 24px 46px rgba(0, 0, 0, 0.3);
-      }
-      .terminal-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        min-height: 42px;
-        padding: 0 14px;
-        border-bottom: 1px solid rgba(125, 211, 252, 0.13);
-        background: #08192c;
-      }
-      .terminal-dots {
-        display: flex;
-        gap: 5px;
-      }
-      .terminal-dots i {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #36516c;
-      }
-      .terminal-dots i:first-child {
-        background: #22d3ee;
-      }
-      .terminal-bar > span:last-child {
-        color: #7890a9;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .terminal-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 18px;
-      }
-      .terminal-market-head {
-        display: flex;
-        align-items: start;
-        justify-content: space-between;
-        gap: 14px;
-      }
-      .terminal-market-head small,
-      .terminal-market-head strong {
-        display: block;
-      }
-      .terminal-market-head small {
-        color: #7188a1;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-      }
-      .terminal-market-head strong {
-        margin-top: 5px;
-        color: #edf7fc;
-        font-size: 22px;
-      }
-      .terminal-change {
-        border-radius: 999px;
-        padding: 5px 8px;
-        background: rgba(45, 212, 191, 0.11);
-        color: #5eead4;
-        font-size: 10px;
-        font-weight: 800;
-      }
-      .terminal-chart {
-        display: block;
-        width: 100%;
-        height: auto;
-        margin-top: 14px;
-      }
-      .terminal-metrics {
-        display: grid;
+
+      .cards-4 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        margin-top: 10px;
       }
-      .terminal-metric {
-        border: 1px solid rgba(125, 211, 252, 0.12);
-        border-radius: 10px;
-        padding: 10px;
-        background: rgba(18, 38, 65, 0.58);
+
+      .edge-card-featured,
+      .edge-card-wide {
+        grid-column: span 2;
       }
-      .terminal-metric small,
-      .terminal-metric strong {
-        display: block;
+
+      .report-risk-grid {
+        grid-template-columns: minmax(0, 1fr);
       }
-      .terminal-metric small {
-        color: #7188a1;
-        font-size: 9px;
+
+      .footer-top {
+        grid-template-columns: 2fr 1fr 1fr;
       }
-      .terminal-metric strong {
-        margin-top: 4px;
-        color: #e7f3fb;
-        font-size: 13px;
+    }
+
+    @media (min-width: 1100px) {
+      .platform-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-items: stretch;
       }
-      .terminal-actions {
-        margin-top: auto;
-        padding-top: 14px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
+
+      .platform-card-web {
+        grid-column: span 7;
       }
-      .terminal-action {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        border: 1px solid rgba(125, 211, 252, 0.13);
-        border-radius: 10px;
-        padding: 10px;
-        background: rgba(18, 38, 65, 0.58);
-      }
-      .terminal-action span {
-        color: #8198b0;
-        font-size: 9px;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-      .terminal-action strong {
-        color: #dce9f4;
-        font-size: 11px;
-      }
-      .terminal-action-sell {
-        border-color: rgba(251, 113, 133, 0.2);
-        background: rgba(244, 63, 94, 0.065);
-      }
-      .terminal-action-sell strong {
-        color: #fda4af;
-      }
-      .terminal-action-buy {
-        border-color: rgba(34, 211, 238, 0.22);
-        background: rgba(34, 211, 238, 0.07);
-      }
-      .terminal-action-buy strong {
-        color: #67e8f9;
-      }
+
       .platform-card-mt5 {
-        background:
-          radial-gradient(circle at 84% 18%, rgba(37, 99, 235, 0.15), transparent 32%),
-          linear-gradient(155deg, #122540, #0a192d 66%);
+        grid-column: span 5;
       }
-      .mt5-mark {
-        display: grid;
-        place-items: center;
-        width: 58px;
-        height: 58px;
-        border: 1px solid rgba(96, 165, 250, 0.24);
-        border-radius: 17px;
-        background: rgba(37, 99, 235, 0.1);
-        color: #60a5fa;
+
+      .platform-web-layout {
+        grid-template-columns: minmax(0, 0.88fr) minmax(280px, 1.12fr);
       }
-      .mt5-mark svg {
-        width: 30px;
-        height: 30px;
+
+      .cards-4 {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-auto-rows: minmax(205px, auto);
       }
-      .platform-capabilities {
+
+      .edge-card-featured {
+        grid-column: span 6;
+        grid-row: span 2;
+        min-height: 428px;
+        padding: 34px;
+      }
+
+      .edge-card-compact {
+        grid-column: span 3;
+      }
+
+      .edge-card-wide {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .trader-context {
+        padding: 28px 0;
+      }
+
+      .trader-context-panel {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 24px 22px;
+        border-radius: 20px;
+      }
+
+      .trader-context h2 {
+        font-size: 29px;
+      }
+
+      .trader-context-copy>p {
+        font-size: 16px;
+      }
+
+      .platform-heading {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .platform-heading>p {
+        margin-left: 0;
+        font-size: 16px;
+      }
+
+      .platform-card {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .platform-card h3 {
+        font-size: 30px;
+      }
+
+      .web-terminal-preview {
+        min-height: 0;
+      }
+
+      .edge-heading {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .edge-heading>p {
+        margin-left: 0;
+        font-size: 16px;
+      }
+
+      .edge-card-featured {
+        min-height: 340px;
+      }
+
+      .edge-card-featured p {
+        padding-right: 24px;
+      }
+
+      .risk-control-panel {
         width: 100%;
-        margin: 25px 0 28px;
-        display: grid;
-        gap: 9px;
-      }
-      .platform-capability {
-        display: grid;
-        grid-template-columns: 28px minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 11px;
-        border: 1px solid rgba(125, 211, 252, 0.12);
-        border-radius: 13px;
-        padding: 11px 12px;
-        background: rgba(7, 23, 42, 0.72);
-      }
-      .platform-capability > span:first-child {
-        color: #5582ad;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-      }
-      .platform-capability strong {
-        color: #dceaf5;
-        font-size: 13px;
-      }
-      .platform-capability small {
-        color: #7890a9;
-        font-size: 10px;
-      }
-      .about {
-        background:
-          radial-gradient(circle at 85% 50%, rgba(14, 165, 233, 0.08), transparent 30%),
-          var(--about-bg);
-      }
-      .about-grid {
-        display: grid;
-        grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
-        gap: 80px;
-        align-items: start;
-      }
-      .about-heading {
-        position: sticky;
-        top: 124px;
-      }
-      .about-heading h2 {
-        margin-bottom: 0;
-        text-align: left;
-        font-size: clamp(34px, 4vw, 50px);
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-      }
-      .about-copy {
-        border-left: 1px solid var(--border-strong);
-        padding-left: 36px;
-      }
-      .about-copy p {
-        margin: 0;
-        color: #bfd0e1;
-        line-height: 1.75;
-        font-size: 19px;
-      }
-      .about-copy p + p {
         margin-top: 24px;
       }
-      .edge {
-        background:
-          radial-gradient(circle at 12% 18%, rgba(34, 211, 238, 0.07), transparent 25%),
-          var(--edge-bg);
-      }
-      .edge-heading {
-        display: grid;
-        grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
-        gap: 64px;
-        align-items: end;
-      }
-      .edge-heading h2 {
-        margin: 0;
-        text-align: left;
-        font-size: clamp(38px, 4vw, 54px);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-      }
-      .edge-heading > p {
-        max-width: 580px;
-        margin: 0 0 4px auto;
-        color: var(--txt-muted);
-        font-size: 18px;
-        line-height: 1.7;
-      }
-      .cards-4 {
-        margin-top: 38px;
-        display: grid;
-        gap: 18px;
-      }
-      .report-risk-grid {
-        margin-top: 38px;
-        display: grid;
-        gap: 24px;
-      }
-      .performance {
-        background:
-          radial-gradient(circle at 88% 12%, rgba(37, 99, 235, 0.09), transparent 30%),
-          radial-gradient(circle at 8% 88%, rgba(34, 211, 238, 0.06), transparent 26%),
-          var(--edge-bg);
-      }
+
       .performance-heading {
-        display: grid;
-        justify-items: center;
-        text-align: center;
-      }
-      .performance-heading h2 {
-        margin: 0;
-        max-width: 760px;
-        text-align: center;
-        font-size: clamp(38px, 4vw, 54px);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-      }
-      .performance-heading > p {
-        max-width: 690px;
-        margin: 20px auto 0;
-        color: var(--txt-muted);
-        font-size: 17px;
-        line-height: 1.7;
-      }
-      .performance-card {
-        position: relative;
-        min-width: 0;
-        min-height: 540px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        padding: 34px;
-        background: linear-gradient(145deg, #112842, #091a2f 68%);
-        box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      }
-      .performance-card:hover {
-        border-color: var(--border-strong);
-        box-shadow: 0 28px 58px rgba(0, 0, 0, 0.25);
-        transform: translateY(-3px);
-      }
-      .performance-card-reports {
-        display: grid;
-        grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
-        grid-template-areas:
-          "top dashboard"
-          "title dashboard"
-          "copy dashboard"
-          "note dashboard";
-        column-gap: clamp(34px, 5vw, 82px);
-        align-items: start;
-        min-height: 420px;
-        border-color: rgba(34, 211, 238, 0.28);
-        background:
-          radial-gradient(circle at 90% 8%, rgba(34, 211, 238, 0.11), transparent 30%),
-          linear-gradient(145deg, #102a43, #08192d 70%);
-      }
-      .performance-card-top {
-        grid-area: top;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-      }
-      .performance-step {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #9ab2c9;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-      .performance-step::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.74);
-        content: "";
-      }
-      .performance-icon {
-        display: grid;
-        place-items: center;
-        width: 50px;
-        height: 50px;
-        border: 1px solid var(--border);
-        border-radius: 15px;
-        background: rgba(34, 211, 238, 0.07);
-        color: var(--accent);
-      }
-      .performance-icon svg {
-        width: 26px;
-        height: 26px;
-      }
-      .performance-card h3 {
-        grid-area: title;
-        margin: 24px 0 0;
-        color: var(--txt-main);
-        font-size: clamp(28px, 3vw, 38px);
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-      }
-      .performance-card > p {
-        grid-area: copy;
-        max-width: 620px;
-        margin: 14px 0 0;
-        color: var(--txt-muted);
-        font-size: 16px;
-        line-height: 1.65;
-      }
-      .report-dashboard {
-        grid-area: dashboard;
-        align-self: stretch;
-        margin-top: 26px;
-        overflow: hidden;
-        border: 1px solid rgba(125, 211, 252, 0.18);
-        border-radius: 18px;
-        background: #061426;
-        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
-      }
-      .report-dashboard {
-        margin-top: 0;
-        padding: 20px;
-      }
-      .report-dashboard-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-      }
-      .report-dashboard-head {
-        padding: 1px 2px 12px;
-      }
-      .report-dashboard-head strong {
-        color: #e5f2fa;
-        font-size: 12px;
-      }
-      .report-dashboard-head span {
-        color: #7892ac;
-        font-size: 10px;
-        font-weight: 700;
-      }
-      .report-metrics {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-      }
-      .report-metric {
-        border: 1px solid rgba(125, 211, 252, 0.12);
-        border-radius: 11px;
-        padding: 10px;
-        background: #0b2038;
-      }
-      .report-metric small,
-      .report-metric strong {
-        display: block;
-      }
-      .report-metric small {
-        color: #7892ac;
-        font-size: 9px;
-        line-height: 1.3;
-      }
-      .report-metric strong {
-        margin-top: 6px;
-        color: #eef8fc;
-        font-size: 17px;
-      }
-      .report-metric-positive strong {
-        color: #5eead4;
-      }
-      .report-chart {
-        height: 176px;
-        margin-top: 13px;
-        display: flex;
-        align-items: end;
-        gap: 7px;
-        border-bottom: 1px solid rgba(125, 211, 252, 0.12);
-        padding: 0 5px;
-        background:
-          linear-gradient(rgba(125, 211, 252, 0.05) 1px, transparent 1px);
-        background-size: 100% 32px;
-      }
-      .report-chart i {
-        flex: 1;
-        height: var(--bar-height);
-        min-height: 14px;
-        border-radius: 5px 5px 0 0;
-        background: linear-gradient(to top, #0e7490, #22d3ee);
-        box-shadow: 0 -8px 20px rgba(34, 211, 238, 0.08);
-      }
-      .performance-note {
-        grid-area: note;
-        align-self: end;
-        margin-top: 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #a9bdcf;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 1.45;
-      }
-      .performance-note::before {
-        width: 7px;
-        height: 7px;
-        flex: 0 0 7px;
-        border-radius: 50%;
-        background: #5eead4;
-        content: "";
-      }
-      .edge-card {
-        position: relative;
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        background: linear-gradient(145deg, var(--surface-strong), var(--surface));
-        padding: 26px;
-        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.14);
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      }
-      .edge-card-link {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        color: inherit;
-        text-decoration: none;
-      }
-      .edge-card > svg {
-        stroke: var(--accent) !important;
-      }
-      .edge-card .edge-icon {
-        width: 34px;
-        height: 34px;
-        color: #fcd34d;
-      }
-      .edge-card:hover {
-        border-color: var(--border-strong);
-        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.2);
-        transform: translateY(-3px);
-      }
-      .edge-card-link:focus-visible {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.25), 0 20px 42px rgba(0, 0, 0, 0.2);
-        outline: none;
-        transform: translateY(-3px);
-      }
-      .edge-card-cta {
-        margin-top: auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding-top: 22px;
-        color: #67e8f9;
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.02em;
-      }
-      .edge-card-cta svg {
-        width: 17px;
-        height: 17px;
-        transition: transform 0.2s ease;
-      }
-      .edge-card-link:hover .edge-card-cta svg,
-      .edge-card-link:focus-visible .edge-card-cta svg {
-        transform: translateX(4px);
-      }
-      .edge-card h3 {
-        margin: 12px 0 0;
-        font-size: 25px;
-      }
-      .edge-card p {
-        margin: 12px 0 0;
-        line-height: 1.6;
-        color: var(--txt-muted);
-        text-align: justify;
-      }
-      .cards-4 .edge-card {
-        min-height: 220px;
-        overflow: hidden;
-        isolation: isolate;
-      }
-      .cards-4 .edge-card > * {
-        position: relative;
-        z-index: 1;
-      }
-      .cards-4 .edge-card > svg {
-        width: 30px;
-        height: 30px;
-        box-sizing: content-box;
-        border: 1px solid var(--border);
-        border-radius: 15px;
-        padding: 13px;
-        background: rgba(34, 211, 238, 0.08);
-      }
-      .cards-4 .edge-card p {
-        max-width: 540px;
-        text-align: left;
-      }
-      .edge-number {
-        position: absolute !important;
-        top: 24px;
-        right: 26px;
-        color: rgba(125, 211, 252, 0.48);
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-      .edge-card-featured {
-        border-color: rgba(34, 211, 238, 0.34);
-        background:
-          linear-gradient(135deg, rgba(14, 116, 144, 0.34), rgba(9, 26, 47, 0.98) 58%),
-          var(--surface);
-      }
-      .edge-card-featured::before {
-        position: absolute;
-        right: -82px;
-        bottom: -102px;
-        width: 250px;
-        height: 250px;
-        border: 1px solid rgba(103, 232, 249, 0.18);
-        border-radius: 50%;
-        box-shadow:
-          0 0 0 30px rgba(34, 211, 238, 0.035),
-          0 0 0 62px rgba(34, 211, 238, 0.025);
-        content: "";
-      }
-      .edge-card-featured::after {
-        position: absolute;
-        right: 40px;
-        bottom: 36px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 26px rgba(34, 211, 238, 0.9);
-        content: "";
-      }
-      .edge-card-featured h3 {
-        max-width: 420px;
-        margin-top: auto;
-        font-size: clamp(30px, 3vw, 42px);
-        line-height: 1.12;
-        letter-spacing: -0.025em;
-      }
-      .edge-card-featured p {
-        padding-right: 72px;
-        font-size: 17px;
-      }
-      .risk-control-panel {
-        max-width: 480px;
-        margin-top: 26px;
-        overflow: hidden;
-        border: 1px solid rgba(103, 232, 249, 0.38);
-        border-radius: 17px;
-        background: #061426;
-        box-shadow:
-          0 20px 42px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.035);
-      }
-      .risk-control-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        grid-template-columns: 1fr;
         gap: 16px;
-        padding: 12px 14px;
-        border-bottom: 1px solid rgba(125, 211, 252, 0.2);
-        background: #081a2e;
       }
-      .risk-control-head span:first-child {
-        color: #ecf8fc;
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
+
+      .performance-heading>p {
+        margin-left: 0;
+        font-size: 16px;
       }
-      .risk-control-count {
-        border: 1px solid rgba(94, 234, 212, 0.24);
-        border-radius: 999px;
-        padding: 4px 8px;
-        background: rgba(45, 212, 191, 0.17);
-        color: #7ff7e1;
-        font-size: 10px;
-        font-weight: 800;
+
+      .performance-card {
+        min-height: 0;
+        padding: 22px;
+        border-radius: 22px;
       }
-      .risk-control-row {
-        display: grid;
-        grid-template-columns: 18px minmax(0, 1fr) auto 16px;
-        align-items: center;
-        gap: 9px;
-        min-height: 44px;
-        padding: 8px 14px;
-        border-bottom: 1px solid rgba(125, 211, 252, 0.16);
-        background: #07172a;
+
+      .performance-card h3 {
+        font-size: 30px;
       }
-      .risk-control-row strong {
-        overflow: hidden;
-        color: #f1f7fc;
-        font-size: 13px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .risk-rule-mark {
-        position: relative;
-        width: 15px;
-        height: 15px;
-        border: 1px solid rgba(94, 234, 212, 0.72);
-        border-radius: 50%;
-      }
-      .risk-rule-mark::after {
-        position: absolute;
-        inset: 4px;
-        border-radius: 50%;
-        background: #5eead4;
-        box-shadow: 0 0 8px rgba(94, 234, 212, 0.7);
-        content: "";
-      }
-      .risk-rule-state {
-        color: #7ff7e1;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-      .risk-control-row svg {
-        width: 15px;
-        height: 15px;
-        color: #a3b8cc;
-      }
-      .cards-4 .edge-card .risk-control-more {
-        margin: 0;
-        padding: 10px 14px 11px !important;
-        background: #061426;
-        color: #9bb2c8 !important;
-        font-size: 11px !important;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-      }
-      .edge-card-wide {
-        background:
-          linear-gradient(115deg, rgba(18, 38, 65, 0.98), rgba(8, 38, 57, 0.9)),
-          var(--surface);
-      }
-      .edge-card-wide::before {
-        position: absolute;
-        right: -50px;
-        bottom: -80px;
-        width: 260px;
-        height: 180px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 68%);
-        content: "";
-      }
-      .ticker {
-        background: var(--ticker-bg);
-        padding: 22px 0;
-      }
-      .ticker-wrap {
-        overflow: hidden;
-        mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
-      }
-      .ticker-track {
-        display: flex;
-        width: max-content;
-        gap: 12px;
-        will-change: transform;
-      }
-      .ticker-track.is-looping {
-        animation: ticker-marquee 32s linear infinite;
-      }
-      .ticker-wrap:hover .ticker-track,
-      .ticker-wrap:focus-within .ticker-track {
-        animation-play-state: paused;
-      }
-      .ticker-group {
-        display: grid;
-        grid-template-columns: repeat(4, 300px);
-        gap: 12px;
-      }
-      .ticker-item {
-        min-width: 0;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border: 1px solid var(--border);
-        border-radius: 15px;
-        padding: 14px;
-        background: linear-gradient(145deg, rgba(13, 31, 53, 0.96), rgba(7, 22, 40, 0.96));
-        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
-        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-      }
-      .ticker-item:hover {
-        border-color: var(--border-strong);
-        background: linear-gradient(145deg, rgba(18, 42, 68, 0.98), rgba(8, 27, 48, 0.98));
-        transform: translateY(-2px);
-      }
-      .ticker-icon {
-        flex: 0 0 auto;
-        display: grid;
-        place-items: center;
-        width: 40px;
-        height: 40px;
-        border: 1px solid rgba(103, 232, 249, 0.2);
-        border-radius: 12px;
-        background: rgba(34, 211, 238, 0.075);
-        color: var(--accent);
-      }
-      .ticker-icon svg {
-        width: 21px;
-        height: 21px;
-      }
-      .ticker-copy {
-        min-width: 0;
-      }
-      .ticker-copy strong,
-      .ticker-copy small {
+
+      .performance-card-reports {
         display: block;
+        min-height: 0;
       }
-      .ticker-copy strong {
-        overflow: hidden;
-        color: #eaf4fa;
+
+      .performance-card-reports .report-dashboard {
+        margin-top: 26px;
+      }
+
+      .performance-card-reports .performance-note {
+        margin-top: 14px;
+      }
+
+      .report-chart {
+        height: 112px;
+      }
+    }
+
+    @keyframes heroTitleDown {
+      from {
+        opacity: 0;
+        transform: translateY(-36px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ticker-marquee {
+      to {
+        transform: translateX(calc(-50% - 6px));
+      }
+    }
+
+    .try-now {
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #02111f !important;
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.24);
+    }
+
+    @keyframes dashboardRise {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .try-now:hover {
+      border-color: transparent;
+      box-shadow: 0 16px 34px rgba(14, 165, 233, 0.34);
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #67e8f9, #38bdf8);
+    }
+
+    .ea-showcase-wrap {
+      z-index: 2;
+      position: relative;
+      border-top: 0;
+      padding: 0 0 76px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(34, 211, 238, 0.08), transparent 32%),
+        var(--bg-page);
+    }
+
+    .ea-showcase {
+      transform: translateY(-46px);
+      margin-bottom: -46px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(13, 29, 51, 0.98), rgba(7, 20, 38, 0.98));
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.24);
+    }
+
+    .trader-context+.ea-showcase-wrap {
+      padding-top: 46px;
+    }
+
+    .trader-context+.ea-showcase-wrap .ea-showcase {
+      transform: none;
+      margin-bottom: 0;
+    }
+
+    .showcase-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.65fr);
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .showcase-heading h2 {
+      margin: 0;
+      text-align: left;
+      font-size: clamp(36px, 3.5vw, 50px);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+    }
+
+    .showcase-heading>p {
+      max-width: 430px;
+      margin: 0 0 4px auto;
+      color: var(--txt-muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .ea-grid {
+      display: grid;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .ea-list {
+      position: relative;
+      display: grid;
+      gap: 10px;
+    }
+
+    .ea-list::before {
+      position: absolute;
+      top: 30px;
+      bottom: 30px;
+      left: 25px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), rgba(125, 211, 252, 0.08));
+      content: "";
+    }
+
+    .ea-item {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) 22px;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 15px 16px 15px 6px;
+      background: rgba(10, 27, 48, 0.88);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .ea-item:hover {
+      border-color: var(--border-strong);
+      background: rgba(17, 40, 67, 0.96);
+      transform: translateX(3px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+    }
+
+    .ea-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .ea-item.active {
+      border-color: rgba(103, 232, 249, 0.58);
+      background:
+        linear-gradient(115deg, rgba(14, 116, 144, 0.42), rgba(8, 31, 54, 0.98) 66%);
+      color: var(--txt-main);
+      box-shadow: 0 16px 32px rgba(14, 165, 233, 0.2);
+    }
+
+    .ea-index {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(125, 211, 252, 0.2);
+      border-radius: 50%;
+      background: #0c2138;
+      color: #7895b0;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .ea-item.active .ea-index {
+      border-color: rgba(103, 232, 249, 0.58);
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #02111f;
+      box-shadow: 0 0 22px rgba(34, 211, 238, 0.24);
+    }
+
+    .ea-item-copy {
+      min-width: 0;
+    }
+
+    .ea-item h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+      color: var(--txt-main);
+    }
+
+    .ea-item p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--txt-muted);
+    }
+
+    .ea-item.active p {
+      color: #c7d8e7;
+    }
+
+    .ea-item-arrow {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      color: #607e99;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .ea-item-arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .ea-item.active .ea-item-arrow {
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+
+    .ea-media {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 10px;
+      overflow: hidden;
+      align-self: start;
+      background: #061426;
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    .ea-media-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .ea-media-bar {
+      min-height: 42px;
+      padding: 0 8px 8px;
+    }
+
+    .ea-media-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #e7f4fb;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .ea-media-status::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.72);
+      content: "";
+    }
+
+    .ea-media-count {
+      color: #7894af;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .ea-media-guide {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      margin-right: 6px;
+      border: 1px solid rgba(103, 232, 249, 0.52);
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #bff7ff;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      text-decoration: none;
+      background: rgba(8, 47, 73, 0.72);
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.11);
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .ea-media-guide.is-visible {
+      display: inline-flex;
+    }
+
+    .ea-media-guide:hover,
+    .ea-media-guide:focus-visible {
+      border-color: var(--accent);
+      color: #ffffff;
+      background: rgba(8, 88, 113, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .ea-media-guide svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .ea-media-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ea-media-viewport {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(125, 211, 252, 0.14);
+      border-radius: 15px;
+      background: #030d1a;
+    }
+
+    .ea-media img,
+    .ea-media iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      transition: opacity 0.2s ease, transform 0.35s ease;
+    }
+
+    .ea-media iframe {
+      aspect-ratio: 16 / 9;
+      border: 0;
+      background: #030d1a;
+    }
+
+    .ea-media [hidden] {
+      display: none;
+    }
+
+    .ea-media:hover img {
+      transform: scale(1.015);
+    }
+
+    @media (min-width: 1024px) {
+      .ea-showcase {
+        width: calc(100% - 96px);
+        max-width: 1280px;
+        padding: 14px 18px;
+      }
+
+      .ea-showcase .showcase-heading {
+        margin-bottom: 12px;
+      }
+
+      .ea-showcase .showcase-heading h2 {
+        font-size: clamp(32px, 3vw, 40px);
+      }
+
+      .ea-showcase .showcase-heading>p {
         font-size: 14px;
-        line-height: 1.3;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
-      .ticker-copy small {
-        margin-top: 3px;
-        color: #a9bdcf;
-        font-size: 12px;
-        font-weight: 500;
+
+      .ea-grid {
+        grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .ea-item {
+        padding: 11px 14px 11px 6px;
+      }
+
+      .ea-item p {
+        margin-top: 4px;
         line-height: 1.4;
       }
-      @media (max-width: 1023px) {
-        .ticker-group {
-          grid-template-columns: repeat(4, 260px);
-        }
+    }
+
+    @media (max-width: 1023px) {
+      .hero-inner {
+        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 74px 0 104px;
       }
-      .site-footer {
-        border-top: 1px solid var(--border);
-        background: var(--footer-bg);
-      }
-      .footer-top {
-        padding: 56px 0 28px;
-        display: grid;
-        gap: 28px;
-      }
-      .footer-top h3,
-      .footer-top h4 {
-        margin: 0;
-        font-size: 20px;
-      }
-      .footer-brand {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .footer-brand svg {
-        width: 80px;
-        height: 80px;
-        flex: 0 0 auto;
-      }
-      .footer-top p,
-      .footer-top a,
-      .footer-copy,
-      .footer-legal {
-        color: #91a8c1;
-        line-height: 1.65;
-      }
-      
-      .footer-top a {
-        text-decoration: none;
-        display: block;
-        margin-top: 8px;
-      }
-      .footer-top a:hover {
-        color: var(--accent);
-      }
-      .divider {
-        height: 1px;
-        background: var(--border);
-        margin: 12px 0 22px;
-      }
-      .footer-legal strong {
-        color: #fff;
-      }
-      .footer-legal p {
-        text-align: justify;
-      }
-      .footer-legal p strong {
-        display: inline-block;
-        margin-bottom: 2px;
-      }
-      .footer-legal p:has(> strong) {
-        margin-bottom: 4px;
-      }
-      .footer-legal .legal-indent {
-        margin: 4px 0 0 20px;
-      }
-      .footer-copy {
-        margin: 18px 0 0;
+
+      .hero-content {
+        max-width: 760px;
+        margin: 0 auto;
         text-align: center;
-        padding-bottom: 30px;
       }
-      @media (min-width: 1200px) {
-        .menu {
-          display: flex;
-        }
+
+      .hero p {
+        margin-right: auto;
+        margin-left: auto;
       }
-      @media (max-width: 1199px) {
-        .header-inner {
-          min-height: auto;
-          padding: 12px 0;
-          flex-wrap: wrap;
-        }
-        .brand {
-          order: 1;
-        }
-        .brand svg {
-          width: 56px;
-          height: 56px;
-        }
-        .brand p {
-          font-size: 24px;
-        }
-        .menu-toggle {
-          display: inline-flex;
-          order: 2;
-          margin-left: auto;
-        }
-        .header-cta {
-          display: none;
-          order: 4;
-          width: calc(100% - 40px);
-          margin: 0 20px;
-          gap: 8px;
-          padding-top: 8px;
-          flex-direction: column;
-        }
-        .header-cta .btn {
-          width: 100%;
-          min-height: 38px;
-          padding: 8px 12px;
-          font-size: 14px;
-        }
-        .menu {
-          display: none;
-          order: 3;
-          width: calc(100% - 40px);
-          margin: 0 20px;
-          gap: 8px;
-          padding-top: 8px;
-          flex-direction: column;
-        }
-        .site-header.menu-open .menu,
-        .site-header.menu-open .header-cta {
-          display: flex;
-        }
-        .menu button {
-          width: 100%;
-          border: 1px solid var(--border);
-          border-radius: 8px;
-          padding: 10px 12px;
-          background: rgba(34, 211, 238, 0.05);
-          text-align: left;
-        }
-        main {
-          padding-top: 96px;
-        }
+
+      .hero-actions,
+      .hero-trust {
+        justify-content: center;
       }
-      @media (min-width: 768px) {
-        .platform-web-layout {
-          grid-template-columns: minmax(0, 0.84fr) minmax(300px, 1.16fr);
-        }
-        .cards-4 {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .edge-card-featured,
-        .edge-card-wide {
-          grid-column: span 2;
-        }
-        .report-risk-grid {
-          grid-template-columns: minmax(0, 1fr);
-        }
-        .footer-top {
-          grid-template-columns: 2fr 1fr 1fr;
-        }
+
+      .hero-dashboard {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
       }
-      @media (min-width: 1100px) {
-        .platform-grid {
-          grid-template-columns: repeat(12, minmax(0, 1fr));
-          align-items: stretch;
-        }
-        .platform-card-web {
-          grid-column: span 7;
-        }
-        .platform-card-mt5 {
-          grid-column: span 5;
-        }
-        .platform-web-layout {
-          grid-template-columns: minmax(0, 0.88fr) minmax(280px, 1.12fr);
-        }
-        .cards-4 {
-          grid-template-columns: repeat(12, minmax(0, 1fr));
-          grid-auto-rows: minmax(205px, auto);
-        }
-        .edge-card-featured {
-          grid-column: span 6;
-          grid-row: span 2;
-          min-height: 428px;
-          padding: 34px;
-        }
-        .edge-card-compact {
-          grid-column: span 3;
-        }
-        .edge-card-wide {
-          grid-column: span 6;
-        }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 34px;
       }
-      @media (max-width: 767px) {
-        .trader-context {
-          padding: 28px 0;
-        }
-        .trader-context-panel {
-          grid-template-columns: 1fr;
-          gap: 20px;
-          padding: 24px 22px;
-          border-radius: 20px;
-        }
-        .trader-context h2 {
-          font-size: 29px;
-        }
-        .trader-context-copy > p {
-          font-size: 16px;
-        }
-        .platform-heading {
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-        .platform-heading > p {
-          margin-left: 0;
-          font-size: 16px;
-        }
-        .platform-card {
-          padding: 22px;
-          border-radius: 22px;
-        }
-        .platform-card h3 {
-          font-size: 30px;
-        }
-        .web-terminal-preview {
-          min-height: 0;
-        }
-        .edge-heading {
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-        .edge-heading > p {
-          margin-left: 0;
-          font-size: 16px;
-        }
-        .edge-card-featured {
-          min-height: 340px;
-        }
-        .edge-card-featured p {
-          padding-right: 24px;
-        }
-        .risk-control-panel {
-          width: 100%;
-          margin-top: 24px;
-        }
-        .performance-heading {
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-        .performance-heading > p {
-          margin-left: 0;
-          font-size: 16px;
-        }
-        .performance-card {
-          min-height: 0;
-          padding: 22px;
-          border-radius: 22px;
-        }
-        .performance-card h3 {
-          font-size: 30px;
-        }
-        .performance-card-reports {
-          display: block;
-          min-height: 0;
-        }
-        .performance-card-reports .report-dashboard {
-          margin-top: 26px;
-        }
-        .performance-card-reports .performance-note {
-          margin-top: 14px;
-        }
-        .report-chart {
-          height: 112px;
-        }
+
+      .about-heading {
+        position: static;
       }
-      @keyframes heroTitleDown {
-        from {
-          opacity: 0;
-          transform: translateY(-36px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+
+      .about-heading h2 {
+        max-width: 680px;
       }
-      @keyframes ticker-marquee {
-        to {
-          transform: translateX(calc(-50% - 6px));
-        }
+
+      .about-copy {
+        padding-left: 24px;
       }
-      .try-now{
-        border-color: transparent;
-        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-        color: #02111f !important;
-        box-shadow: 0 12px 30px rgba(14, 165, 233, 0.24);
-      }
-      @keyframes dashboardRise {
-        from {
-          opacity: 0;
-          transform: translateY(28px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .try-now:hover {
-        border-color: transparent;
-        box-shadow: 0 16px 34px rgba(14, 165, 233, 0.34);
-        transform: translateY(-2px);
-        background: linear-gradient(135deg, #67e8f9, #38bdf8);
-      }
-      .ea-showcase-wrap {
-        z-index: 2;
-        position: relative;
-        border-top: 0;
-        padding: 0 0 76px;
-        background:
-          radial-gradient(circle at 90% 10%, rgba(34, 211, 238, 0.08), transparent 32%),
-          var(--bg-page);
-      }
-      .ea-showcase {
-        transform: translateY(-46px);
-        margin-bottom: -46px;
-        border: 1px solid var(--border);
-        background: linear-gradient(145deg, rgba(13, 29, 51, 0.98), rgba(7, 20, 38, 0.98));
-        border-radius: 28px;
-        padding: 40px;
-        box-shadow: 0 24px 56px rgba(0, 0, 0, 0.24);
-      }
-      .trader-context + .ea-showcase-wrap {
-        padding-top: 46px;
-      }
-      .trader-context + .ea-showcase-wrap .ea-showcase {
-        transform: none;
-        margin-bottom: 0;
-      }
+
       .showcase-heading {
-        display: grid;
-        grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.65fr);
-        gap: 44px;
-        align-items: end;
-        margin-bottom: 28px;
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
-      .showcase-heading h2 {
-        margin: 0;
-        text-align: left;
-        font-size: clamp(36px, 3.5vw, 50px);
-        line-height: 1.06;
-        letter-spacing: -0.03em;
+
+      .showcase-heading>p {
+        margin-left: 0;
       }
-      .showcase-heading > p {
-        max-width: 430px;
-        margin: 0 0 4px auto;
-        color: var(--txt-muted);
-        font-size: 16px;
-        line-height: 1.65;
-      }
-      .ea-grid {
-        display: grid;
-        gap: 28px;
-        align-items: start;
-      }
-      .ea-list {
-        position: relative;
-        display: grid;
-        gap: 10px;
-      }
-      .ea-list::before {
-        position: absolute;
-        top: 30px;
-        bottom: 30px;
-        left: 25px;
-        width: 1px;
-        background: linear-gradient(to bottom, var(--accent), rgba(125, 211, 252, 0.08));
-        content: "";
-      }
-      .ea-item {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: 40px minmax(0, 1fr) 22px;
-        align-items: center;
-        gap: 14px;
-        border: 1px solid var(--border);
-        border-radius: 17px;
-        padding: 15px 16px 15px 6px;
-        background: rgba(10, 27, 48, 0.88);
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      }
-      .ea-item:hover {
-        border-color: var(--border-strong);
-        background: rgba(17, 40, 67, 0.96);
-        transform: translateX(3px);
-        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
-      }
-      .ea-item:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-      }
-      .ea-item.active {
-        border-color: rgba(103, 232, 249, 0.58);
-        background:
-          linear-gradient(115deg, rgba(14, 116, 144, 0.42), rgba(8, 31, 54, 0.98) 66%);
-        color: var(--txt-main);
-        box-shadow: 0 16px 32px rgba(14, 165, 233, 0.2);
-      }
-      .ea-index {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        place-items: center;
-        width: 38px;
-        height: 38px;
-        border: 1px solid rgba(125, 211, 252, 0.2);
-        border-radius: 50%;
-        background: #0c2138;
-        color: #7895b0;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-      }
-      .ea-item.active .ea-index {
-        border-color: rgba(103, 232, 249, 0.58);
-        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-        color: #02111f;
-        box-shadow: 0 0 22px rgba(34, 211, 238, 0.24);
-      }
-      .ea-item-copy {
-        min-width: 0;
-      }
+
       .ea-item h3 {
-        margin: 0;
         font-size: 18px;
-        line-height: 1.25;
-        color: var(--txt-main);
       }
-      .ea-item p {
-        margin: 6px 0 0;
-        font-size: 13px;
-        line-height: 1.5;
-        color: var(--txt-muted);
+
+      .ea-showcase {
+        padding: 28px;
       }
-      .ea-item.active p {
-        color: #c7d8e7;
-      }
-      .ea-item-arrow {
-        display: grid;
-        place-items: center;
-        width: 22px;
-        height: 22px;
-        color: #607e99;
-        transition: color 0.2s ease, transform 0.2s ease;
-      }
-      .ea-item-arrow svg {
-        width: 16px;
-        height: 16px;
-      }
-      .ea-item.active .ea-item-arrow {
-        color: var(--accent);
-        transform: translateX(2px);
-      }
+
       .ea-media {
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 10px;
-        overflow: hidden;
-        align-self: start;
-        background: #061426;
-        box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+        min-height: 0;
       }
-      .ea-media-bar {
+    }
+
+    @media (max-width: 767px) {
+      .section-pad {
+        padding: 58px 0;
+      }
+
+      h1 {
+        font-size: clamp(38px, 12vw, 52px);
+      }
+
+      .hero-inner {
+        gap: 38px;
+        padding: 56px 0 82px;
+      }
+
+      .hero-dashboard {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-stat {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 14px;
       }
-      .ea-media-bar {
-        min-height: 42px;
-        padding: 0 8px 8px;
+
+      .dashboard-stat strong {
+        margin-top: 0;
       }
-      .ea-media-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #e7f4fb;
-        font-size: 12px;
-        font-weight: 800;
+
+      .guard-guide-link {
+        align-items: flex-start;
+        flex-direction: column;
       }
-      .ea-media-status::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.72);
-        content: "";
+
+      .about-copy {
+        border-left: 0;
+        padding-left: 0;
       }
-      .ea-media-count {
-        color: #7894af;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.12em;
+
+      .about-copy p {
+        font-size: 17px;
       }
-      .ea-media-guide {
-        display: none;
-        align-items: center;
-        gap: 7px;
-        margin-right: 6px;
-        border: 1px solid rgba(103, 232, 249, 0.52);
-        border-radius: 999px;
-        padding: 7px 11px;
-        color: #bff7ff;
-        font-size: 12px;
-        font-weight: 800;
-        line-height: 1;
-        text-decoration: none;
-        background: rgba(8, 47, 73, 0.72);
-        box-shadow: 0 0 18px rgba(34, 211, 238, 0.11);
-        transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+      .edge-card {
+        padding: 22px;
       }
-      .ea-media-guide.is-visible {
-        display: inline-flex;
+
+      .edge-card p,
+      .footer-legal p {
+        text-align: left;
       }
-      .ea-media-guide:hover,
-      .ea-media-guide:focus-visible {
-        border-color: var(--accent);
-        color: #ffffff;
-        background: rgba(8, 88, 113, 0.9);
-        transform: translateY(-1px);
+
+      .ea-showcase-wrap {
+        padding: 0 0 52px;
       }
-      .ea-media-guide svg {
-        width: 14px;
-        height: 14px;
+
+      .trader-context+.ea-showcase-wrap {
+        padding-top: 28px;
       }
-      .ea-media-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+
+      .ea-showcase {
+        transform: translateY(-28px);
+        margin-bottom: -28px;
+        padding: 18px;
       }
-      .ea-media-viewport {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(125, 211, 252, 0.14);
-        border-radius: 15px;
-        background: #030d1a;
+
+      .ea-item {
+        padding: 14px 14px 14px 6px;
       }
-      .ea-media img,
-      .ea-media iframe {
-        display: block;
-        width: 100%;
-        aspect-ratio: 3 / 2;
-        object-fit: cover;
-        transition: opacity 0.2s ease, transform 0.35s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
-      .ea-media iframe {
-        aspect-ratio: 16 / 9;
-        border: 0;
-        background: #030d1a;
+
+      .ticker-track {
+        animation: none !important;
+        transform: none !important;
       }
-      .ea-media [hidden] {
+
+      .ticker-group[aria-hidden="true"] {
         display: none;
       }
-      .ea-media:hover img {
-        transform: scale(1.015);
-      }
-      @media (min-width: 1024px) {
-        .ea-showcase {
-          width: calc(100% - 96px);
-          max-width: 1280px;
-          padding: 14px 18px;
-        }
-        .ea-showcase .showcase-heading {
-          margin-bottom: 12px;
-        }
-        .ea-showcase .showcase-heading h2 {
-          font-size: clamp(32px, 3vw, 40px);
-        }
-        .ea-showcase .showcase-heading > p {
-          font-size: 14px;
-        }
-        .ea-grid {
-          grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
-          gap: 20px;
-          align-items: start;
-        }
-        .ea-item {
-          padding: 11px 14px 11px 6px;
-        }
-        .ea-item p {
-          margin-top: 4px;
-          line-height: 1.4;
-        }
-      }
-      @media (max-width: 1023px) {
-        .hero-inner {
-          min-height: 0;
-          grid-template-columns: 1fr;
-          gap: 48px;
-          padding: 74px 0 104px;
-        }
-        .hero-content {
-          max-width: 760px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .hero p {
-          margin-right: auto;
-          margin-left: auto;
-        }
-        .hero-actions,
-        .hero-trust {
-          justify-content: center;
-        }
-        .hero-dashboard {
-          width: 100%;
-          max-width: 720px;
-          margin: 0 auto;
-        }
-        .about-grid {
-          grid-template-columns: 1fr;
-          gap: 34px;
-        }
-        .about-heading {
-          position: static;
-        }
-        .about-heading h2 {
-          max-width: 680px;
-        }
-        .about-copy {
-          padding-left: 24px;
-        }
-        .showcase-heading {
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-        .showcase-heading > p {
-          margin-left: 0;
-        }
-        .ea-item h3 {
-          font-size: 18px;
-        }
-        .ea-showcase {
-          padding: 28px;
-        }
-        .ea-media {
-          min-height: 0;
-        }
-      }
-      @media (max-width: 767px) {
-        .section-pad {
-          padding: 58px 0;
-        }
-        h1 {
-          font-size: clamp(38px, 12vw, 52px);
-        }
-        .hero-inner {
-          gap: 38px;
-          padding: 56px 0 82px;
-        }
-        .hero-dashboard {
-          padding: 18px;
-          border-radius: 22px;
-        }
-        .dashboard-stats {
-          grid-template-columns: 1fr;
-        }
-        .dashboard-stat {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 14px;
-        }
-        .dashboard-stat strong {
-          margin-top: 0;
-        }
-        .guard-guide-link {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-        .about-copy {
-          border-left: 0;
-          padding-left: 0;
-        }
-        .about-copy p {
-          font-size: 17px;
-        }
-        .edge-card {
-          padding: 22px;
-        }
-        .edge-card p,
-        .footer-legal p {
-          text-align: left;
-        }
-        .ea-showcase-wrap {
-          padding: 0 0 52px;
-        }
-        .trader-context + .ea-showcase-wrap {
-          padding-top: 28px;
-        }
-        .ea-showcase {
-          transform: translateY(-28px);
-          margin-bottom: -28px;
-          padding: 18px;
-        }
-        .ea-item {
-          padding: 14px 14px 14px 6px;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          scroll-behavior: auto !important;
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-        .ticker-track {
-          animation: none !important;
-          transform: none !important;
-        }
-        .ticker-group[aria-hidden="true"] {
-          display: none;
-        }
-      }
-    </style>
-    <link rel="stylesheet" href="./components/shared-layout.css" />
-  </head>
-  <body>
-    <div id="shared-header-root"></div>
-    <script src="./components/shared-header.js"></script>
-    <script src="./components/shared-footer.js"></script>
-    <script>
-      renderSharedHeader("shared-header-root", { basePath: "." });
-    </script>
+    }
+  </style>
+  <link rel="stylesheet" href="./components/shared-layout.css" />
+</head>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-inner">
-          <div class="hero-content">
-            <p class="hero-eyebrow">Discipline-first trading</p>
-            <h1>
-              Trade with clarity.
-              <span>Protect every decision.</span>
-            </h1>
-            <p>
-              Experience a new standard in Forex &amp; CFD trading. GreatBless Global Markets combines
-              powerful execution with algorithmic risk management tools to help you trade smarter.
-            </p>
-            <div class="hero-actions">
-              <a href="https://trading.greatbless.com/user-auth/register" class="btn try-now" style="text-decoration: none;">Open an Account</a>
-              <a href="#platforms" class="btn btn-outline" style="text-decoration: none; color: white;">Explore Platforms</a>
+<body>
+  <div id="shared-header-root"></div>
+  <script src="./components/shared-header.js"></script>
+  <script src="./components/shared-footer.js"></script>
+  <script>
+    renderSharedHeader("shared-header-root", { basePath: "." });
+  </script>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Discipline-first trading</p>
+          <h1>
+            Trade with clarity.
+            <span>Protect every decision.</span>
+          </h1>
+          <p>
+            Experience a new standard in Forex &amp; CFD trading. GreatBless Global Markets combines
+            powerful execution with algorithmic risk management tools to help you trade smarter.
+          </p>
+          <div class="hero-actions">
+            <a href="https://trading.greatbless.com/user-auth/register" class="btn try-now"
+              style="text-decoration: none;">Open an Account</a>
+            <a href="#platforms" class="btn btn-outline" style="text-decoration: none; color: white;">Explore
+              Platforms</a>
+          </div>
+          <div class="hero-trust" aria-label="Platform highlights">
+            <span>Registered in Saint Lucia</span>
+            <span>Powered by MT5</span>
+            <span>Built-in risk rules</span>
+          </div>
+        </div>
+
+        <aside class="hero-dashboard" aria-label="Risk management overview">
+          <div class="dashboard-top">
+            <div class="dashboard-title">
+              <span>ACCOUNT PROTECTION</span>
+              <strong>Guard overview</strong>
             </div>
-            <div class="hero-trust" aria-label="Platform highlights">
-              <span>Registered in Saint Lucia</span>
-              <span>Powered by MT5</span>
-              <span>Built-in risk rules</span>
-            </div>
+            <div class="status-pill">Guard On</div>
           </div>
 
-          <aside class="hero-dashboard" aria-label="Risk management overview">
-            <div class="dashboard-top">
-              <div class="dashboard-title">
-                <span>ACCOUNT PROTECTION</span>
-                <strong>Guard overview</strong>
-              </div>
-              <div class="status-pill">Guard On</div>
+          <div class="chart-panel">
+            <div class="chart-head">
+              <span>Equity protection</span>
+              <strong>+12.8%</strong>
             </div>
+            <svg viewBox="0 0 520 190" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="equity-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.28"></stop>
+                  <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="equity-line" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#0ea5e9"></stop>
+                  <stop offset="100%" stop-color="#5eead4"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M0 36H520M0 82H520M0 128H520M0 174H520" stroke="#7dd3fc" stroke-opacity="0.09"></path>
+              <path
+                d="M0 156C38 146 52 151 88 128C124 105 150 119 185 96C223 70 251 85 286 64C324 41 347 64 382 45C422 23 454 38 520 13V190H0V156Z"
+                fill="url(#equity-fill)"></path>
+              <path
+                d="M0 156C38 146 52 151 88 128C124 105 150 119 185 96C223 70 251 85 286 64C324 41 347 64 382 45C422 23 454 38 520 13"
+                stroke="url(#equity-line)" stroke-width="5" stroke-linecap="round"></path>
+              <circle cx="520" cy="13" r="7" fill="#5eead4"></circle>
+              <circle cx="520" cy="13" r="13" fill="#5eead4" fill-opacity="0.14"></circle>
+            </svg>
+          </div>
 
-            <div class="chart-panel">
-              <div class="chart-head">
-                <span>Equity protection</span>
-                <strong>+12.8%</strong>
-              </div>
-              <svg viewBox="0 0 520 190" fill="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="equity-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.28"></stop>
-                    <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"></stop>
-                  </linearGradient>
-                  <linearGradient id="equity-line" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#0ea5e9"></stop>
-                    <stop offset="100%" stop-color="#5eead4"></stop>
-                  </linearGradient>
-                </defs>
-                <path d="M0 36H520M0 82H520M0 128H520M0 174H520" stroke="#7dd3fc" stroke-opacity="0.09"></path>
-                <path d="M0 156C38 146 52 151 88 128C124 105 150 119 185 96C223 70 251 85 286 64C324 41 347 64 382 45C422 23 454 38 520 13V190H0V156Z" fill="url(#equity-fill)"></path>
-                <path d="M0 156C38 146 52 151 88 128C124 105 150 119 185 96C223 70 251 85 286 64C324 41 347 64 382 45C422 23 454 38 520 13" stroke="url(#equity-line)" stroke-width="5" stroke-linecap="round"></path>
-                <circle cx="520" cy="13" r="7" fill="#5eead4"></circle>
-                <circle cx="520" cy="13" r="13" fill="#5eead4" fill-opacity="0.14"></circle>
-              </svg>
+          <div class="dashboard-stats">
+            <div class="dashboard-stat">
+              <span>Daily loss limit</span>
+              <strong>2.0%</strong>
             </div>
-
-            <div class="dashboard-stats">
-              <div class="dashboard-stat">
-                <span>Daily loss limit</span>
-                <strong>2.0%</strong>
-              </div>
-              <div class="dashboard-stat">
-                <span>Risk per trade</span>
-                <strong>1.0%</strong>
-              </div>
-              <div class="dashboard-stat">
-                <span>Trading session rules</span>
-                <strong>Configured</strong>
-              </div>
+            <div class="dashboard-stat">
+              <span>Risk per trade</span>
+              <strong>1.0%</strong>
             </div>
-            <a class="guard-guide-link" href="./pages/blog_details/guard-explained.html" aria-label="View the beginner's guide to Guard risk controls">
-              <span>New to risk controls?</span>
-              <strong>View Guard guide <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></strong>
-            </a>
-          </aside>
-        </div>
-      </section>
-      <section class="trader-context" aria-labelledby="trader-context-title">
-        <div class="container">
-          <div class="trader-context-panel">
-            <div>
-              <p class="section-eyebrow">Built for real trading decisions</p>
-              <h2 id="trader-context-title">Why choose GreatBless for your trading journey?</h2>
+            <div class="dashboard-stat">
+              <span>Trading session rules</span>
+              <strong>Configured</strong>
             </div>
-            <div class="trader-context-copy">
-              <p>
-                Many trading platforms give you charts and order execution, but the risk limits and decision discipline behind each trade are often left to your own workflow. In fast-moving markets, that can make it harder to stay consistent.
-              </p>
-              <p>
-                GreatBless brings risk controls, charting, and trading environments together to help you plan before entry, keep boundaries visible, and review your process.
-              </p>
-              <p>
-                Trading involves risk. Our tools support your decision-making and do not guarantee profits; outcomes depend on market conditions and your own actions.
-              </p>
-              <div class="trader-context-points" aria-label="How GreatBless can support your workflow">
-                <span>Set a clear risk plan</span>
-                <span>Trade with visible boundaries</span>
-                <span>Learn from your process</span>
-              </div>
+          </div>
+          <a class="guard-guide-link" href="./pages/blog_details/guard-explained.html"
+            aria-label="View the beginner's guide to Guard risk controls">
+            <span>New to risk controls?</span>
+            <strong>View Guard guide <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg></strong>
+          </a>
+        </aside>
+      </div>
+    </section>
+    <section class="trader-context" aria-labelledby="trader-context-title">
+      <div class="container">
+        <div class="trader-context-panel">
+          <div>
+            <p class="section-eyebrow">Built for real trading decisions</p>
+            <h2 id="trader-context-title">Why choose GreatBless for your trading journey?</h2>
+          </div>
+          <div class="trader-context-copy">
+            <p>
+              Many trading platforms give you charts and order execution, but the risk limits and decision discipline
+              behind each trade are often left to your own workflow. In fast-moving markets, that can make it harder to
+              stay consistent.
+            </p>
+            <p>
+              GreatBless brings risk controls, charting, and trading environments together to help you plan before
+              entry, keep boundaries visible, and review your process.
+            </p>
+            <p>
+              Trading involves risk. Our tools support your decision-making and do not guarantee profits; outcomes
+              depend on market conditions and your own actions.
+            </p>
+            <div class="trader-context-points" aria-label="How GreatBless can support your workflow">
+              <span>Set a clear risk plan</span>
+              <span>Trade with visible boundaries</span>
+              <span>Learn from your process</span>
             </div>
           </div>
         </div>
-      </section>
-      <section class="ea-showcase-wrap">
-        <div class="container ea-showcase">
-          <div class="showcase-heading">
-            <div>
-              <p class="section-eyebrow">Core capabilities</p>
-              <h2>Technology designed around better trading habits</h2>
-            </div>
-            <p>
-              Explore the tools that help traders manage risk, practice safely, protect their
-              accounts, and make decisions with greater transparency.
-            </p>
+      </div>
+    </section>
+    <section class="ea-showcase-wrap">
+      <div class="container ea-showcase">
+        <div class="showcase-heading">
+          <div>
+            <p class="section-eyebrow">Core capabilities</p>
+            <h2>Technology designed around better trading habits</h2>
           </div>
-          <div class="ea-grid">
-            <div class="ea-list">
-              <article class="ea-item active" data-image="./public/images/risk_sl_2.png" data-demo="./public/demos/risk-mode-demo?v=20260817-even-price-axis" data-index="01" data-title="Risk Mode" data-alt="Risk Mode percentage-based stop loss demonstration" data-guide-href="./pages/blog_details/risk-mode-explained.html" data-guide-label="Read Risk Amount guide" role="button" tabindex="0" aria-pressed="true">
-                <span class="ea-index">01</span>
-                <div class="ea-item-copy">
-                  <h3>Risk Mode</h3>
-                  <p>Use a valid stop loss and your chosen risk amount to calculate estimated order volume.</p>
-                </div>
-                <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              </article>
-              <article class="ea-item" data-image="./public/images/260411_Risk_Management.png" data-demo="./public/demos/trader-guard-demo?v=20260817-continuous-candles" data-index="02" data-title="Trader Guard" data-alt="Interactive Trader Guard demonstration configuring and triggering a maximum daily loss rule" data-guide-href="./pages/blog_details/guard-explained.html" data-guide-label="Read Guard guide" role="button" tabindex="0" aria-pressed="false">
-                <span class="ea-index">02</span>
-                <div class="ea-item-copy">
-                  <h3>Trader Guard</h3>
-                  <p>Set clear daily loss, per-trade risk, and session boundaries before you enter the market.</p>
-                </div>
-                <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              </article>
-              <article class="ea-item" data-image="./public/images/ib-partner-dashboard.png" data-index="03" data-title="IB Partner Program" data-alt="Introducing Broker partner dashboard showing referral and commission analytics" data-guide-href="./pages/blog_details/ib-partner-program.html" data-guide-label="Read IB guide" role="button" tabindex="0" aria-pressed="false">
-                <span class="ea-index">03</span>
-                <div class="ea-item-copy">
-                  <h3>IB Partner Program</h3>
-                  <p>Grow your client network, track referral activity, and monitor commission progress in one place.</p>
-                </div>
-                <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              </article>
-              <article class="ea-item" data-image="./public/images/sl-tp-auto-lock.png" data-demo="./public/demos/sltp-auto-lock-demo?v=20260814-chart" data-index="04" data-title="Auto-Lock SL/TP" data-alt="Interactive trading terminal demonstration of the five-minute SL and TP adjustment windows" data-guide-href="./pages/blog_details/auto-lock-sl-tp.html" data-guide-label="Read Auto-Lock guide" role="button" tabindex="0" aria-pressed="false">
-                <span class="ea-index">04</span>
-                <div class="ea-item-copy">
-                  <h3>Auto-Lock SL/TP</h3>
-                  <p>Set or review SL/TP, then lock each level after its adjustment countdown ends.</p>
-                </div>
-                <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              </article>
-            </div>
-            <div class="ea-media">
-              <div class="ea-media-bar">
-                <span class="ea-media-status" id="ea-media-title">Risk Mode</span>
-                <div class="ea-media-actions">
-                  <a class="ea-media-guide is-visible" id="ea-media-guide" href="./pages/blog_details/risk-mode-explained.html" aria-label="Read Risk Mode guide">
-                    <span id="ea-media-guide-label">Read guide</span>
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                  </a>
-                  <span class="ea-media-count" id="ea-media-count">01 / 04</span>
-                </div>
-              </div>
-              <div class="ea-media-viewport">
-                <img id="ea-media-img" src="./public/images/risk_sl_2.png" alt="Risk Mode percentage-based stop loss demonstration" hidden />
-                <iframe id="ea-media-demo" src="./public/demos/risk-mode-demo?v=20260817-even-price-axis" title="Risk Mode percentage-based stop loss demonstration" loading="eager"></iframe>
-              </div>
-            </div>
-          </div>
+          <p>
+            Explore the tools that help traders manage risk, practice safely, protect their
+            accounts, and make decisions with greater transparency.
+          </p>
         </div>
-      </section>
-
-      <section id="platforms" class="platforms section-pad">
-        <div class="container">
-          <div class="platform-heading">
-            <div>
-              <p class="section-eyebrow">Two trading ecosystems</p>
-              <h2>Choose your trading workspace</h2>
-            </div>
-            <p>
-              Use GreatBless Web Trader for browser-based charting and built-in risk controls, or choose MetaTrader 5 for technical analysis, Expert Advisors, and trading across desktop and mobile.
-            </p>
-          </div>
-
-          <div class="platform-grid">
-            <article class="platform-card platform-card-web">
-              <div class="platform-web-layout">
-                <div class="platform-card-content">
-                  <span class="platform-kicker">Native web platform</span>
-                  <h3>GreatBless Web Trader</h3>
-                  <p>
-                    Our proprietary browser-based workspace combines advanced charting, behavioral
-                    risk rules, and fast market access in one focused interface.
-                  </p>
-                  <div class="platform-chip-row" aria-label="Web Trader features">
-                    <span class="platform-chip">No installation</span>
-                    <span class="platform-chip">Guard rules</span>
-                    <span class="platform-chip">Advanced charts</span>
-                  </div>
-                  <a href="https://trading.greatbless.com/trading?id=markets" class="btn btn-primary" style="font-size: 16px; text-decoration: none; color: white;">Launch Web Trader</a>
-                </div>
-
-                <div class="web-terminal-preview" aria-hidden="true">
-                  <div class="terminal-bar">
-                    <span class="terminal-dots"><i></i><i></i><i></i></span>
-                    <span>Sample workspace</span>
-                  </div>
-                  <div class="terminal-body">
-                    <div class="terminal-market-head">
-                      <div>
-                        <small>XAU / USD</small>
-                        <strong>Market overview</strong>
-                      </div>
-                      <span class="terminal-change">Demo</span>
-                    </div>
-                    <svg class="terminal-chart" viewBox="0 0 420 180" fill="none">
-                      <defs>
-                        <linearGradient id="terminal-area" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.28"></stop>
-                          <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"></stop>
-                        </linearGradient>
-                        <linearGradient id="terminal-line" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stop-color="#0ea5e9"></stop>
-                          <stop offset="100%" stop-color="#5eead4"></stop>
-                        </linearGradient>
-                      </defs>
-                      <path d="M0 35H420M0 78H420M0 121H420M0 164H420" stroke="#7dd3fc" stroke-opacity="0.08"></path>
-                      <path d="M0 148C34 136 51 142 82 119C112 96 139 111 166 87C196 61 219 74 248 57C279 38 306 56 337 35C366 16 390 29 420 12V180H0V148Z" fill="url(#terminal-area)"></path>
-                      <path d="M0 148C34 136 51 142 82 119C112 96 139 111 166 87C196 61 219 74 248 57C279 38 306 56 337 35C366 16 390 29 420 12" stroke="url(#terminal-line)" stroke-width="4" stroke-linecap="round"></path>
-                      <circle cx="420" cy="12" r="6" fill="#5eead4"></circle>
-                    </svg>
-                    <div class="terminal-metrics">
-                      <div class="terminal-metric">
-                        <small>Risk per trade</small>
-                        <strong>1.0%</strong>
-                      </div>
-                      <div class="terminal-metric">
-                        <small>Guard rules</small>
-                        <strong>9 configured</strong>
-                      </div>
-                    </div>
-                    <div class="terminal-actions">
-                      <div class="terminal-action terminal-action-sell">
-                        <span>Sell</span>
-                        <strong>Market</strong>
-                      </div>
-                      <div class="terminal-action terminal-action-buy">
-                        <span>Buy</span>
-                        <strong>Market</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="ea-grid">
+          <div class="ea-list">
+            <article class="ea-item active" data-image="./public/images/risk_sl_2.png"
+              data-demo="./public/demos/risk-mode-demo?v=20260817-even-price-axis" data-index="01"
+              data-title="Risk Mode" data-alt="Risk Mode percentage-based stop loss demonstration"
+              data-guide-href="./pages/blog_details/risk-mode-explained.html" data-guide-label="Read Risk Amount guide"
+              role="button" tabindex="0" aria-pressed="true">
+              <span class="ea-index">01</span>
+              <div class="ea-item-copy">
+                <h3>Risk Mode</h3>
+                <p>Use a valid stop loss and your chosen risk amount to calculate estimated order volume.</p>
               </div>
+              <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg></span>
             </article>
-
-            <article class="platform-card platform-card-mt5">
-              <div class="platform-card-content">
-                <div class="mt5-mark" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M2 12h4l3-8 6 16 3-8h4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+            <article class="ea-item" data-image="./public/images/260411_Risk_Management.png"
+              data-demo="./public/demos/trader-guard-demo?v=20260817-continuous-candles" data-index="02"
+              data-title="Trader Guard"
+              data-alt="Interactive Trader Guard demonstration configuring and triggering a maximum daily loss rule"
+              data-guide-href="./pages/blog_details/guard-explained.html" data-guide-label="Read Guard guide"
+              role="button" tabindex="0" aria-pressed="false">
+              <span class="ea-index">02</span>
+              <div class="ea-item-copy">
+                <h3>Trader Guard</h3>
+                <p>Set clear daily loss, per-trade risk, and session boundaries before you enter the market.</p>
+              </div>
+              <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg></span>
+            </article>
+            <article class="ea-item" data-image="./public/images/ib-partner-dashboard.png" data-index="03"
+              data-title="IB Partner Program"
+              data-alt="Introducing Broker partner dashboard showing referral and commission analytics"
+              data-guide-href="./pages/blog_details/ib-partner-program.html" data-guide-label="Read IB guide"
+              role="button" tabindex="0" aria-pressed="false">
+              <span class="ea-index">03</span>
+              <div class="ea-item-copy">
+                <h3>IB Partner Program</h3>
+                <p>Grow your client network, track referral activity, and monitor commission progress in one place.</p>
+              </div>
+              <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg></span>
+            </article>
+            <article class="ea-item" data-image="./public/images/sl-tp-auto-lock.png"
+              data-demo="./public/demos/sltp-auto-lock-demo?v=20260814-chart" data-index="04"
+              data-title="Auto-Lock SL/TP"
+              data-alt="Interactive trading terminal demonstration of the five-minute SL and TP adjustment windows"
+              data-guide-href="./pages/blog_details/auto-lock-sl-tp.html" data-guide-label="Read Auto-Lock guide"
+              role="button" tabindex="0" aria-pressed="false">
+              <span class="ea-index">04</span>
+              <div class="ea-item-copy">
+                <h3>Auto-Lock SL/TP</h3>
+                <p>Set or review SL/TP, then lock each level after its adjustment countdown ends.</p>
+              </div>
+              <span class="ea-item-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg></span>
+            </article>
+          </div>
+          <div class="ea-media">
+            <div class="ea-media-bar">
+              <span class="ea-media-status" id="ea-media-title">Risk Mode</span>
+              <div class="ea-media-actions">
+                <a class="ea-media-guide is-visible" id="ea-media-guide"
+                  href="./pages/blog_details/risk-mode-explained.html" aria-label="Read Risk Mode guide">
+                  <span id="ea-media-guide-label">Read guide</span>
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"></path>
                   </svg>
-                </div>
-                <span class="platform-kicker" style="margin-top: 18px;">Industry-standard platform</span>
-                <h3>MetaTrader 5</h3>
+                </a>
+                <span class="ea-media-count" id="ea-media-count">01 / 04</span>
+              </div>
+            </div>
+            <div class="ea-media-viewport">
+              <img id="ea-media-img" src="./public/images/risk_sl_2.png"
+                alt="Risk Mode percentage-based stop loss demonstration" hidden />
+              <iframe id="ea-media-demo" src="./public/demos/risk-mode-demo?v=20260817-even-price-axis"
+                title="Risk Mode percentage-based stop loss demonstration" loading="eager"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="platforms" class="platforms section-pad">
+      <div class="container">
+        <div class="platform-heading">
+          <div>
+            <p class="section-eyebrow">Two trading ecosystems</p>
+            <h2>Choose your trading workspace</h2>
+          </div>
+          <p>
+            Use GreatBless Web Trader for browser-based charting and built-in risk controls, or choose MetaTrader 5 for
+            technical analysis, Expert Advisors, and trading across desktop and mobile.
+          </p>
+        </div>
+
+        <div class="platform-grid">
+          <article class="platform-card platform-card-web">
+            <div class="platform-web-layout">
+              <div class="platform-card-content">
+                <span class="platform-kicker">Native web platform</span>
+                <h3>GreatBless Web Trader</h3>
                 <p>
-                  Powerful technical analysis, algorithmic trading, and multi-device access through
-                  the globally recognized MT5 ecosystem.
+                  Our proprietary browser-based workspace combines advanced charting, behavioral
+                  risk rules, and fast market access in one focused interface.
                 </p>
-                <div class="platform-capabilities" aria-label="MetaTrader 5 capabilities">
-                  <div class="platform-capability">
-                    <span>01</span>
-                    <strong>Desktop terminal</strong>
-                    <small>Windows</small>
+                <div class="platform-chip-row" aria-label="Web Trader features">
+                  <span class="platform-chip">No installation</span>
+                  <span class="platform-chip">Guard rules</span>
+                  <span class="platform-chip">Advanced charts</span>
+                </div>
+                <a href="https://trading.greatbless.com/trading?id=markets" class="btn btn-primary"
+                  style="font-size: 16px; text-decoration: none; color: white;">Launch Web Trader</a>
+              </div>
+
+              <div class="web-terminal-preview" aria-hidden="true">
+                <div class="terminal-bar">
+                  <span class="terminal-dots"><i></i><i></i><i></i></span>
+                  <span>Sample workspace</span>
+                </div>
+                <div class="terminal-body">
+                  <div class="terminal-market-head">
+                    <div>
+                      <small>XAU / USD</small>
+                      <strong>Market overview</strong>
+                    </div>
+                    <span class="terminal-change">Demo</span>
                   </div>
-                  <div class="platform-capability">
-                    <span>02</span>
-                    <strong>Mobile trading</strong>
-                    <small>iOS &amp; Android</small>
+                  <svg class="terminal-chart" viewBox="0 0 420 180" fill="none">
+                    <defs>
+                      <linearGradient id="terminal-area" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.28"></stop>
+                        <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"></stop>
+                      </linearGradient>
+                      <linearGradient id="terminal-line" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#0ea5e9"></stop>
+                        <stop offset="100%" stop-color="#5eead4"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0 35H420M0 78H420M0 121H420M0 164H420" stroke="#7dd3fc" stroke-opacity="0.08"></path>
+                    <path
+                      d="M0 148C34 136 51 142 82 119C112 96 139 111 166 87C196 61 219 74 248 57C279 38 306 56 337 35C366 16 390 29 420 12V180H0V148Z"
+                      fill="url(#terminal-area)"></path>
+                    <path
+                      d="M0 148C34 136 51 142 82 119C112 96 139 111 166 87C196 61 219 74 248 57C279 38 306 56 337 35C366 16 390 29 420 12"
+                      stroke="url(#terminal-line)" stroke-width="4" stroke-linecap="round"></path>
+                    <circle cx="420" cy="12" r="6" fill="#5eead4"></circle>
+                  </svg>
+                  <div class="terminal-metrics">
+                    <div class="terminal-metric">
+                      <small>Risk per trade</small>
+                      <strong>1.0%</strong>
+                    </div>
+                    <div class="terminal-metric">
+                      <small>Guard rules</small>
+                      <strong>9 configured</strong>
+                    </div>
                   </div>
-                  <div class="platform-capability">
-                    <span>03</span>
-                    <strong>Expert Advisors</strong>
-                    <small>Automation</small>
+                  <div class="terminal-actions">
+                    <div class="terminal-action terminal-action-sell">
+                      <span>Sell</span>
+                      <strong>Market</strong>
+                    </div>
+                    <div class="terminal-action terminal-action-buy">
+                      <span>Buy</span>
+                      <strong>Market</strong>
+                    </div>
                   </div>
                 </div>
-                <a href="https://www.metatrader5.com/en/download" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size: 16px; text-decoration: none; color: white;">Download MT5</a>
               </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="about-us" class="about section-pad">
-        <div class="container about-grid">
-          <div class="about-heading">
-            <p class="section-eyebrow">Who we are</p>
-            <h2>A trading experience built for disciplined traders</h2>
-          </div>
-          <div class="about-copy">
-            <p>
-              GreatBless Global Markets Ltd. is a fully registered international brokerage firm
-              incorporated in Saint Lucia. We are dedicated to providing retail and corporate clients
-              with a secure, transparent, and technologically advanced trading environment.
-            </p>
-            <p>
-              Unlike traditional brokers, we focus on Trader Discipline. Our proprietary infrastructure
-              is designed to help traders manage emotions, control risk, and execute strategies with
-              precision using our advanced Web Trading Platform and the industry-standard MetaTrader 5
-              core.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="why-choose-us" class="edge section-pad">
-        <div class="container">
-          <div class="edge-heading">
-            <div>
-              <p class="section-eyebrow">Why GreatBless</p>
-              <h2>Our Competitive Edge</h2>
             </div>
-            <p>
-              Combining advanced risk controls, MetaTrader 5, global market access, and TradingView charting, our technology helps traders analyze markets, manage risk, and execute their strategies with greater discipline.
-            </p>
-          </div>
-          <div class="cards-4">
-            <a class="edge-card edge-card-featured edge-card-link" href="./pages/blog_details/platform-capabilities.html#advanced-risk-management" aria-label="Read about Advanced Risk Management">
-              <span class="edge-number">01</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-8 h-8 text-blue-400"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-              <h3>Advanced Risk Management</h3>
-              <p>Built-in algorithmic controls to help you limit drawdown and manage daily loss limits.</p>
-              <div class="risk-control-panel" aria-label="Guard risk controls">
-                <div class="risk-control-head">
-                  <span>Guard controls</span>
-                  <span class="risk-control-count">9 rules</span>
-                </div>
-                <div class="risk-control-row">
-                  <span class="risk-rule-mark" aria-hidden="true"></span>
-                  <strong>Consecutive loss</strong>
-                  <span class="risk-rule-state">Set</span>
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                </div>
-                <div class="risk-control-row">
-                  <span class="risk-rule-mark" aria-hidden="true"></span>
-                  <strong>Loss cool-down</strong>
-                  <span class="risk-rule-state">Set</span>
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                </div>
-                <div class="risk-control-row">
-                  <span class="risk-rule-mark" aria-hidden="true"></span>
-                  <strong>Max order limit</strong>
-                  <span class="risk-rule-state">Set</span>
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                </div>
-                <p class="risk-control-more">+6 additional controls available</p>
-              </div>
-              <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            </a>
-            <a class="edge-card edge-card-compact edge-card-link" href="./pages/blog_details/platform-capabilities.html#metatrader-5" aria-label="Read about MetaTrader 5">
-              <span class="edge-number">02</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-8 h-8 text-green-400"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
-              <h3>Powered by MetaTrader 5</h3>
-              <p>Robust MT5 engine for lightning-fast execution, deep liquidity, and stability.</p>
-              <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            </a>
-            <a class="edge-card edge-card-compact edge-card-link" href="./pages/blog_details/platform-capabilities.html#global-market-access" aria-label="Read about Global Market Access">
-              <span class="edge-number">03</span>
-             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-8 h-8 text-purple-400"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
-              <h3>Global Market Access</h3>
-              <p>Trade CFDs on Forex, Metals, Energies, Indices, and Crypto from a single account.</p>
-              <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            </a>
-            <a class="edge-card edge-card-wide edge-card-link" href="./pages/blog_details/platform-capabilities.html#tradingview-integration" aria-label="Read about TradingView Integration">
-              <span class="edge-number">04</span>
-                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-8 h-8 text-orange-400"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-              <h3>TradingView Integration</h3>
-              <p>Analyze markets with world-class charting tools integrated directly into our Web Trader.</p>
-              <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            </a>
-          </div>
-        </div>
-      </section>
-      <section id="report-risk" class="performance section-pad">
-        <div class="container">
-          <div class="performance-heading">
-            <div>
-              <p class="section-eyebrow">Analyze your performance</p>
-              <h2>Performance Tracking</h2>
-            </div>
-            <p>
-              Turn trading activity into clear performance insights, so strengths, weaknesses, and key patterns are easier to review.
-            </p>
-          </div>
+          </article>
 
-          <div class="report-risk-grid">
-            <article class="performance-card performance-card-reports">
-              <div class="performance-card-top">
-                <span class="performance-step">01 &middot; Analyze</span>
-                <span class="performance-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                </span>
+          <article class="platform-card platform-card-mt5">
+            <div class="platform-card-content">
+              <div class="mt5-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M2 12h4l3-8 6 16 3-8h4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
               </div>
-              <h3>Performance Reports</h3>
+              <span class="platform-kicker" style="margin-top: 18px;">Industry-standard platform</span>
+              <h3>MetaTrader 5</h3>
               <p>
-                Bring profit, loss, drawdown, win rate, and profit factor into one clear view so
-                strengths and weaknesses are easier to identify and act on.
+                Powerful technical analysis, algorithmic trading, and multi-device access through
+                the globally recognized MT5 ecosystem.
               </p>
-
-              <div class="report-dashboard" aria-label="Sample performance analytics">
-                <div class="report-dashboard-head">
-                  <strong>Sample analytics</strong>
+              <div class="platform-capabilities" aria-label="MetaTrader 5 capabilities">
+                <div class="platform-capability">
+                  <span>01</span>
+                  <strong>Mobile iOS</strong>
+                  <small><a href="https://download.terminal.free/cdn/mobile/mt5/ios?server=GreatBlessGlobal-Trade"
+                      target="_blank" rel="noopener noreferrer" class="platform-cap-link">Download</a></small>
                 </div>
-                <div class="report-metrics">
-                  <div class="report-metric report-metric-positive">
-                    <small>Win rate</small>
-                    <strong>62%</strong>
-                  </div>
-                  <div class="report-metric">
-                    <small>Profit factor</small>
-                    <strong>1.82</strong>
-                  </div>
-                  <div class="report-metric">
-                    <small>Max drawdown</small>
-                    <strong>4.1%</strong>
-                  </div>
+                <div class="platform-capability">
+                  <span>02</span>
+                  <strong>Mobile Android</strong>
+                  <small><a href="https://download.terminal.free/cdn/mobile/mt5/android?server=GreatBlessGlobal-Trade"
+                      target="_blank" rel="noopener noreferrer" class="platform-cap-link">Download</a></small>
                 </div>
-                <div class="report-chart" aria-hidden="true">
-                  <i style="--bar-height: 26%;"></i>
-                  <i style="--bar-height: 42%;"></i>
-                  <i style="--bar-height: 35%;"></i>
-                  <i style="--bar-height: 58%;"></i>
-                  <i style="--bar-height: 51%;"></i>
-                  <i style="--bar-height: 70%;"></i>
-                  <i style="--bar-height: 62%;"></i>
-                  <i style="--bar-height: 78%;"></i>
-                  <i style="--bar-height: 72%;"></i>
-                  <i style="--bar-height: 88%;"></i>
-                  <i style="--bar-height: 82%;"></i>
-                  <i style="--bar-height: 96%;"></i>
+                <div class="platform-capability">
+                  <span>03</span>
+                  <strong>Desktop Terminal</strong>
+                  <small><a
+                      href="https://download.terminal.free/cdn/web/greatbless.global.markets/mt5/greatblessglobal5setup.exe"
+                      target="_blank" rel="noopener noreferrer" class="platform-cap-link">Download</a></small>
                 </div>
               </div>
-              <span class="performance-note">Illustrative data for interface preview</span>
-            </article>
-          </div>
+            </div>
+          </article>
         </div>
-      </section>
-      <section class="ticker">
-        <div class="container ticker-wrap">
-          <div class="ticker-track">
-            <div class="ticker-group">
-              <article class="ticker-item">
+      </div>
+    </section>
+
+    <section id="about-us" class="about section-pad">
+      <div class="container about-grid">
+        <div class="about-heading">
+          <p class="section-eyebrow">Who we are</p>
+          <h2>A trading experience built for disciplined traders</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            GreatBless Global Markets Ltd. is a fully registered international brokerage firm
+            incorporated in Saint Lucia. We are dedicated to providing retail and corporate clients
+            with a secure, transparent, and technologically advanced trading environment.
+          </p>
+          <p>
+            Unlike traditional brokers, we focus on Trader Discipline. Our proprietary infrastructure
+            is designed to help traders manage emotions, control risk, and execute strategies with
+            precision using our advanced Web Trading Platform and the industry-standard MetaTrader 5
+            core.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-choose-us" class="edge section-pad">
+      <div class="container">
+        <div class="edge-heading">
+          <div>
+            <p class="section-eyebrow">Why GreatBless</p>
+            <h2>Our Competitive Edge</h2>
+          </div>
+          <p>
+            Combining advanced risk controls, MetaTrader 5, global market access, and TradingView charting, our
+            technology helps traders analyze markets, manage risk, and execute their strategies with greater discipline.
+          </p>
+        </div>
+        <div class="cards-4">
+          <a class="edge-card edge-card-featured edge-card-link"
+            href="./pages/blog_details/platform-capabilities.html#advanced-risk-management"
+            aria-label="Read about Advanced Risk Management">
+            <span class="edge-number">01</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+              stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              className="w-8 h-8 text-blue-400">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <h3>Advanced Risk Management</h3>
+            <p>Built-in algorithmic controls to help you limit drawdown and manage daily loss limits.</p>
+            <div class="risk-control-panel" aria-label="Guard risk controls">
+              <div class="risk-control-head">
+                <span>Guard controls</span>
+                <span class="risk-control-count">9 rules</span>
+              </div>
+              <div class="risk-control-row">
+                <span class="risk-rule-mark" aria-hidden="true"></span>
+                <strong>Consecutive loss</strong>
+                <span class="risk-rule-state">Set</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="risk-control-row">
+                <span class="risk-rule-mark" aria-hidden="true"></span>
+                <strong>Loss cool-down</strong>
+                <span class="risk-rule-state">Set</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div class="risk-control-row">
+                <span class="risk-rule-mark" aria-hidden="true"></span>
+                <strong>Max order limit</strong>
+                <span class="risk-rule-state">Set</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <p class="risk-control-more">+6 additional controls available</p>
+            </div>
+            <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg></span>
+          </a>
+          <a class="edge-card edge-card-compact edge-card-link"
+            href="./pages/blog_details/platform-capabilities.html#metatrader-5" aria-label="Read about MetaTrader 5">
+            <span class="edge-number">02</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+              stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              className="w-8 h-8 text-green-400">
+              <path d="M3 3v18h18"></path>
+              <path d="M18 17V9"></path>
+              <path d="M13 17V5"></path>
+              <path d="M8 17v-3"></path>
+            </svg>
+            <h3>Powered by MetaTrader 5</h3>
+            <p>Robust MT5 engine for lightning-fast execution, deep liquidity, and stability.</p>
+            <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg></span>
+          </a>
+          <a class="edge-card edge-card-compact edge-card-link"
+            href="./pages/blog_details/platform-capabilities.html#global-market-access"
+            aria-label="Read about Global Market Access">
+            <span class="edge-number">03</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+              stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              className="w-8 h-8 text-purple-400">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline>
+            </svg>
+            <h3>Global Market Access</h3>
+            <p>Trade CFDs on Forex, Metals, Energies, Indices, and Crypto from a single account.</p>
+            <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg></span>
+          </a>
+          <a class="edge-card edge-card-wide edge-card-link"
+            href="./pages/blog_details/platform-capabilities.html#tradingview-integration"
+            aria-label="Read about TradingView Integration">
+            <span class="edge-number">04</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+              stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              className="w-8 h-8 text-orange-400">
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+              </path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <h3>TradingView Integration</h3>
+            <p>Analyze markets with world-class charting tools integrated directly into our Web Trader.</p>
+            <span class="edge-card-cta">Explore feature <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg></span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section id="report-risk" class="performance section-pad">
+      <div class="container">
+        <div class="performance-heading">
+          <div>
+            <p class="section-eyebrow">Analyze your performance</p>
+            <h2>Performance Tracking</h2>
+          </div>
+          <p>
+            Turn trading activity into clear performance insights, so strengths, weaknesses, and key patterns are easier
+            to review.
+          </p>
+        </div>
+
+        <div class="report-risk-grid">
+          <article class="performance-card performance-card-reports">
+            <div class="performance-card-top">
+              <span class="performance-step">01 &middot; Analyze</span>
+              <span class="performance-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 19V9m5 10V5m5 14v-7m5 7V3M3 21h18" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </div>
+            <h3>Performance Reports</h3>
+            <p>
+              Bring profit, loss, drawdown, win rate, and profit factor into one clear view so
+              strengths and weaknesses are easier to identify and act on.
+            </p>
+
+            <div class="report-dashboard" aria-label="Sample performance analytics">
+              <div class="report-dashboard-head">
+                <strong>Sample analytics</strong>
+              </div>
+              <div class="report-metrics">
+                <div class="report-metric report-metric-positive">
+                  <small>Win rate</small>
+                  <strong>62%</strong>
+                </div>
+                <div class="report-metric">
+                  <small>Profit factor</small>
+                  <strong>1.82</strong>
+                </div>
+                <div class="report-metric">
+                  <small>Max drawdown</small>
+                  <strong>4.1%</strong>
+                </div>
+              </div>
+              <div class="report-chart" aria-hidden="true">
+                <i style="--bar-height: 26%;"></i>
+                <i style="--bar-height: 42%;"></i>
+                <i style="--bar-height: 35%;"></i>
+                <i style="--bar-height: 58%;"></i>
+                <i style="--bar-height: 51%;"></i>
+                <i style="--bar-height: 70%;"></i>
+                <i style="--bar-height: 62%;"></i>
+                <i style="--bar-height: 78%;"></i>
+                <i style="--bar-height: 72%;"></i>
+                <i style="--bar-height: 88%;"></i>
+                <i style="--bar-height: 82%;"></i>
+                <i style="--bar-height: 96%;"></i>
+              </div>
+            </div>
+            <span class="performance-note">Illustrative data for interface preview</span>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="ticker">
+      <div class="container ticker-wrap">
+        <div class="ticker-track">
+          <div class="ticker-group">
+            <article class="ticker-item">
               <span class="ticker-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z"
+                    stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                </svg>
               </span>
               <span class="ticker-copy">
                 <strong>Education Hub</strong>
@@ -2618,7 +3123,12 @@
             </article>
             <article class="ticker-item">
               <span class="ticker-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18M6 16l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 7h3v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M3 3v18h18M6 16l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M15 7h3v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
               </span>
               <span class="ticker-copy">
                 <strong>TradingView Charting</strong>
@@ -2627,7 +3137,11 @@
             </article>
             <article class="ticker-item">
               <span class="ticker-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="m12 3 2.75 5.57 6.15.9-4.45 4.33 1.05 6.12L12 17.03l-5.5 2.89 1.05-6.12L3.1 9.47l6.15-.9L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="m12 3 2.75 5.57 6.15.9-4.45 4.33 1.05 6.12L12 17.03l-5.5 2.89 1.05-6.12L3.1 9.47l6.15-.9L12 3Z"
+                    stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                </svg>
               </span>
               <span class="ticker-copy">
                 <strong>Loyalty Program</strong>
@@ -2636,106 +3150,110 @@
             </article>
             <article class="ticker-item">
               <span class="ticker-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M7 14v6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M7 14v6" stroke="currentColor" stroke-width="1.9"
+                    stroke-linecap="round"></path>
+                </svg>
               </span>
               <span class="ticker-copy">
                 <strong>Competitive Pricing</strong>
                 <small>Clear, transparent trading costs</small>
               </span>
-              </article>
-            </div>
+            </article>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <div id="shared-footer-root"></div>
-    <script>
-      renderSharedFooter("shared-footer-root", { basePath: "." });
-    </script>
+  <div id="shared-footer-root"></div>
+  <script>
+    renderSharedFooter("shared-footer-root", { basePath: "." });
+  </script>
 
-    <script>
-      const eaItems = document.querySelectorAll(".ea-item[data-image]");
-      const eaMediaImg = document.getElementById("ea-media-img");
-      const eaMediaDemo = document.getElementById("ea-media-demo");
-      const eaMediaTitle = document.getElementById("ea-media-title");
-      const eaMediaCount = document.getElementById("ea-media-count");
-      const eaMediaGuide = document.getElementById("ea-media-guide");
-      const eaMediaGuideLabel = document.getElementById("ea-media-guide-label");
-      const tickerTrack = document.querySelector(".ticker-track");
-      const tickerGroup = tickerTrack?.querySelector(".ticker-group");
+  <script>
+    const eaItems = document.querySelectorAll(".ea-item[data-image]");
+    const eaMediaImg = document.getElementById("ea-media-img");
+    const eaMediaDemo = document.getElementById("ea-media-demo");
+    const eaMediaTitle = document.getElementById("ea-media-title");
+    const eaMediaCount = document.getElementById("ea-media-count");
+    const eaMediaGuide = document.getElementById("ea-media-guide");
+    const eaMediaGuideLabel = document.getElementById("ea-media-guide-label");
+    const tickerTrack = document.querySelector(".ticker-track");
+    const tickerGroup = tickerTrack?.querySelector(".ticker-group");
 
-      if (tickerTrack && tickerGroup) {
-        const tickerClone = tickerGroup.cloneNode(true);
-        tickerClone.setAttribute("aria-hidden", "true");
-        tickerTrack.appendChild(tickerClone);
-        tickerTrack.classList.add("is-looping");
-      }
+    if (tickerTrack && tickerGroup) {
+      const tickerClone = tickerGroup.cloneNode(true);
+      tickerClone.setAttribute("aria-hidden", "true");
+      tickerTrack.appendChild(tickerClone);
+      tickerTrack.classList.add("is-looping");
+    }
 
-      const setEaFeature = (item) => {
-        if (!item || !eaMediaImg) return;
-        const imageUrl = item.getAttribute("data-image");
-        const demoUrl = item.getAttribute("data-demo");
-        const featureIndex = item.getAttribute("data-index") || "01";
-        const featureTitle = item.getAttribute("data-title") || "";
-        const imageAlt = item.getAttribute("data-alt") || `${featureTitle} feature preview`;
-        const guideHref = item.getAttribute("data-guide-href");
-        const guideLabel = item.getAttribute("data-guide-label") || "Read guide";
+    const setEaFeature = (item) => {
+      if (!item || !eaMediaImg) return;
+      const imageUrl = item.getAttribute("data-image");
+      const demoUrl = item.getAttribute("data-demo");
+      const featureIndex = item.getAttribute("data-index") || "01";
+      const featureTitle = item.getAttribute("data-title") || "";
+      const imageAlt = item.getAttribute("data-alt") || `${featureTitle} feature preview`;
+      const guideHref = item.getAttribute("data-guide-href");
+      const guideLabel = item.getAttribute("data-guide-label") || "Read guide";
 
-        eaItems.forEach((entry) => {
-          const isActive = entry === item;
-          entry.classList.toggle("active", isActive);
-          entry.setAttribute("aria-pressed", isActive ? "true" : "false");
-        });
-
-        if (demoUrl && eaMediaDemo) {
-          eaMediaImg.hidden = true;
-          eaMediaDemo.hidden = false;
-          eaMediaDemo.title = imageAlt;
-          if (eaMediaDemo.getAttribute("src") !== demoUrl) {
-            eaMediaDemo.src = demoUrl;
-          }
-        } else {
-          if (eaMediaDemo) {
-            eaMediaDemo.hidden = true;
-            eaMediaDemo.src = "about:blank";
-          }
-          if (imageUrl) eaMediaImg.src = imageUrl;
-          eaMediaImg.alt = imageAlt;
-          eaMediaImg.hidden = false;
-        }
-        if (eaMediaTitle) eaMediaTitle.textContent = featureTitle;
-        if (eaMediaCount) {
-          eaMediaCount.textContent = `${featureIndex} / ${String(eaItems.length).padStart(2, "0")}`;
-        }
-        if (eaMediaGuide) {
-          eaMediaGuide.classList.toggle("is-visible", Boolean(guideHref));
-          if (guideHref) {
-            eaMediaGuide.href = guideHref;
-            eaMediaGuide.setAttribute("aria-label", guideLabel);
-            if (eaMediaGuideLabel) eaMediaGuideLabel.textContent = guideLabel;
-          }
-        }
-      };
-
-      eaItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          setEaFeature(item);
-        });
-        item.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            setEaFeature(item);
-          }
-        });
+      eaItems.forEach((entry) => {
+        const isActive = entry === item;
+        entry.classList.toggle("active", isActive);
+        entry.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
 
-      const defaultItem = document.querySelector(".ea-item.active[data-image]");
-      if (defaultItem) {
-        setEaFeature(defaultItem);
+      if (demoUrl && eaMediaDemo) {
+        eaMediaImg.hidden = true;
+        eaMediaDemo.hidden = false;
+        eaMediaDemo.title = imageAlt;
+        if (eaMediaDemo.getAttribute("src") !== demoUrl) {
+          eaMediaDemo.src = demoUrl;
+        }
+      } else {
+        if (eaMediaDemo) {
+          eaMediaDemo.hidden = true;
+          eaMediaDemo.src = "about:blank";
+        }
+        if (imageUrl) eaMediaImg.src = imageUrl;
+        eaMediaImg.alt = imageAlt;
+        eaMediaImg.hidden = false;
       }
+      if (eaMediaTitle) eaMediaTitle.textContent = featureTitle;
+      if (eaMediaCount) {
+        eaMediaCount.textContent = `${featureIndex} / ${String(eaItems.length).padStart(2, "0")}`;
+      }
+      if (eaMediaGuide) {
+        eaMediaGuide.classList.toggle("is-visible", Boolean(guideHref));
+        if (guideHref) {
+          eaMediaGuide.href = guideHref;
+          eaMediaGuide.setAttribute("aria-label", guideLabel);
+          if (eaMediaGuideLabel) eaMediaGuideLabel.textContent = guideLabel;
+        }
+      }
+    };
 
-    </script>
+    eaItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        setEaFeature(item);
+      });
+      item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setEaFeature(item);
+        }
+      });
+    });
+
+    const defaultItem = document.querySelector(".ea-item.active[data-image]");
+    if (defaultItem) {
+      setEaFeature(defaultItem);
+    }
+
+  </script>
   <script src="./components/status-banner.js"></script>
-  </body>
+</body>
+
 </html>

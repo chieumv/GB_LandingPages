@@ -549,7 +549,8 @@
 
 .shared-social-facebook { color: #6ea8ff; }
 .shared-social-tiktok { color: #68e7e0; }
-.shared-social-twitter { color: #71c4f5; }
+.shared-social-x,
+.shared-social-twitter { color: #f3f4f6; }
 .shared-social-instagram { color: #ec86b3; }
 .shared-social-youtube { color: #ff7b85; }
 
