@@ -416,6 +416,8 @@
       let previousPhase = '';
       let dragging = null;
       let userControlUntil = 0;
+      let reportedCycle = -1;
+      let interactionPauseStartedAt = null;
 
       const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
       const smooth = (value) => value * value * (3 - 2 * value);
@@ -567,15 +569,30 @@
       }
 
       function frame(now) {
+        if (dragging || now < userControlUntil) {
+          requestAnimationFrame(frame);
+          return;
+        }
+        if (interactionPauseStartedAt !== null) {
+          startedAt += now - interactionPauseStartedAt;
+          interactionPauseStartedAt = null;
+        }
         const elapsed = (now - startedAt) / 1000;
+        const cycle = Math.floor(elapsed / LOOP_SECONDS);
+        if (cycle > 0 && cycle !== reportedCycle) {
+          reportedCycle = cycle;
+          window.parent.postMessage({ type: 'ea-demo-ended' }, '*');
+        }
         const time = elapsed % LOOP_SECONDS;
-        if (!dragging && now >= userControlUntil) update(time);
+        update(time);
         requestAnimationFrame(frame);
       }
 
       function restart() {
         startedAt = performance.now();
+        reportedCycle = -1;
         userControlUntil = 0;
+        interactionPauseStartedAt = null;
         toast.classList.remove('show');
         slLine.style.setProperty('--y', '65px');
         tpLine.style.setProperty('--y', '225px');
@@ -593,7 +610,9 @@
           return;
         }
         dragging = line;
-        userControlUntil = performance.now() + 4000;
+        const now = performance.now();
+        interactionPauseStartedAt = now;
+        userControlUntil = now + 4000;
         line.classList.remove('pending');
         line.classList.add('dragging');
         line.setPointerCapture(event.pointerId);

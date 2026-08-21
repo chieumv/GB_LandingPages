@@ -913,6 +913,7 @@
     let isDraggingSl = false;
     let hasUserDraggedSl = false;
     let resumeTimelineAt = 0;
+    let hasReportedCompletion = false;
 
     const progressFill = document.getElementById('progressFill');
     const timerText = document.getElementById('timerText');
@@ -1096,7 +1097,12 @@
       if (isDraggingSl || Date.now() < resumeTimelineAt) return;
       currentTime += 0.1;
       if (currentTime > DURATION) {
+        if (!hasReportedCompletion) {
+          hasReportedCompletion = true;
+          window.parent.postMessage({ type: 'ea-demo-ended' }, '*');
+        }
         currentTime = 0; // Loop back
+        hasReportedCompletion = false;
       }
       updateUI();
     }

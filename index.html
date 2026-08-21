@@ -2708,6 +2708,7 @@
             <article class="ea-item" data-image="./public/images/ib-partner-dashboard.png" data-index="03"
               data-title="IB Partner Program"
               data-alt="Introducing Broker partner dashboard showing referral and commission analytics"
+              data-auto-duration="6000"
               data-guide-href="./pages/blog_details/ib-partner-program.html" data-guide-label="Read IB guide"
               role="button" tabindex="0" aria-pressed="false">
               <span class="ea-index">03</span>
@@ -3181,6 +3182,8 @@
     const eaMediaGuideLabel = document.getElementById("ea-media-guide-label");
     const tickerTrack = document.querySelector(".ticker-track");
     const tickerGroup = tickerTrack?.querySelector(".ticker-group");
+    const eaReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let eaAutoAdvanceTimer = null;
 
     if (tickerTrack && tickerGroup) {
       const tickerClone = tickerGroup.cloneNode(true);
@@ -3188,6 +3191,24 @@
       tickerTrack.appendChild(tickerClone);
       tickerTrack.classList.add("is-looping");
     }
+
+    const advanceEaFeature = () => {
+      const items = Array.from(eaItems);
+      const activeIndex = items.findIndex((entry) => entry.classList.contains("active"));
+      const nextItem = items[(activeIndex + 1) % items.length];
+      if (nextItem) setEaFeature(nextItem);
+    };
+
+    const scheduleEaStaticAdvance = (item) => {
+      window.clearTimeout(eaAutoAdvanceTimer);
+      eaAutoAdvanceTimer = null;
+      if (eaReducedMotion.matches || item.hasAttribute("data-demo")) return;
+
+      const duration = Number(item.getAttribute("data-auto-duration"));
+      if (duration > 0) {
+        eaAutoAdvanceTimer = window.setTimeout(advanceEaFeature, duration);
+      }
+    };
 
     const setEaFeature = (item) => {
       if (!item || !eaMediaImg) return;
@@ -3233,7 +3254,16 @@
           if (eaMediaGuideLabel) eaMediaGuideLabel.textContent = guideLabel;
         }
       }
+      scheduleEaStaticAdvance(item);
     };
+
+    window.addEventListener("message", (event) => {
+      if (eaReducedMotion.matches || event.source !== eaMediaDemo?.contentWindow) return;
+      if (event.data?.type !== "ea-demo-ended") return;
+
+      const activeItem = document.querySelector(".ea-item.active[data-demo]");
+      if (activeItem) advanceEaFeature();
+    });
 
     eaItems.forEach((item) => {
       item.addEventListener("click", () => {

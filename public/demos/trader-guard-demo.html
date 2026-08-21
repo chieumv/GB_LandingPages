@@ -268,6 +268,9 @@
       let startedAt = performance.now();
       let manualUntil = 0;
       let manualConfirmedAt = null;
+      let reportedCycle = -1;
+      let manualPauseStartedAt = null;
+      let hasReportedManualCompletion = false;
 
       const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
       const smooth = (value) => value * value * (3 - 2 * value);
@@ -332,6 +335,16 @@
         toastCopy.textContent = 'Maximum daily loss reached. The configured account lock action was applied.';
       }
 
+      function pauseTimeline() {
+        const now = performance.now();
+        if (manualPauseStartedAt === null) manualPauseStartedAt = now;
+        manualUntil = now + 5000;
+      }
+
+      function reportDemoEnded() {
+        window.parent.postMessage({ type: 'ea-demo-ended' }, '*');
+      }
+
       function render(time) {
         const inputP = progress(time, 1.2, 3.5);
         const configured = time >= 5.7;
@@ -382,8 +395,11 @@
 
       function restart() {
         startedAt = performance.now();
+        reportedCycle = -1;
         manualUntil = 0;
         manualConfirmedAt = null;
+        manualPauseStartedAt = null;
+        hasReportedManualCompletion = false;
         dialog.classList.remove('show');
         toast.classList.remove('show', 'violation');
         history.classList.remove('show');
@@ -397,17 +413,31 @@
         if (manualConfirmedAt !== null) {
           const manualTime = (now - manualConfirmedAt) / 1000;
           render(manualTime < 2.5 ? 6.1 : 12.0 + Math.min(2, manualTime - 2.5));
+          if (manualTime >= 4.5 && !hasReportedManualCompletion) {
+            hasReportedManualCompletion = true;
+            reportDemoEnded();
+          }
         } else if (now >= manualUntil) {
-          render(((now - startedAt) / 1000) % LOOP_SECONDS);
+          if (manualPauseStartedAt !== null) {
+            startedAt += now - manualPauseStartedAt;
+            manualPauseStartedAt = null;
+          }
+          const elapsed = (now - startedAt) / 1000;
+          const cycle = Math.floor(elapsed / LOOP_SECONDS);
+          if (cycle > 0 && cycle !== reportedCycle) {
+            reportedCycle = cycle;
+            reportDemoEnded();
+          }
+          render(elapsed % LOOP_SECONDS);
         }
         requestAnimationFrame(frame);
       }
 
-      thresholdInput.addEventListener('input', () => { manualUntil = performance.now() + 5000; });
-      lockPenalty.addEventListener('click', () => { setPenalty('lock'); manualUntil = performance.now() + 5000; });
-      closePenalty.addEventListener('click', () => { setPenalty('close'); manualUntil = performance.now() + 5000; });
+      thresholdInput.addEventListener('input', pauseTimeline);
+      lockPenalty.addEventListener('click', () => { setPenalty('lock'); pauseTimeline(); });
+      closePenalty.addEventListener('click', () => { setPenalty('close'); pauseTimeline(); });
       document.getElementById('lossHeader').addEventListener('click', () => lossRule.classList.toggle('open'));
-      document.getElementById('confirm').addEventListener('click', () => { dialog.classList.add('show'); manualUntil = performance.now() + 5000; });
+      document.getElementById('confirm').addEventListener('click', () => { dialog.classList.add('show'); pauseTimeline(); });
       document.getElementById('no').addEventListener('click', () => dialog.classList.remove('show'));
       document.getElementById('yes').addEventListener('click', () => { dialog.classList.remove('show'); manualConfirmedAt = performance.now(); thresholdInput.value = '3.00'; showConfirmedToast(); });
       document.getElementById('replay').addEventListener('click', restart);
