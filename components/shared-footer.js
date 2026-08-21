@@ -71,7 +71,7 @@
               <a class="shared-social-link shared-social-facebook" href="https://www.facebook.com/profile.php?id=61591606401113" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.6 21v-7.7h2.6l.4-3h-3V8.4c0-.9.2-1.5 1.5-1.5h1.6V4.2c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H9.3v3h2.5V21h2.8Z" fill="currentColor"></path></svg>
               </a>
-              <a class="shared-social-link shared-social-tiktok" href="https://www.tiktok.com/explore" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <a class="shared-social-link shared-social-tiktok" href="https://www.tiktok.com/@greatbless86" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3c.5 2.1 1.7 3.4 3.8 3.6v3c-1.4 0-2.6-.4-3.8-1.1v6.1c0 3.6-2.9 6.4-6.5 6.4a6.4 6.4 0 1 1 3.9-11.5v3.1a3.3 3.3 0 1 0-.9 4.6c.4-.4.7-1.1.7-1.9V3h2.8Z" fill="currentColor"></path></svg>
               </a>
               <a class="shared-social-link shared-social-x shared-social-twitter" href="https://x.com/GreatBless2024" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
