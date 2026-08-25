@@ -132,6 +132,7 @@
 }
 
 .shared-header-btn {
+  width: 145px;
   min-height: 42px;
   display: inline-flex;
   align-items: center;
