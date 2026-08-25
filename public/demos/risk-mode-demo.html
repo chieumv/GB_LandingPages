@@ -106,6 +106,55 @@
       gap: 6px;
     }
 
+    .scene-navigation {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .scene-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(59, 130, 246, 0.55);
+      border-radius: 7px;
+      background: rgba(15, 23, 42, 0.88);
+      color: #dbeafe;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    #prevSceneBtn {
+      left: 10px;
+    }
+
+    #nextSceneBtn {
+      right: 10px;
+    }
+
+    .scene-nav-btn:hover:not(:disabled),
+    .scene-nav-btn:focus-visible:not(:disabled) {
+      border-color: var(--accent-blue);
+      background: rgba(37, 99, 235, 0.32);
+      color: #ffffff;
+      outline: none;
+    }
+
+    .scene-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
     .pulse-dot {
       width: 6px;
       height: 6px;
@@ -414,8 +463,8 @@
       text-align: center;
     }
 
-    .axis-price-top {
-      top: 10%;
+    .axis-price-tick {
+      top: var(--axis-position);
     }
 
     .axis-entry-price {
@@ -432,14 +481,9 @@
       top: 50%;
       color: #ff5268;
       font-weight: 800;
-    }
-
-    .axis-price-lower {
-      top: 70%;
-    }
-
-    .axis-price-bottom {
-      top: 90%;
+      z-index: 2;
+      padding: 2px 1px;
+      background: #171b26;
     }
 
     /* Entry Price Line - Aligned with Close of Last Candle at Y=30% (1.10000) */
@@ -481,12 +525,8 @@
       filter: brightness(1.18);
     }
 
-    .real-price-line.sl.farther {
-      top: 70%;
-    }
-
-    .real-price-line.sl.closer {
-      top: 40%;
+    .real-price-line.sl.is-animating {
+      transition: top 0.12s linear;
     }
 
     /* Center Draggable Circle Handle */
@@ -692,6 +732,11 @@
 <body>
 
   <div class="video-container">
+    <nav class="scene-navigation" aria-label="Risk Mode scenes">
+      <button class="scene-nav-btn" id="prevSceneBtn" type="button" aria-label="Previous scene">&lt;</button>
+      <button class="scene-nav-btn" id="nextSceneBtn" type="button" aria-label="Next scene">&gt;</button>
+    </nav>
+
     <!-- Header -->
     <div class="app-header">
       <div class="brand">
@@ -873,11 +918,16 @@
 
             <!-- Price Axis Scale on Right Side -->
             <div class="price-axis">
-              <span class="axis-price-top">1.10100</span>
-              <span class="axis-entry-price">1.10000</span>
+              <span class="axis-price-tick" style="--axis-position: 10%">1.10100</span>
+              <span class="axis-price-tick" style="--axis-position: 20%">1.10050</span>
+              <span class="axis-entry-price axis-price-tick" style="--axis-position: 30%">1.10000</span>
+              <span class="axis-price-tick" style="--axis-position: 40%">1.09950</span>
+              <span class="axis-price-tick" style="--axis-position: 50%">1.09900</span>
+              <span class="axis-price-tick" style="--axis-position: 60%">1.09850</span>
+              <span class="axis-price-tick" style="--axis-position: 70%">1.09800</span>
+              <span class="axis-price-tick" style="--axis-position: 80%">1.09750</span>
+              <span class="axis-price-tick" style="--axis-position: 90%">1.09700</span>
               <span class="axis-sl-price" id="axisSlText">1.09900</span>
-              <span class="axis-price-lower">1.09800</span>
-              <span class="axis-price-bottom">1.09700</span>
             </div>
           </div>
         </div>
@@ -906,7 +956,8 @@
   </div>
 
   <script>
-    const DURATION = 15; // 15 seconds video
+    const DURATION = 15; // Timeline seconds used by the four scenes.
+    const PLAYBACK_SPEED = 0.67; // About 22 seconds of real viewing time.
     let currentTime = 0;
     let isPlaying = true;
     let timerInterval = null;
@@ -918,6 +969,8 @@
     const progressFill = document.getElementById('progressFill');
     const timerText = document.getElementById('timerText');
     const playBtn = document.getElementById('playBtn');
+    const prevSceneBtn = document.getElementById('prevSceneBtn');
+    const nextSceneBtn = document.getElementById('nextSceneBtn');
 
     const realSlPriceLine = document.getElementById('realSlPriceLine');
     const slPriceText = document.getElementById('slPriceText');
@@ -978,29 +1031,28 @@
       });
     }
 
-    function updateSlValues(distancePips, linePercent, isUserInput = false) {
-      const safePips = Math.max(MIN_SL_PIPS, Math.min(MAX_SL_PIPS, Math.round(distancePips)));
+    function updateSlValues(distancePips, linePercent, isUserInput = false, motionLabel = '') {
+      const safePips = Math.max(MIN_SL_PIPS, Math.min(MAX_SL_PIPS, distancePips));
       const slPrice = ENTRY_PRICE - safePips * 0.0001;
       const volume = TARGET_RISK_USD / (safePips * 10);
       const priceText = slPrice.toFixed(5);
       const volumeText = `${volume.toFixed(2)} ${Math.abs(volume - 1) < 0.001 ? 'Lot' : 'Lots'}`;
+      const pipsText = safePips.toFixed(1).replace(/\.0$/, '');
 
-      if (isUserInput) {
-        realSlPriceLine.style.top = `${linePercent}%`;
-        realSlPriceLine.className = 'real-price-line sl is-dragging';
-      }
+      realSlPriceLine.style.top = `${linePercent}%`;
+      realSlPriceLine.className = `real-price-line sl ${isUserInput ? 'is-dragging' : 'is-animating'}`;
 
       slPriceText.textContent = priceText;
-      sideSlPriceText.textContent = `${priceText} (${safePips} pips)`;
+      sideSlPriceText.textContent = `${priceText} (${pipsText} pips)`;
       sideVolumeText.textContent = volumeText;
       sideVolumeText.style.color = safePips <= 10 ? '#4ade80' : '#60a5fa';
       axisSlText.textContent = priceText;
       axisSlText.style.top = `${linePercent}%`;
-      slDistanceBadge.textContent = `${safePips} PIPS`;
+      slDistanceBadge.textContent = motionLabel ? `${motionLabel} (${pipsText} PIPS)` : `${pipsText} PIPS`;
       slDistanceBadge.className = `status-pill ${safePips <= 10 ? 'close' : 'far'}`;
 
       if (isUserInput) {
-        stage3Subtitle.textContent = `SL is ${safePips} pips from Entry → Volume updates to ${volumeText} (Fixed $200 Risk)`;
+        stage3Subtitle.textContent = `SL is ${pipsText} pips from Entry → Volume updates to ${volumeText} (Fixed $200 Risk)`;
       }
     }
 
@@ -1021,6 +1073,31 @@
       { id: 'stage3', start: 7.5, end: 11.5 },
       { id: 'stage4', start: 11.5, end: 15.0 }
     ];
+
+    function getCurrentStageIndex() {
+      const index = stages.findIndex(stage => currentTime >= stage.start && currentTime < stage.end);
+      return index === -1 ? stages.length - 1 : index;
+    }
+
+    function goToStage(offset) {
+      const currentStageIndex = getCurrentStageIndex();
+      if (offset > 0 && currentStageIndex === stages.length - 1) {
+        if (!hasReportedCompletion) {
+          hasReportedCompletion = true;
+          window.parent.postMessage({ type: 'ea-demo-ended' }, '*');
+        }
+        return;
+      }
+
+      const targetIndex = Math.max(0, Math.min(stages.length - 1, currentStageIndex + offset));
+      if (targetIndex === currentStageIndex) return;
+
+      currentTime = stages[targetIndex].start + 0.01;
+      hasReportedCompletion = false;
+      hasUserDraggedSl = false;
+      resumeTimelineAt = Date.now() + 400;
+      updateUI();
+    }
 
     function updateUI() {
       // Update progress fill
@@ -1043,6 +1120,11 @@
         }
       });
 
+      const currentStageIndex = getCurrentStageIndex();
+      prevSceneBtn.disabled = currentStageIndex === 0;
+      nextSceneBtn.disabled = false;
+      nextSceneBtn.setAttribute('aria-label', currentStageIndex === stages.length - 1 ? 'Open Trader Guard' : 'Next scene');
+
       const isStage3Active = currentTime >= 7.5 && currentTime < 11.5;
       if (!isStage3Active && !isDraggingSl) {
         hasUserDraggedSl = false;
@@ -1055,47 +1137,30 @@
       // Phase 2 (9.2s - 10.4s): Drag FARTHER down to 1.09800 (20 pips) -> Volume 1.00 Lot
       // Phase 3 (10.4s - 11.5s): Drag CLOSER up to 1.09950 (5 pips) -> Volume 4.00 Lots
       if (isStage3Active && !hasUserDraggedSl) {
-        if (currentTime >= 9.2 && currentTime < 10.4) {
-          // FARTHER AWAY
-          realSlPriceLine.className = 'real-price-line sl farther';
-          slPriceText.textContent = '1.09800';
-          sideSlPriceText.textContent = '1.09800 (20 pips)';
-          sideVolumeText.textContent = '1.00 Lot';
-          sideVolumeText.style.color = '#60a5fa';
-          axisSlText.textContent = '1.09800';
-          axisSlText.style.top = '70%';
-          slDistanceBadge.textContent = 'FARTHER (20 PIPS)';
-          slDistanceBadge.className = 'status-pill far';
-        } else if (currentTime >= 10.4) {
-          // CLOSER TO ENTRY
-          realSlPriceLine.className = 'real-price-line sl closer';
-          slPriceText.textContent = '1.09950';
-          sideSlPriceText.textContent = '1.09950 (5 pips)';
-          sideVolumeText.textContent = '4.00 Lots';
-          sideVolumeText.style.color = '#4ade80';
-          axisSlText.textContent = '1.09950';
-          axisSlText.style.top = '40%';
-          slDistanceBadge.textContent = 'CLOSER (5 PIPS)';
-          slDistanceBadge.className = 'status-pill close';
-        } else {
-          // INITIAL (10 PIPS)
-          realSlPriceLine.className = 'real-price-line sl';
-          slPriceText.textContent = '1.09900';
-          sideSlPriceText.textContent = '1.09900 (10 pips)';
-          sideVolumeText.textContent = '2.00 Lots';
-          sideVolumeText.style.color = '#4ade80';
-          axisSlText.textContent = '1.09900';
-          axisSlText.style.top = '50%';
-          slDistanceBadge.textContent = '10 PIPS';
-          slDistanceBadge.className = 'status-pill far';
+        let distancePips = 10;
+        let motionLabel = '';
+
+        if (currentTime >= 10.4) {
+          const progress = Math.min(1, (currentTime - 10.4) / 1.1);
+          const easedProgress = progress * progress * (3 - 2 * progress);
+          distancePips = 20 + (5 - 20) * easedProgress;
+          motionLabel = 'CLOSER';
+        } else if (currentTime >= 9.2) {
+          const progress = Math.min(1, (currentTime - 9.2) / 1.2);
+          const easedProgress = progress * progress * (3 - 2 * progress);
+          distancePips = 10 + (20 - 10) * easedProgress;
+          motionLabel = 'FARTHER';
         }
+
+        const linePercent = ENTRY_LINE_PERCENT + distancePips * PERCENT_PER_PIP;
+        updateSlValues(distancePips, linePercent, false, motionLabel);
       }
     }
 
     function tick() {
       if (!isPlaying) return;
       if (isDraggingSl || Date.now() < resumeTimelineAt) return;
-      currentTime += 0.1;
+      currentTime += 0.1 * PLAYBACK_SPEED;
       if (currentTime > DURATION) {
         if (!hasReportedCompletion) {
           hasReportedCompletion = true;
@@ -1113,6 +1178,9 @@
       isPlaying = !isPlaying;
       playBtn.textContent = isPlaying ? '⏸' : '▶';
     });
+
+    prevSceneBtn.addEventListener('click', () => goToStage(-1));
+    nextSceneBtn.addEventListener('click', () => goToStage(1));
 
     realSlPriceLine.addEventListener('pointerdown', (event) => {
       if (currentTime < 7.5 || currentTime >= 11.5) return;
