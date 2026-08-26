@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Compare A-book, B-book, and hybrid broker execution models, their advantages and trade-offs, and why GreatBless routes every client order externally." />
+  <link rel="icon" href="../../public/images/Logo-GB.png" type="image/png" />
+  <link rel="canonical" href="https://greatbless.com/pages/blog_details/broker-execution-models" />
+  <title>A-Book, B-Book, and Hybrid Broker Models | GreatBless</title>
+  <link rel="stylesheet" href="../../components/shared-layout.css" />
+  <link rel="stylesheet" href="../../components/article-layout.css" />
+</head>
+<body class="article-shell">
+  <div id="shared-header-root"></div>
+  <script src="../../components/shared-header.js"></script>
+  <script src="../../components/shared-footer.js"></script>
+  <script src="../../components/status-banner.js"></script>
+  <script>
+    renderSharedHeader("shared-header-root", { basePath: "../.." });
+  </script>
+
+  <main class="article-page">
+    <article class="article-entry">
+      <header class="article-header">
+        <a class="article-breadcrumb" href="../blog.html">Blog / Execution Models</a>
+        <p class="article-kicker">Broker execution explained</p>
+        <h1 class="article-title">A-Book, B-Book, and Hybrid: Understanding Broker Execution Models</h1>
+        <p class="article-deck">A plain-language guide to how brokers may route or internalise client orders, the trade-offs of each approach, and why GreatBless chose external routing.</p>
+        <div class="article-meta">
+          <span>GreatBless Editorial Team</span>
+          <time datetime="2026-08-25">25 Aug 2026</time>
+          <span>5 min read</span>
+        </div>
+      </header>
+
+      <figure class="article-hero">
+        <img class="hero-image" src="../../public/images/execution-models.svg" alt="Comparison of A-book external routing, B-book internal handling, and hybrid execution" />
+        <figcaption>Execution-model labels describe how order flow or market exposure may be handled; exact practices depend on each broker's published terms.</figcaption>
+      </figure>
+
+      <div class="article-reading-layout">
+        <aside class="article-aside" aria-label="Article summary">
+          <p class="article-aside-label">In this guide</p>
+          <p>A-book routing</p>
+          <p>B-book internalisation</p>
+          <p>Hybrid execution</p>
+          <p>Why GreatBless chose A-book</p>
+        </aside>
+
+        <div class="article-content">
+          <p>The terms <strong>A-book</strong>, <strong>B-book</strong>, and <strong>Hybrid</strong> are commonly used as shorthand for different ways a broker may handle client orders or the resulting market exposure. They are useful for understanding the basic models, but they are not universal legal classifications. The exact process can vary by broker, product, jurisdiction, and order-execution policy.</p>
+
+          <p>No execution model removes market risk. Prices can move quickly, liquidity can change, and an order may be filled at a different price from the one requested. The model also does not determine whether an individual trade will be profitable.</p>
+
+          <p class="article-section-label"><strong>01 / A-book: orders routed externally</strong></p>
+          <h2>What is the A-book model?</h2>
+          <p>Under an A-book model, a broker routes client orders or offsets the related exposure with external liquidity providers or execution venues instead of retaining that market exposure internally.</p>
+
+          <h3>Potential advantages</h3>
+          <ul>
+            <li><strong>Reduced direct conflict:</strong> the broker's business model is less dependent on a client losing a trade.</li>
+            <li><strong>External liquidity:</strong> pricing and available volume are connected to external providers.</li>
+            <li><strong>Clear routing principle:</strong> client order flow follows a consistent external-routing approach.</li>
+          </ul>
+
+          <h3>Potential limitations</h3>
+          <ul>
+            <li><strong>Liquidity conditions matter:</strong> spreads may widen and available volume may decrease during volatile or illiquid periods.</li>
+            <li><strong>Slippage remains possible:</strong> the final fill can differ from the requested price as the market moves.</li>
+            <li><strong>External dependency:</strong> execution quality can be affected by provider availability, latency, rejected orders, or partial fills.</li>
+          </ul>
+
+          <p class="article-section-label"><strong>02 / B-book: orders handled internally</strong></p>
+          <h2>What is the B-book model?</h2>
+          <p>Under a B-book model, the broker internalises some or all client order flow and manages the associated exposure within its own dealing operation. Depending on the arrangement, the broker may act as the counterparty to a client's trade.</p>
+
+          <h3>Potential advantages</h3>
+          <ul>
+            <li><strong>Internal control:</strong> the broker can manage smaller orders or offsetting client positions without sending every order externally.</li>
+            <li><strong>Operational flexibility:</strong> internal matching may reduce external hedging costs and liquidity-provider dependence.</li>
+            <li><strong>Potentially consistent processing:</strong> normal market conditions may allow the broker to manage order handling within its own system.</li>
+          </ul>
+
+          <h3>Potential limitations</h3>
+          <ul>
+            <li><strong>Potential conflict of interest:</strong> where the broker is the counterparty, a client's trading loss may become a gain for the broker.</li>
+            <li><strong>Broker exposure:</strong> profitable client positions can create market risk for the broker.</li>
+            <li><strong>Greater need for controls:</strong> fair pricing, execution monitoring, capital management, and transparent disclosures become especially important.</li>
+          </ul>
+
+          <p>A B-book model is not automatically evidence of poor or unfair execution. Its quality depends on how the broker manages conflicts, prices orders, applies its execution policy, and operates under the rules relevant to its business.</p>
+
+          <p class="article-section-label"><strong>03 / Hybrid: a combination of both</strong></p>
+          <h2>What is the Hybrid model?</h2>
+          <p>A Hybrid broker uses both approaches. Some orders or exposures may be routed externally, while others may be internalised according to predefined risk, product, volume, or operational criteria.</p>
+
+          <h3>Potential advantages</h3>
+          <ul>
+            <li><strong>Routing flexibility:</strong> the broker can choose an external or internal route based on its operating rules.</li>
+            <li><strong>Broader risk management:</strong> external hedging and internal matching can be combined.</li>
+            <li><strong>Cost efficiency:</strong> the broker may reduce unnecessary external transactions when client flows naturally offset.</li>
+          </ul>
+
+          <h3>Potential limitations</h3>
+          <ul>
+            <li><strong>More complexity:</strong> clients may not always know which route applies to a particular order unless the process is clearly disclosed.</li>
+            <li><strong>Routing consistency:</strong> the broker needs objective rules and monitoring to ensure orders are handled fairly.</li>
+            <li><strong>Conflict management:</strong> internalised orders still require appropriate governance and transparency.</li>
+          </ul>
+
+          <p class="article-section-label"><strong>04 / GreatBless's approach</strong></p>
+          <h2>Why GreatBless chose A-book execution</h2>
+          <p>GreatBless routes every client order to external liquidity providers and does not retain client orders internally. This gives the platform a direct and consistent operating principle: our role is to provide market access, execution infrastructure, charting, and risk-management tools rather than to take internal market exposure against client positions.</p>
+
+          <p>We chose this approach because it better reflects how we want to work with clients: GreatBless focuses on the quality and reliability of its service, while trading results continue to depend on market conditions and each client's own decisions.</p>
+
+          <p>A-book execution does not guarantee a requested price, eliminate slippage, prevent losses, or produce profits. External liquidity, market volatility, order size, connection quality, and timing can all affect execution.</p>
+
+          <h2>What should traders review?</h2>
+          <p>A broker's execution model is only one part of the decision. Traders should also review the relevant legal entity, execution disclosures, fees and spreads, product conditions, platform reliability, customer support, and the risks of each instrument before opening an account or placing a trade.</p>
+
+          <p>The useful question is not simply which label a broker uses, but whether its published model, actual order handling, disclosures, and client experience are clear and consistent.</p>
+        </div>
+      </div>
+
+      <nav class="article-end" aria-label="Article navigation">
+        <a href="../blog.html">Back to all articles</a>
+      </nav>
+    </article>
+  </main>
+
+  <div id="shared-footer-root"></div>
+  <script>
+    renderSharedFooter("shared-footer-root", { basePath: "../.." });
+  </script>
+</body>
+</html>

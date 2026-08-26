@@ -1008,6 +1008,168 @@
       margin-top: 24px;
     }
 
+    .execution-model {
+      background:
+        radial-gradient(circle at 82% 20%, rgba(45, 212, 191, 0.09), transparent 28%),
+        radial-gradient(circle at 12% 85%, rgba(14, 165, 233, 0.08), transparent 25%),
+        #061222;
+    }
+
+    .execution-model-panel {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+      align-items: center;
+      gap: 52px;
+      border: 1px solid rgba(94, 234, 212, 0.3);
+      border-radius: 28px;
+      padding: 44px;
+      background: linear-gradient(135deg, rgba(15, 43, 66, 0.98), rgba(7, 24, 43, 0.98));
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.25);
+    }
+
+    .execution-model-panel::before {
+      position: absolute;
+      top: -130px;
+      right: -90px;
+      width: 350px;
+      height: 350px;
+      border: 1px solid rgba(94, 234, 212, 0.1);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 45px rgba(45, 212, 191, 0.018),
+        0 0 0 90px rgba(14, 165, 233, 0.012);
+      content: "";
+      pointer-events: none;
+    }
+
+    .execution-model-copy,
+    .execution-route {
+      position: relative;
+      z-index: 1;
+    }
+
+    .execution-model-copy h2 {
+      max-width: 660px;
+      margin: 0;
+      text-align: left;
+      font-size: clamp(34px, 4vw, 50px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .execution-model-copy>p:not(.section-eyebrow) {
+      max-width: 720px;
+      margin: 22px 0 0;
+      color: #b8cadb;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .execution-guide-link {
+      width: fit-content;
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      border-radius: 999px;
+      padding: 10px 15px;
+      background: rgba(45, 212, 191, 0.08);
+      color: #6ee7d2;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .execution-guide-link:hover,
+    .execution-guide-link:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(45, 212, 191, 0.55);
+      background: rgba(45, 212, 191, 0.14);
+    }
+
+    .execution-route {
+      border: 1px solid rgba(125, 211, 252, 0.17);
+      border-radius: 22px;
+      padding: 24px;
+      background: rgba(2, 15, 31, 0.56);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    }
+
+    .execution-route-badge {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(45, 212, 191, 0.09);
+      color: #6ee7d2;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .execution-route-badge::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.75);
+      content: "";
+    }
+
+    .execution-route-flow {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+    }
+
+    .execution-route-node {
+      min-height: 94px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(125, 211, 252, 0.15);
+      border-radius: 16px;
+      padding: 14px 10px;
+      background: rgba(18, 38, 65, 0.62);
+      color: #dceaf5;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.4;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .execution-route-node-main {
+      border-color: rgba(94, 234, 212, 0.32);
+      background: rgba(45, 212, 191, 0.1);
+      color: #a7f3d0;
+    }
+
+    .execution-route-arrow {
+      color: #38bdf8;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .execution-route-note {
+      margin: 18px 0 0;
+      color: #7f9ab2;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
     .edge {
       background:
         radial-gradient(circle at 12% 18%, rgba(34, 211, 238, 0.07), transparent 25%),
@@ -2056,11 +2218,13 @@
       box-shadow: 0 24px 56px rgba(0, 0, 0, 0.24);
     }
 
-    .trader-context+.ea-showcase-wrap {
+    .trader-context+.ea-showcase-wrap,
+    .execution-model+.ea-showcase-wrap {
       padding-top: 46px;
     }
 
-    .trader-context+.ea-showcase-wrap .ea-showcase {
+    .trader-context+.ea-showcase-wrap .ea-showcase,
+    .execution-model+.ea-showcase-wrap .ea-showcase {
       transform: none;
       margin-bottom: 0;
     }
@@ -2412,6 +2576,15 @@
         padding-left: 24px;
       }
 
+      .execution-model-panel {
+        grid-template-columns: 1fr;
+        gap: 34px;
+      }
+
+      .execution-route {
+        max-width: 680px;
+      }
+
       .showcase-heading {
         grid-template-columns: 1fr;
         gap: 16px;
@@ -2437,6 +2610,34 @@
     @media (max-width: 767px) {
       .section-pad {
         padding: 58px 0;
+      }
+
+      .execution-model-panel {
+        gap: 28px;
+        border-radius: 22px;
+        padding: 26px;
+      }
+
+      .execution-model-copy>p:not(.section-eyebrow) {
+        font-size: 15px;
+      }
+
+      .execution-route {
+        padding: 18px;
+      }
+
+      .execution-route-flow {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .execution-route-node {
+        min-height: 62px;
+      }
+
+      .execution-route-arrow {
+        line-height: 1;
+        transform: rotate(90deg);
       }
 
       h1 {
@@ -2495,7 +2696,8 @@
         padding: 0 0 52px;
       }
 
-      .trader-context+.ea-showcase-wrap {
+      .trader-context+.ea-showcase-wrap,
+      .execution-model+.ea-showcase-wrap {
         padding-top: 28px;
       }
 
@@ -2656,6 +2858,37 @@
               <span>Trade with visible boundaries</span>
               <span>Learn from your process</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="execution-model section-pad" aria-labelledby="execution-model-title">
+      <div class="container">
+        <div class="execution-model-panel">
+          <div class="execution-model-copy">
+            <p class="section-eyebrow">A-book execution</p>
+            <h2 id="execution-model-title">A broker working with its clients, not against them.</h2>
+            <p>
+              Every client order is routed to external liquidity providers under our A-book execution
+              model. GreatBless does not retain client orders internally or benefit from client trading
+              losses. Our focus is on transparent market access, reliable execution, and trading tools
+              that support better decision-making.
+            </p>
+            <a class="execution-guide-link" href="./pages/blog_details/broker-execution-models.html">
+              Compare A-book, B-book, and Hybrid models <span aria-hidden="true">&#8594;</span>
+            </a>
+          </div>
+
+          <div class="execution-route" role="img" aria-label="Every client order is routed through GreatBless to external liquidity providers">
+            <span class="execution-route-badge">All orders routed externally</span>
+            <div class="execution-route-flow" aria-hidden="true">
+              <span class="execution-route-node">Client order</span>
+              <span class="execution-route-arrow">&#8594;</span>
+              <span class="execution-route-node execution-route-node-main">GreatBless</span>
+              <span class="execution-route-arrow">&#8594;</span>
+              <span class="execution-route-node">Liquidity providers</span>
+            </div>
+            <p class="execution-route-note">No internal order retention</p>
           </div>
         </div>
       </div>

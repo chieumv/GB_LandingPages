@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">A-book, B-book, and hybrid execution models</title>
+  <desc id="desc">A visual comparison of external routing, internal order handling, and a combination of both approaches.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071526"/>
+      <stop offset="1" stop-color="#0a2038"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#24d7f0"/>
+      <stop offset="1" stop-color="#59efd0"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" rx="34" fill="url(#background)"/>
+  <circle cx="1080" cy="70" r="220" fill="#0d3654" opacity=".35"/>
+  <circle cx="1040" cy="630" r="260" fill="#082842" opacity=".42"/>
+  <path d="M0 116H1200" stroke="#173a55"/>
+
+  <text x="64" y="58" fill="#35dff1" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">EXECUTION MODELS</text>
+  <text x="64" y="93" fill="#edf7ff" font-family="Arial, sans-serif" font-size="25" font-weight="700">How client orders may be handled</text>
+
+  <g transform="translate(55 155)">
+    <rect width="342" height="450" rx="26" fill="#0b223a" stroke="#1b5873" stroke-width="2"/>
+    <rect x="24" y="23" width="100" height="34" rx="17" fill="#0b3a48" stroke="#20b8c5"/>
+    <text x="74" y="46" text-anchor="middle" fill="#6df4df" font-family="Arial, sans-serif" font-size="14" font-weight="700">A-BOOK</text>
+    <text x="24" y="94" fill="#f1f7ff" font-family="Arial, sans-serif" font-size="24" font-weight="700">External routing</text>
+    <text x="24" y="124" fill="#94adc3" font-family="Arial, sans-serif" font-size="15">Orders are sent to external liquidity.</text>
+
+    <g transform="translate(25 175)">
+      <rect width="72" height="76" rx="14" fill="#102e4c" stroke="#286383"/>
+      <rect x="110" width="74" height="76" rx="14" fill="#0d3844" stroke="#20aeb7"/>
+      <rect x="210" width="82" height="76" rx="14" fill="#102e4c" stroke="#286383"/>
+      <text x="36" y="34" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">CLIENT</text>
+      <text x="36" y="51" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">ORDER</text>
+      <text x="147" y="43" text-anchor="middle" fill="#6df4df" font-family="Arial, sans-serif" font-size="11" font-weight="700">BROKER</text>
+      <text x="251" y="34" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">LIQUIDITY</text>
+      <text x="251" y="51" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">PROVIDER</text>
+      <path d="M78 38H99M190 38H199" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+      <path d="M92 30l9 8-9 8M192 30l9 8-9 8" fill="none" stroke="#35dff1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <circle cx="35" cy="318" r="5" fill="#58ead2"/>
+    <text x="52" y="324" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">External market exposure</text>
+    <circle cx="35" cy="357" r="5" fill="#58ead2"/>
+    <text x="52" y="363" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">Liquidity-dependent execution</text>
+    <rect x="24" y="397" width="294" height="1" fill="#1b405c"/>
+    <text x="24" y="427" fill="#5eead4" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1">BROKER ROUTES ORDERS EXTERNALLY</text>
+  </g>
+
+  <g transform="translate(429 155)">
+    <rect width="342" height="450" rx="26" fill="#0b223a" stroke="#1b5873" stroke-width="2"/>
+    <rect x="24" y="23" width="100" height="34" rx="17" fill="#142b47" stroke="#52749a"/>
+    <text x="74" y="46" text-anchor="middle" fill="#b9d1e8" font-family="Arial, sans-serif" font-size="14" font-weight="700">B-BOOK</text>
+    <text x="24" y="94" fill="#f1f7ff" font-family="Arial, sans-serif" font-size="24" font-weight="700">Internal handling</text>
+    <text x="24" y="124" fill="#94adc3" font-family="Arial, sans-serif" font-size="15">Orders or exposure remain internal.</text>
+
+    <g transform="translate(25 175)">
+      <rect width="92" height="76" rx="16" fill="#102e4c" stroke="#286383"/>
+      <rect x="200" width="92" height="76" rx="16" fill="#102e4c" stroke="#286383"/>
+      <text x="46" y="34" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">CLIENT</text>
+      <text x="46" y="52" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">ORDER</text>
+      <text x="246" y="27" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">BROKER</text>
+      <text x="246" y="44" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">INTERNAL</text>
+      <text x="246" y="60" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">BOOK</text>
+      <path d="M116 38H176" stroke="#7da4c7" stroke-width="4" stroke-linecap="round"/>
+      <path d="M165 28l12 10-12 10" fill="none" stroke="#9ab8d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <circle cx="35" cy="318" r="5" fill="#8daecb"/>
+    <text x="52" y="324" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">Broker acts as counterparty</text>
+    <circle cx="35" cy="357" r="5" fill="#8daecb"/>
+    <text x="52" y="363" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">Requires conflict controls</text>
+    <rect x="24" y="397" width="294" height="1" fill="#1b405c"/>
+    <text x="24" y="427" fill="#9ebbd5" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1">EXPOSURE MANAGED INTERNALLY</text>
+  </g>
+
+  <g transform="translate(803 155)">
+    <rect width="342" height="450" rx="26" fill="#0b223a" stroke="#1b5873" stroke-width="2"/>
+    <rect x="24" y="23" width="102" height="34" rx="17" fill="#11364b" stroke="#2b8297"/>
+    <text x="75" y="46" text-anchor="middle" fill="#74dce8" font-family="Arial, sans-serif" font-size="14" font-weight="700">HYBRID</text>
+    <text x="24" y="94" fill="#f1f7ff" font-family="Arial, sans-serif" font-size="24" font-weight="700">A combination</text>
+    <text x="24" y="124" fill="#94adc3" font-family="Arial, sans-serif" font-size="15">Routing varies according to set rules.</text>
+
+    <g transform="translate(25 166)">
+      <rect y="38" width="68" height="72" rx="14" fill="#102e4c" stroke="#286383"/>
+      <rect x="90" y="38" width="74" height="72" rx="14" fill="#0d3844" stroke="#20aeb7"/>
+      <rect x="210" width="82" height="66" rx="14" fill="#102e4c" stroke="#286383"/>
+      <rect x="210" y="86" width="82" height="66" rx="14" fill="#102e4c" stroke="#286383"/>
+      <text x="34" y="70" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">CLIENT</text>
+      <text x="34" y="88" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">ORDER</text>
+      <text x="127" y="62" text-anchor="middle" fill="#6df4df" font-family="Arial, sans-serif" font-size="11" font-weight="700">BROKER</text>
+      <text x="127" y="78" text-anchor="middle" fill="#6df4df" font-family="Arial, sans-serif" font-size="11" font-weight="700">ROUTING</text>
+      <text x="127" y="94" text-anchor="middle" fill="#6df4df" font-family="Arial, sans-serif" font-size="11" font-weight="700">ENGINE</text>
+      <text x="251" y="29" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">EXTERNAL</text>
+      <text x="251" y="47" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">LIQUIDITY</text>
+      <text x="251" y="115" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">INTERNAL</text>
+      <text x="251" y="133" text-anchor="middle" fill="#d9e7f4" font-family="Arial, sans-serif" font-size="11" font-weight="700">BOOK</text>
+      <path d="M74 74H82" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M78 66l9 8-9 8" fill="none" stroke="#35dff1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M172 74H182Q194 74 194 58V33Q194 24 202 24M172 74H182Q194 74 194 90V119Q194 128 202 128" fill="none" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M199 16l10 8-10 8M199 120l10 8-10 8" fill="none" stroke="#35dff1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <circle cx="35" cy="342" r="5" fill="#50dce0"/>
+    <text x="52" y="348" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">Broker applies routing rules</text>
+    <circle cx="35" cy="381" r="5" fill="#50dce0"/>
+    <text x="52" y="387" fill="#b5c8d9" font-family="Arial, sans-serif" font-size="16">More operational complexity</text>
+    <rect x="24" y="397" width="294" height="1" fill="#1b405c"/>
+    <text x="24" y="427" fill="#69dbe1" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1">EXTERNAL + INTERNAL</text>
+  </g>
+</svg>

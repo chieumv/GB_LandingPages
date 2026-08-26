@@ -5,12 +5,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://greatbless.com/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://greatbless.com/pages/blog</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -51,6 +51,11 @@
   <url>
     <loc>https://greatbless.com/pages/blog_details/platform-capabilities</loc>
     <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greatbless.com/pages/blog_details/broker-execution-models</loc>
+    <lastmod>2026-08-25</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>
