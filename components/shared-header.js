@@ -42,8 +42,8 @@
           </nav>
 
           <div class="shared-header-cta">
-            <a href="https://trading.greatbless.com/user-auth/login" class="shared-header-btn shared-login-btn">Login</a>
-            <a href="https://trading.greatbless.com/user-auth/register" class="shared-header-btn shared-account-btn">Open Account</a>
+            <a href="https://my.greatbless.com/user-auth/login" class="shared-header-btn shared-login-btn">Login</a>
+            <a href="https://my.greatbless.com/user-auth/register" class="shared-header-btn shared-account-btn">Open Account</a>
           </div>
         </div>
       </header>
