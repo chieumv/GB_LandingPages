@@ -52,7 +52,7 @@
                 <div class="shared-footer-link-grid">
                   <a href="${root}/documents/PRIVACY POLICY - V3.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                   <a href="${root}/documents/TERMS_CONDITIONS - V3.pdf" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a>
-                  <a href="${root}/documents/RISK DISCLOSURE - V3.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
+                  <a href="${root}/documents/RISK DISCLOSURE - V4.pdf" target="_blank" rel="noopener noreferrer">Risk Disclosure</a>
                   <a href="${root}/documents/ORDER EXECUTION POLICY - V3.pdf" target="_blank" rel="noopener noreferrer">Order Execution Policy</a>
                   <a href="${root}/documents/AML_KYC POLICY - V3.pdf" target="_blank" rel="noopener noreferrer">AML/KYC Policy</a>
                 </div>
